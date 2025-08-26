@@ -35,7 +35,7 @@ LLM（大语言模型）本只是NLP(自然语言处理）的一种具体技术�
 
 ## 为什么要将OHLCA先编码成Token
 文中提到了一些必要性，比如在19页的Q2中提到
-![6055bca4316b3b95049707d084d4e37b.png](../../_resources/6055bca4316b3b95049707d084d4e37b.png)
+![6055bca4316b3b95049707d084d4e37b.png](../images/03ea7d0ee77f4c7c8d973c952a92ac67.png)
 连续的OHLCVA直接喂Transformer的话，数值不稳定。比如价格闪崩、除权等会把模型搞崩溃。
 同时也提到，高维连续空间导致样本效率低，而把无限的实数空间映射到有限字典，模型效果更好。
 而OHLCVA的Token过程，其实也将信息离散化的过程，这种离散化从技术上更有利于生成预测。
@@ -48,7 +48,7 @@ LLM（大语言模型）本只是NLP(自然语言处理）的一种具体技术�
 
 总的来说，**因为金融数据噪声大、维度高、任务多，所以必须把 OHLCVA 离散化成有限 token；而 BSQ+两级 Transformer Tokenizer 是唯一同时满足 误差有界+显存可控+跨维交互 的方案**，其余技术在论文里都被实验或理论一一否掉。
 
-![f4f5a528dc34409b0e11cbccfbfbc9eb.png](../../_resources/f4f5a528dc34409b0e11cbccfbfbc9eb.png)
+![f4f5a528dc34409b0e11cbccfbfbc9eb.png](../images/ac889a7000634f90b185c9c69bcfb4e9.png)
 
 最终如上图，他们将一个K线图编码成一个Token。用这种方法，他们对45家交易所，7个频率、12亿根K线图（纯金融数据，没有混入天气、电力等无关序列）进行了编码和训练，从中得到了三种规格的模型，并将它们开源到了huggingface上。
 （https://huggingface.co/NeoQuasar）
@@ -99,7 +99,7 @@ pred_len = 120
 这是根据前面400个数据，预测随后的120个数据。
 我把这两参数修改了一下，lookback=512，这是最大值了。pred_len=100，让它预测100天的数据。
 我们再看看这个csv文件。
-![72adffa2052d35bfb6557d1be142cffc.png](../../_resources/72adffa2052d35bfb6557d1be142cffc.png)
+![72adffa2052d35bfb6557d1be142cffc.png](../images/34a8bf9428a34e8eb1406fdcd958f6b8.png)
 很明显，我这要按这个格式将数据修改成我需要预测的品种即可。
 
 再看看下面
@@ -205,12 +205,12 @@ class StockDataFetcher:
 ```
 
 再看看我拉下来的数据：
-![f358c6fdbcfacd2d24cf32953e44337d.png](../../_resources/f358c6fdbcfacd2d24cf32953e44337d.png)
+![f358c6fdbcfacd2d24cf32953e44337d.png](../images/b3511282617c406ba69f618f3f06cbd3.png)
 从上图能看出，第542行是截止8月20日的数据，第1行是标题，那么有效数据是541行，其中512行前的数据是用来计算的，从第512行开始到611行都是预测数据，其中8月20日前的数据刚好可以用来看看预测的效果。
-![85d9b68b312e54c7123e7e6370740f42.png](../../_resources/85d9b68b312e54c7123e7e6370740f42.png)
+![85d9b68b312e54c7123e7e6370740f42.png](../images/332e0fdfb12a4f058b79b4ce227d5cc8.png)
 红线是预测值，蓝线是实际值。这个效果看起来一般啊。
 我试着又下载了另一个股票000156的数据，看是不是会好一点：
-![9741f6d2b7140301c19e5a9634f40021.png](../../_resources/9741f6d2b7140301c19e5a9634f40021.png)
+![9741f6d2b7140301c19e5a9634f40021.png](../images/1e30ec29f69f49818ebac41406f6e3c1.png)
 好像要好看一点。我这里用的是日线预测的。如果是短期预测，5分钟线可能会好点。
 不管怎么说吧，至少预测的结果都比较乐观。
 
@@ -220,7 +220,7 @@ class StockDataFetcher:
 ## 更新一步的技术细节分析
 ### 用自己的数据进行微调
 Kronos还提供了在自己数据集上进行微调的方法。具体的方法在github的项目中有完整的示例。因为我没有硬件条件进行复见，就没有继续研究了。
-![760e7f48d68f5e8cf334146f8cc6b957.png](../../_resources/760e7f48d68f5e8cf334146f8cc6b957.png)
+![760e7f48d68f5e8cf334146f8cc6b957.png](../images/c948ecc63f3a4825845bc92f627a3f2d.png)
 
 ### K线图编码成离散Token的技术细节
 开头的论文开源了全过程的技术细节。每一步都有对应的公式和关键代码。看起来太无聊了。简单总结一下。
