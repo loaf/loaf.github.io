@@ -1,0 +1,20 @@
+{
+  "name": "loaf.github.io",
+  "version": "1.0.0",
+  "description": "blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "author": "loaf",
+  "license": "ISC",
+  "devDependencies": {
+    "@vuepress/bundler-vite": "^2.0.0-rc.24",
+    "@vuepress/theme-default": "^2.0.0-rc.112",
+    "rxjs": "^7.8.2",
+    "sass": "^1.91.0",
+    "vuepress": "^2.0.0-rc.24"
+  }
+}
