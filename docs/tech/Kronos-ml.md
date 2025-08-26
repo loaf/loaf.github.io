@@ -253,18 +253,3 @@ Kronos 的预训练语料同时包含了 日线、5 分钟线、乃至 1 分钟�
 作者认为如果要利用这些信息，需要用新架构，而不能只是简单增加几列数据来解决。
 
 
-
-
-
-
-
-
-
-### 股票分析
-DeepAgent Stock Research Assistant 这个开源项目，利用 AI Agent 帮我们完成专业级的股票分析工作
-https://weibo.com/5722964389/Q0JgYqcae?pagetype=like
-https://github.com/sagar-n/deepagents
-
-### 数据聚合
-https://weibo.com/5722964389/PEi3j7zPU?pagetype=like
-github.com/OpenBB-finance/OpenBB
