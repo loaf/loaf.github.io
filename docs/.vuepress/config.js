@@ -23,7 +23,7 @@ export default defineUserConfig({
   bundler: viteBundler(),
 
   theme: defaultTheme({
-    logo: '../images/snail-new.svg',
+    logo: '/images/snail-new.svg',
     navbar: [
       {
         text: '首页',
