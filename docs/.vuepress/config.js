@@ -18,6 +18,7 @@ function getAutoSidebar(dir) {
 }
 
 export default defineUserConfig({
+  base: '/',
   title: '亍云旁观',
   description: '个人博客网站',
   bundler: viteBundler(),
