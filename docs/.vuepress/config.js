@@ -14,7 +14,7 @@ function getAutoSidebar(dir) {
   return files
     .filter(file => file.endsWith('.md') && file !== 'README.md')
     .map(file => file.replace('.md', ''))
-    .sort()
+    .sort().reverse()
 }
 
 export default defineUserConfig({
