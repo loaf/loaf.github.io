@@ -16,5 +16,8 @@
     "rxjs": "^7.8.2",
     "sass": "^1.91.0",
     "vuepress": "^2.0.0-rc.24"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
   }
 }
