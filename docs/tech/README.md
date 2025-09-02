@@ -11,7 +11,6 @@ sidebar: auto
 
 ### 2025年8月
 
-- [Mermaid图表测试](./mermaid-test.md) - 2025-08-27
 - [基于大模型的开源算法Kronos在量化交易中的使用](./20250825-Kronos-ml.md) - 2025-08-25
 
 ### 2023年8月

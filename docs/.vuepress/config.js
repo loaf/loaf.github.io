@@ -1,7 +1,7 @@
 import { viteBundler } from '@vuepress/bundler-vite'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
-// import { mermaidjs } from 'vuepress-plugin-mermaidjs'
+import { markdownChartPlugin } from '@vuepress/plugin-markdown-chart'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -193,7 +193,9 @@ export default defineUserConfig({
   bundler: viteBundler(),
 
   plugins: [
-    // mermaidjs({})
+    markdownChartPlugin({
+      mermaid: true,
+    })
   ],
 
   theme: defaultTheme({
