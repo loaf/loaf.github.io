@@ -2,7 +2,7 @@
 title:  侦探女王的游记——《说吧，叙利亚》
 date: 2019-03-30
 author: loaf
-categories: 随笔
+category: 其它
 tags: 
   - 阅读
 description: 

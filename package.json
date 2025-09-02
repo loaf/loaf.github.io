@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "docs：clean-dev": "vuepress dev docs --clean-cache --clean-temp"
   },
   "author": "loaf",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "vuepress-theme-hope": "^2.0.0-rc.94"
   },
   "dependencies": {
+    "@vuepress/plugin-search": "^2.0.0-rc.112",
     "gray-matter": "^4.0.3"
   }
 }

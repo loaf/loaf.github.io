@@ -2,7 +2,7 @@
 title: 阅读《风雨独立路——李光耀回忆录》
 date: 2018-09-09
 author: loaf
-categories: 随笔
+category: 其它
 tags:
   - 阅读
 description: 

@@ -1,8 +1,8 @@
 ---
 title: 阅读《自然计算：DNA、量子比特和智能机器的未来》
-date: 2018-09-04 00:51
+date: 2018-09-04
 author: loaf
-categories: 随笔
+category: 其它
 tags:
   - 阅读
 description: 

@@ -2,11 +2,13 @@
 title: 阅读《浅谈人工智能》
 date: 2024-12-26
 author: loaf
-categories: 随笔
+category: 其它
 tags:
   - 阅读
 description: 阅读《浅谈人工智能》
 ---
+
+<!-- more -->
 
 # 阅读《浅谈人工智能》
 
