@@ -5,12 +5,13 @@ author: loaf
 categories: 随笔
 tags:
   - 阅读
-description: 
-
+description: 阅读《浅谈人工智能》
 ---
 
 # 阅读《浅谈人工智能》
- 
+
+下面是基本的思维导图
+
 ```mermaid
 graph LR
 
