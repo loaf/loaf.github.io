@@ -1,5 +1,6 @@
 ---
 title: 其它
+date: 1971-03-31
 index: false
 blog: false
 ---
