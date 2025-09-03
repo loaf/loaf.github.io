@@ -1,6 +1,7 @@
 ---
 title: 其它
 index: false
+blog: false
 ---
 
 # 其它

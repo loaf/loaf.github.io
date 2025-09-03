@@ -18,8 +18,6 @@ export default defineUserConfig({
     })
   ],
 
-
-
   theme: hopeTheme({
     logo: '/images/snail-new.svg',
     

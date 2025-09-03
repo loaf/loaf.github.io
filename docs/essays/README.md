@@ -1,6 +1,7 @@
 ---
 title: 随笔
 index: false
+blog: false
 ---
 
 # 随笔
