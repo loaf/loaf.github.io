@@ -11,7 +11,14 @@ export default defineUserConfig({
   description: '记录思考，分享见解',
   bundler: viteBundler(),
 
- 
+  plugins: [
+    markdownChartPlugin({
+      mermaid: true,
+    })
+  ],
+
+
+
   theme: hopeTheme({
     logo: '/images/snail-new.svg',
     

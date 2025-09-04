@@ -5,11 +5,12 @@ author: loaf
 category: 其它
 tags:
   - 阅读
-description: 
+description: 自然计算：DNA、量子比特和智能机器的未来
 
 ---
 
 # 阅读《自然计算：DNA、量子比特和智能机器的未来》
+<!-- more -->
 
 #### 自适应计算
 
