@@ -6,6 +6,7 @@ import { getDirname, path } from '@vuepress/utils'
 const __dirname = getDirname(import.meta.url)
 
 export default defineUserConfig({
+  lang: 'zh-CN',
   base: '/',
   title: '亍云斋',
   description: '记录思考，分享见解',
@@ -42,15 +43,15 @@ export default defineUserConfig({
       },
       {
         text: '随笔',
-        link: '/category/随笔/',
+        link: '/essays/',
       },
       {
         text: '技术',
-        link: '/category/技术/'
+        link: '/tech/'
       },
       {
         text: '其它',
-        link: '/category/其它/'
+        link: '/others/'
       },
       {
         text: '关于',
@@ -95,7 +96,16 @@ export default defineUserConfig({
       
       // 启用评论功能（可选）
       comment: {
-        provider: 'None'
+        provider: 'Giscus',
+        repo: 'loaf/loaf.github.io',
+        repoId: 'R_kgDONhqGdw',
+        category: 'Announcements',
+        categoryId: 'DIC_kwDONhqGd84ClGNh',
+        mapping: 'pathname',
+        strict: false,
+        lazyLoading: true,
+        reactionsEnabled: true,
+        inputPosition: 'top'
       }
     }
   })
