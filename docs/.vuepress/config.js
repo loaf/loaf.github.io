@@ -1,7 +1,6 @@
 import { viteBundler } from '@vuepress/bundler-vite'
 import { hopeTheme } from 'vuepress-theme-hope'
 import { defineUserConfig } from 'vuepress'
-import { markdownChartPlugin } from '@vuepress/plugin-markdown-chart'
 import { getDirname, path } from '@vuepress/utils'
 
 const __dirname = getDirname(import.meta.url)
@@ -12,14 +11,7 @@ export default defineUserConfig({
   description: '记录思考，分享见解',
   bundler: viteBundler(),
 
-  plugins: [
-    markdownChartPlugin({
-      mermaid: true,
-    })
-  ],
-
-
-
+ 
   theme: hopeTheme({
     logo: '/images/snail-new.svg',
     
@@ -32,6 +24,18 @@ export default defineUserConfig({
     // 启用页面信息显示
     pageInfo: ['Author', 'Date', 'Category', 'Tag', 'ReadingTime'],
     
+    // 启用markdown
+    markdown: {
+      mermaid: true,
+      footnote: true,
+      sub: true,
+      sup: true,
+      math: {
+        type: 'katex',
+      },
+      align: true,
+      markmap: true, 
+    },
     navbar: [
       {
         text: '首页',
