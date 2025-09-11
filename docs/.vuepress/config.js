@@ -50,6 +50,10 @@ export default defineUserConfig({
         link: '/tech/'
       },
       {
+        text: '笔记',
+        link: '/notes/'
+      },
+      {
         text: '其它',
         link: '/others/'
       },
