@@ -119,7 +119,7 @@ description: 重新编译Nginx，将Nginx的nginx-module-vts模块编译进去�
     这下正常了。
 
 8. 安装 nginx-vts-exporter  
-    访问<https://github.com/hnlq715/nginx-vts-exporter/releases，查看当前版本，因为我们的操作系统是CentOS，所以复制下面的链接在服务器上下载>  
+    访问[nginx-vts-exporter的Github网址](https://github.com/hnlq715/nginx-vts-exporter/releases)，查看当前版本，因为我们的操作系统是CentOS，所以复制下面的链接在服务器上下载  
     `wget https://github.com/hnlq715/nginx-vts-exporter/releases/download/v0.10.3/nginx-vts-exporter-0.10.3.linux-amd64.tar.gz`  
     解压后可直接运行  
     `./nginx-vts-exporter -nginx.scrape_uri=http://localhost:8088/status/format/json`  
@@ -135,8 +135,8 @@ description: 重新编译Nginx，将Nginx的nginx-module-vts模块编译进去�
     2019/12/17 16:16:03 json.Unmarshal failed invalid character '\x1f' in string literal
     ```
 
-    这时在本地用<http://ip:9913/能访问页面，但访问metrics页面时出现错误提示，应该就是json解析失败。>  
-    停用exporter，直接用<http://ip:8088/status访问，也能看到页面，但是没有内容，看来不是exporter的问题，而是nginx-module-vts的问题，它产生的XML文件中有非法字符。>
+    这时在本地用 http://ip:9913/ 能访问页面，但访问metrics页面时出现错误提示，应该就是json解析失败。 
+    停用exporter，直接用 http://ip:8088/status 访问，也能看到页面，但是没有内容，看来不是exporter的问题，而是nginx-module-vts的问题，它产生的XML文件中有非法字符。
 
     回到conf文件中，  
     在http段，加上`charset utf-8`  
@@ -183,11 +183,11 @@ description: 重新编译Nginx，将Nginx的nginx-module-vts模块编译进去�
     ./nginx
     ```
 
-    再用<http://IP:8088/status访问，能正常显示页面了。>
+    再用http://IP:8088/status访问，能正常显示页面了。
 
     再回到上面继续exporter的安装，运行  
     `./nginx-vts-exporter -nginx.scrape_uri=http://localhost:8088/status/format/json`  
-    再用<http://IP:9913，进入页面后再点metrics也正常显示了。>  
+    再用http://IP:9913，进入页面后再点metrics也正常显示了。  
     退出，重新输入一下，这次输入到后台运行  
     `nohup ./nginx-vts-exporter -nginx.scrape_uri=http://localhost:8088/status/format/json &`
 
