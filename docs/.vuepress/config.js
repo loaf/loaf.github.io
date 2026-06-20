@@ -2,6 +2,7 @@ import { viteBundler } from '@vuepress/bundler-vite'
 import { hopeTheme } from 'vuepress-theme-hope'
 import { defineUserConfig } from 'vuepress'
 import { getDirname, path } from '@vuepress/utils'
+import fs from 'node:fs'
 
 const __dirname = getDirname(import.meta.url)
 
@@ -11,6 +12,46 @@ export default defineUserConfig({
   title: '亍云斋',
   description: '记录思考，分享见解',
   bundler: viteBundler(),
+  extendsPage: (page) => {
+    if (
+      page.path === '/' ||
+      page.path === '/essays/20260111-DeepSeek%E4%BC%9A%E8%AE%A9%E4%BD%A0%E8%BF%87%E4%B8%AA%E5%BC%80%E5%BF%83%E5%B9%B4.html'
+    ) {
+      // #region debug-point A:page-collection
+      (() => {
+        let debugServerUrl = 'http://127.0.0.1:7777/event'
+        let debugSessionId = 'home-missing-essay'
+
+        try {
+          const envContent = fs.readFileSync(path(__dirname, '../../.dbg/home-missing-essay.env'), 'utf8')
+          debugServerUrl =
+            envContent.match(/DEBUG_SERVER_URL=(.+)/)?.[1]?.trim() || debugServerUrl
+          debugSessionId =
+            envContent.match(/DEBUG_SESSION_ID=(.+)/)?.[1]?.trim() || debugSessionId
+        } catch {}
+
+        fetch(debugServerUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: debugSessionId,
+            runId: 'pre-fix',
+            hypothesisId: 'A',
+            location: 'docs/.vuepress/config.js:extendsPage',
+            msg: '[DEBUG] VuePress page collected',
+            data: {
+              path: page.path,
+              title: page.title,
+              frontmatter: page.frontmatter,
+              filePathRelative: page.filePathRelative,
+            },
+            ts: Date.now(),
+          }),
+        }).catch(() => {})
+      })()
+      // #endregion
+    }
+  },
 
   theme: hopeTheme({
     logo: '/images/snail-new.svg',

@@ -506,7 +506,7 @@ D：中国的首都是北京。
 E：中国的首都是北京。
 
 <font style="color:#c00000;">指令：用不超过20个字介绍一下自己。</font>
-A：Hi, my name is <your name> and I am an AI system.
+A：Hi, my name is &lt;your name&gt; and I am an AI system.
 B：我叫小明，今年14岁，擅长画画和音乐。
 C：我叫小明，来自中国，拥有十年的编程经验，擅长Java、Python等编程语言，熟悉Git、Spring Boot等技术栈，有丰富的项目经验。热爱科技，乐于分享知识。
 D：我是一个AI助手，由计算机程序模拟人类思维和语言能力。我喜欢学习新知识，探索未知领域。我可以提供各种信息和建议。我喜欢与人互动，了解他们的需求和问题。我希望与你分享我的知识和见解。
