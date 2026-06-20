@@ -1,5 +1,5 @@
 ---
-title: 巴西的大模型比肩DeepSeek？其实你也可以开发出来Nanobot源代码详解
+title: 巴西的大模型比肩DeepSeek？其实你也可以开发出来
 date: 2026-06-19
 author: loaf
 categories:
