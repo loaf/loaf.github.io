@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Anthropic给文章加水印，是怎么做到的？
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>Anthropic 给输出的文章加水印，是为了反蒸馏？ | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788707838">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788707838">
+
+
+  
+  <meta name="keywords" content="人工智能,Anthropic">
+  
+<meta name="description" content="Anthropic给文章加水印，是怎么做到的？">
+<link rel="canonical" href="https://loaf.github.io/post/anthropic-gei-shu-chu-de-wen-zhang-jia-shui-yin-shi-wei-le-fan-zheng-liu/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Anthropic 给输出的文章加水印，是为了反蒸馏？","url":"https://loaf.github.io/post/anthropic-gei-shu-chu-de-wen-zhang-jia-shui-yin-shi-wei-le-fan-zheng-liu/","description":"Anthropic给文章加水印，是怎么做到的？","image":"/post-images/3bdJdx_1788703732794853600.png","datePublished":"2026-09-06T21:40:23+08:00","dateModified":"2026-09-06T22:08:52+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/anthropic-gei-shu-chu-de-wen-zhang-jia-shui-yin-shi-wei-le-fan-zheng-liu/","name":"Anthropic 给输出的文章加水印，是为了反蒸馏？","position":2}]}</script>
+<meta property="og:title" content="Anthropic 给输出的文章加水印，是为了反蒸馏？">
+<meta property="og:description" content="Anthropic给文章加水印，是怎么做到的？">
+<meta property="og:url" content="https://loaf.github.io/post/anthropic-gei-shu-chu-de-wen-zhang-jia-shui-yin-shi-wei-le-fan-zheng-liu/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/3bdJdx_1788703732794853600.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/anthropic-gei-shu-chu-de-wen-zhang-jia-shui-yin-shi-wei-le-fan-zheng-liu/">
+<meta name="twitter:title" content="Anthropic 给输出的文章加水印，是为了反蒸馏？">
+<meta name="twitter:description" content="Anthropic给文章加水印，是怎么做到的？">
+<meta name="twitter:image" content="/post-images/3bdJdx_1788703732794853600.png">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>Anthropic 给输出的文章加水印，是为了反蒸馏？</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-09-06</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 10 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/sui-bi/">随笔</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color3" href="/tag/ren-gong-zhi-neng/">人工智能</a>
+    
+    <a class="page-tag-item clickable color5" href="/tag/anthropic/">Anthropic</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <p>2026 年 8 月 10 日，Anthropic 发了一篇公告：Claude 要给所有输出打水印了。</p>
+<p>我第一反应，和网上大多数人一样：Dario又是反蒸馏反得魔怔了吧？又在搞事啊，再说了，输出的内容是客户花钱买的，你凭什么在上面盖上你的章？</p>
+<p>但等我真去读了那篇公告，再研究了一下这个水印的技术原理，发现这次还真是误解他了。</p>
+<p><strong>第一，这里的&quot;水印&quot;和大多数人想象的完全不是一回事。</strong></p>
+<p><strong>第二，&ldquo;反蒸馏&quot;这个动机，大概率是个误会，因为很难做到。</strong></p>
+<p>这篇文章，我想把&quot;文字水印&quot;到底是怎么实现的讲清楚——因为这个机制本身，比&quot;反蒸馏&quot;有意思得多。</p>
+<h2 id="heading">你以为的水印，和真正的水印</h2>
+<p>先说个最常见的误解。</p>
+<p>我一开始听到&quot;给文字加水印&rdquo;，脑子里浮现的是图片水印那套：在文字里偷偷塞一个固定的暗号词，再在某个角落盖一个校验戳，两个对得上，就证明&quot;这是我写的&quot;。</p>
+<blockquote>
+<p>🖼 <strong>【配图位 1 · 对比概念图】</strong><br />
+内容：左半边画一个错误理解（一段文字里塞着高亮的&quot;暗号词&quot;+一个盖章校验位，打叉）；右半边画正确理解（一段文字里每个 token 染成淡淡的绿/红，没有暗号、没有戳，打勾）。<br />
+提示词（生图）：<code>A side-by-side comparison infographic. Left side crossed out: a paragraph of Chinese text with one highlighted &quot;secret word&quot; and a stamp-like checksum, labeled &quot;误解/Misconception&quot;. Right side checked: the same paragraph with each token subtly tinted green or red, no secret word, no stamp, labeled &quot;真实/Reality&quot;. Minimalist flat design, white background, tech blog illustration.</code></p>
+</blockquote>
+<p><img src="/post-images/1788702023957699100_0.png" alt="ChatGPT Image 2026年8月12日 01_26_48.png" /></p>
+<p>但仔细研究后发现这样根本行不通。原因很简单：<strong>文字太容易改了</strong>。你塞一个暗号词&quot;芝麻&quot;，别人一个查找替换就删了；你盖一个校验戳，别人复制粘贴时格式一丢就没了。图片水印能扛得住，是因为像素的微小扰动人眼分辨不出来、也不容易被随手破坏。文字不行，每个字都直接显示在表面，根本没有隐藏的空间。</p>
+<p>那文字水印靠什么？还是<strong>数学</strong>中的概率统计学。</p>
+<p>这里就要提到<strong>KGW算法</strong>了。实现过程包括哈希、绿/红名单、概率权重……，涉及到大量的公式和理论，基于多一个公式减少一半读者的原理，我这里就不详述了。</p>
+<h2 id="heading-1">绿灯和红灯：一句话是怎么被&quot;染色&quot;的</h2>
+<p>我尽量用一个例子讲清楚。为了好懂，这个例子牺牲了一点精确性。</p>
+<p>假设 Claude 正在帮你写一句话，写到这里，要填下一个词：</p>
+<blockquote>
+<p>今天天气真 ___，我们出去玩吧。</p>
+</blockquote>
+<p>Claude 脑子里（准确说是概率分布里）会先列出几个候选词，和每个词的&quot;正常概率&quot;：</p>
+<table>
+<thead>
+<tr>
+<th>候选词</th>
+<th>正常概率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>好</td>
+<td>60%</td>
+</tr>
+<tr>
+<td>不错</td>
+<td>20%</td>
+</tr>
+<tr>
+<td>棒</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>热</td>
+<td>5%</td>
+</tr>
+<tr>
+<td>差</td>
+<td>5%</td>
+</tr>
+</tbody>
+</table>
+<p>注意前三个词——好、不错、棒——意思几乎一样，换成哪个都不影响这句话。<strong>这就是水印能下手的缝隙。</strong></p>
+<p>接下来是关键一步。整个机制长这样：</p>
+<p><img src="/post-images/1788702023965424300_0.png" alt="ChatGPT Image 2026年8月12日 01_41_51.png" /></p>
+<p>Claude 拿出一把<strong>只有 Anthropic 知道的密钥</strong>，和前面已写的&quot;今天天气真&quot;一起算个哈希，把候选词<strong>临时</strong>分成绿灯红灯两组：</p>
+<table>
+<thead>
+<tr>
+<th>候选词</th>
+<th>这次</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>好</td>
+<td>🔴 红灯</td>
+</tr>
+<tr>
+<td>不错</td>
+<td>🟢 绿灯</td>
+</tr>
+<tr>
+<td>棒</td>
+<td>🟢 绿灯</td>
+</tr>
+<tr>
+<td>热</td>
+<td>🔴 红灯</td>
+</tr>
+<tr>
+<td>差</td>
+<td>🟢 绿灯</td>
+</tr>
+</tbody>
+</table>
+<p>然后给绿灯词的概率悄悄加点权重（比如翻倍），红灯相对压低，重新算一遍概率，再随机抽一个。结果可能抽到了&quot;不错&quot;。</p>
+<p>最终句子变成：</p>
+<blockquote>
+<p>今天天气真<strong>不错</strong>，我们出去玩吧。</p>
+</blockquote>
+<p>意思没变，读起来毫无破绽。但 Claude 在&quot;好/不错/棒&quot;这几个同义词里，<strong>更偏向挑了当时是绿灯的那个</strong>。</p>
+<blockquote>
+<p>🎬 <strong>【动图位 1 · 绿名单动态洗牌】</strong><br />
+内容：动画展示同一个词&quot;好&quot;在三个不同的上下文位置，分别被染成🔴、🟢、🔴，旁边的小标签显示&quot;绿名单由 (前文 + 密钥) 实时生成&quot;。核心要传达：没有词永远是绿灯。<br />
+提示词（生视频/动图）：<code>Animated explainer, 15 seconds. The Chinese word &quot;好&quot; appears in three different sentence positions, its color flips between red and green each time as the surrounding context changes. A small label reads &quot;绿名单 = hash(前文 + 密钥), 每个位置都不同&quot;. Minimalist motion graphics, green (#1a7f37) and red (#cf222e) on white, smooth transitions. Tech tutorial style.</code></p>
+</blockquote>
+<p><img src="/post-images/1788702023974362400_0.png" alt="f4e4fd1760f1e1d4c2cbec8ce4db1d01.png" /></p>
+<p>这里有一点需要强调：<strong>没有一个词永远是绿灯</strong>。写下一个词时，上下文变了（多了&quot;不错&quot;两个字），密钥算出的哈希也变了，这次的绿/红划分就完全不一样——上一秒还是红灯的&quot;好&quot;，这一秒可能就变绿灯了。绿灯是<strong>每个位置、每次都重新洗牌</strong>的动态划分。</p>
+<h2 id="-claude-">怎么看出一句话是 Claude 写的？</h2>
+<p>现在是检测环节。</p>
+<p>你拿到一段来历不明的文字，想知道是不是 Claude 写的。你（或检测器）手里有那把密钥。要做的，是<strong>对每一个词，重算它当时到底是绿灯还是红灯</strong>——因为你有密钥，你能还原出当时每个位置的划分。然后数一数：这段话里有多少比例的词落在了绿灯上。</p>
+<p>直觉是这样的：</p>
+<ul>
+<li><strong>普通人写的、或者别的模型写的文字</strong>：每个位置的绿灯是&quot;随机分的&quot;，绿灯比例长期趋近 <strong>50%</strong>。</li>
+<li><strong>Claude 写的文字</strong>：每写一个词都被轻轻推向绿灯，绿灯比例<strong>明显高于 50%</strong>。</li>
+</ul>
+<p>只要这个比例高得离谱——高到统计上不可能是巧合——检测器就能判定：<strong>这段是带水印的模型生成的</strong>。</p>
+<blockquote>
+<p>⚠️ 要插一句：如果只有 8 个词（像我上面的例子），统计上根本看不出名堂。实际检测要凑够一段长度——几百个词——才有置信度。这也是为什么水印对短文本、对&quot;2+2=4&quot;这种没有选词自由度的内容会失效。</p>
+</blockquote>
+<p>注意这里<strong>没有校验位</strong>，也<strong>没有哪个词是固定暗号</strong>。判定依据纯粹是&quot;绿灯比例&quot;这一个统计量。这是个把信号藏进大量噪声里的游戏——单个词说明不了任何问题，但攒够一段长度，趋势就藏不住了。</p>
+<p>这其实就是学术界所谓的 KGW 方法（Kirchenbauer 等人 2023 年提出）的核心。Google、OpenAI、Anthropic 用的大多是这套范式或它的变体。</p>
+<h2 id="-claude--1">打水印会让 Claude 输出的质量变差吗？</h2>
+<p>这是个很自然的问题，也是网上争议比较多的点。</p>
+<p>答案是：<strong>取决于具体方法</strong>。KGW 这种&quot;给绿灯加权&quot;的做法，确实会轻微改变模型的输出分布——有些批评者（比如 GPTZero 的 CTO）就直说&quot;水印一定让文本变差&quot;。</p>
+<p>但这话只对了一半。学术界还有另一条线，叫 Aaronson 方法（OpenAI 的 Scott Aaronson 提出）：它不是粗暴地给绿灯加权，而是用一个更精巧的挑选规则，<strong>数学上可以证明完全不改变模型的输出质量</strong>——水印信号只藏在&quot;被选中词的内部得分偏高&quot;里，不影响用词频率。</p>
+<p>Anthropic 至今没披露 Claude 用的是哪一种。所以&quot;会不会变差&quot;，目前没有定论。我的看法是，大概率<strong>你是没有办法感知到的</strong>。</p>
+<h2 id="heading-2">那到底是为了啥？合规，不是反蒸馏</h2>
+<p>回到标题的问题。</p>
+<p>Claude 的公告写得明明白白：这是为了<strong>遵守欧盟 AI 法案（EU AI Act）第 50(2) 条</strong>。2026 年 8 月 2 日之后在欧盟发布的模型，<strong>首发当天就必须支持机器可读的标记</strong>。这是法律义务，不是技术情怀。</p>
+<p>至于&quot;反蒸馏&quot;，这个说法在技术上基本站不住脚。</p>
+<p>道理是这样的。蒸馏，说白了就是把 Claude 的输出当训练语料，去喂一个小模型。很多人觉得：既然 Claude 的输出绿灯偏多，小模型学进去，不就继承了这偏好，从而暴露&quot;我是蒸馏来的&quot;？</p>
+<p>听起来很顺。但仔细想：<strong>小模型根本没有那把密钥</strong>。它从语料里学到的，只是&quot;某些词出现得多一点&quot;这种<strong>被平均掉、剥离了密钥信息</strong>的模糊痕迹。而检测要成立，必须能用密钥精确还原每个位置的绿/红划分——小模型生成的文本，在&quot;密钥定义的绿名单&quot;上根本不会系统偏高。</p>
+<p>学术界也实测过。Pan 等人 2025 年的论文发现，学生模型<strong>确实会</strong>极其微弱地继承一点水印信号（生成的文本在教师密钥的绿名单上命中率略高于 50%），但这信号弱到测不出来；而且只要蒸馏前把语料稍微改写一下，或蒸馏后微调一轮，这点痕迹就<strong>彻底消失</strong>——小模型的本事一点没丢。</p>
+<p>换句话说：<strong>水印作为反蒸馏武器，是无效的</strong>。</p>
+<p><img src="/post-images/1788702023980595800_0.png" alt="ChatGPT Image 2026年8月12日 02_01_57.png" /></p>
+<p>那 Anthropic 真要防蒸馏靠什么？不是水印，是 API 限速、用量监控、使用条款里那句&quot;禁止用输出训练竞争模型&quot;。水印在这件事里，顶多算个事后归因工具，还很不可靠。当然了，它还有一招，就是&quot;<strong>下毒</strong>&quot;：在输出里嵌入对人无害、但会主动劣化小模型训练的对抗性扰动。</p>
+<h2 id="heading-3">版权：另一把刀</h2>
+<p>合规之外，水印还有个更微妙的潜在用途，跟<strong>版权</strong>有关。</p>
+<p>一般来说，<strong>版权只保护&quot;人类创作&quot;的部分</strong>，AI 生成的内容不受版权保护。这意味着，理论上水印可以作为一种技术证据，证明&quot;这段东西是 AI 生成的，所以你不能对它主张版权&quot;。</p>
+<p>反过来也成立：一个作者如果被冤枉&quot;这是 AI 写的&quot;，水印的缺席反而能帮他自证清白。</p>
+<p>这只是个一个构想，毕竟目前没有真正的案例。它更像是水印埋下的一个伏笔，等哪天版权战打起来，可能会被拿出来用。</p>
+<h2 id="heading-4">其他大模型会跟进吗？</h2>
+<p>几乎一定会，但不是因为技术，是因为法律。</p>
+<p>欧盟这道令是普遍适用的——<strong>任何</strong>在欧盟发布的大模型都得打标记，不只 Claude。所以 OpenAI、Google、Meta、还有国内的 DeepSeek、智谱、通义……只要想进欧洲市场，就得想办法合规。</p>
+<p>这里有一些细节值得了解：</p>
+<ul>
+<li><strong>Google</strong> 早就把自家 SynthId 水印的检测端<strong>只开放给政府</strong>，不公开。聪明但保守——公开检测器等于给攻击者一个现成靶子，他们会迅速摸出&quot;去水印&quot;的稳定套路。</li>
+<li><strong>OpenAI</strong> 态度一直暧昧，曾经上线过一个 AI 分类器又灰溜溜撤了，水印这块迟迟没落地。</li>
+<li><strong>国内厂商</strong>：中国 2023 年的《深度合成管理规定》就已经要求 AI 生成内容&quot;显著标识&quot;，合规压力其实比欧美来得更早。</li>
+</ul>
+<p>我的判断是：<strong>水印会变成所有大模型的标配，但更像一张&quot;合规打卡券&quot;</strong>——大家都会打，因为不打进不了欧洲市场；但没人会真指望它防住有心的攻击者。就像 GPTZero 那位 CTO 说的（虽然他利益相关，但这点他说得对）：<strong>对绝大多数普通用户，水印&quot;够用就行&quot;</strong>。</p>
+<h2 id="heading-5">最后</h2>
+<p>研究完这一圈，我最大的感受是一个落差：</p>
+<p><strong>水印这个技术，本身设计得很精巧——用密钥把信号织进每一个 token 的选择里，人眼看不出，统计上却无所遁形。</strong> 这是个值得尊敬的工程。</p>
+<p>但在现实层面，效果却不怎么样：只不过应付监管而已。Anthropic 自己都在公告里老老实实列了一堆&quot;局限性&quot;——改写、翻译、短文本、截图，都能让水印失效。</p>
+<p>所以如果你问我，Anthropic 加水印是不是为了反蒸馏？我会说：<strong>不是。它主要是为了合规，当然了，也许事后追责时提供一点点微弱的证据。但真要靠它防蒸馏，连 Anthropic 自己恐怕都不信。</strong></p>
+<p>至于我们普通用户，倒是真该留意另一件事：<strong>水印检测器和 AI 检测器，是两码事。</strong> 水印只能在&quot;模型主动种下&quot;时工作；对没种水印的旧模型、对其他厂商的模型，它完全无能为力。真正可能误伤你、把你自己写的文章判定成&quot;AI 生成&quot;的，是那些不依赖水印的统计检测器——它们的误报率，才是普通人该担心的东西。</p>
+<blockquote>
+<p>参考：<a href="https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content">Anthropic 公告（2026-08-10）</a>；Kirchenbauer et al. 2023（KGW 方法）；Pan et al. 2025（反蒸馏实证）；Cravath 律所 Tech Explainer（2023-12）</p>
+</blockquote>
+<p><img src="/post-images/3bdJdx_1788703732757238400.png" alt="" /></p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-06</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            <span class="prev placeholder"></span>
+            
+            <a class="next" href="/post/yong-1wan-yi-ge-tokenxun-lian-chu-yi-ge-guo-jia-zhu-quan-da-mo-xing/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">用1万亿个Token训练出一个国家主权大模型</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788707838" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

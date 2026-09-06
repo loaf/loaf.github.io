@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI 在省略号里偷偷算数学，这也太荒谬了吧？
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>点点点，点点点：当 AI 在省略号里偷偷算数学 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788707838">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788707838">
+
+
+  
+  <meta name="keywords" content="人工智能,LLM,AI">
+  
+<meta name="description" content="AI 在省略号里偷偷算数学，这也太荒谬了吧？">
+<link rel="canonical" href="https://loaf.github.io/post/dian-dian-dian-dian-dian-dian-dang-ai-zai-sheng-lve-hao-li-tou-tou-suan-shu-xue/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"点点点，点点点：当 AI 在省略号里偷偷算数学","url":"https://loaf.github.io/post/dian-dian-dian-dian-dian-dian-dang-ai-zai-sheng-lve-hao-li-tou-tou-suan-shu-xue/","description":"AI 在省略号里偷偷算数学，这也太荒谬了吧？","image":"/post-images/mgCwiZ_1788705723387690700.png","datePublished":"2026-07-21T21:41:50+08:00","dateModified":"2026-09-06T22:42:03+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/dian-dian-dian-dian-dian-dian-dang-ai-zai-sheng-lve-hao-li-tou-tou-suan-shu-xue/","name":"点点点，点点点：当 AI 在省略号里偷偷算数学","position":2}]}</script>
+<meta property="og:title" content="点点点，点点点：当 AI 在省略号里偷偷算数学">
+<meta property="og:description" content="AI 在省略号里偷偷算数学，这也太荒谬了吧？">
+<meta property="og:url" content="https://loaf.github.io/post/dian-dian-dian-dian-dian-dian-dang-ai-zai-sheng-lve-hao-li-tou-tou-suan-shu-xue/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/mgCwiZ_1788705723387690700.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/dian-dian-dian-dian-dian-dian-dang-ai-zai-sheng-lve-hao-li-tou-tou-suan-shu-xue/">
+<meta name="twitter:title" content="点点点，点点点：当 AI 在省略号里偷偷算数学">
+<meta name="twitter:description" content="AI 在省略号里偷偷算数学，这也太荒谬了吧？">
+<meta name="twitter:image" content="/post-images/mgCwiZ_1788705723387690700.png">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>点点点，点点点：当 AI 在省略号里偷偷算数学</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-07-21</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 7 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/sui-bi/">随笔</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color3" href="/tag/ren-gong-zhi-neng/">人工智能</a>
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <h2 id="heading">这也太荒谬了吧？</h2>
+<p>在X上看到一篇推文：</p>
+<p><img src="/post-images/1788702110360319400_0.png" alt="d46289f8f7e1148b5490d4ac5d03a8e5.png" /></p>
+<p>内容是：</p>
+<p>你问一个前沿大模型问一个问题：“谁在（1900 + 莫扎特去世时的年龄）年获得了诺贝尔化学奖？”</p>
+<p>它答错了。</p>
+<p>然后你把同样的问题原封不动再问一遍，只是这次你在问题后附加上和300个点。</p>
+<p>它答对了。</p>
+<p>我想你的第一反应和我一样：你在开什么玩笑？</p>
+<p>问题是，这不是一个玩笑。这居然是一篇严肃的论文《Reading Between the Dots: Decoding Hidden Computation across Filler Tokens》<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
+<h2 id="heading-1">空间太小，写不下证明过程?</h2>
+<p>要理解这件事，得先接受 Transformer 一个很基础的限制。</p>
+<p>你知道所谓的&quot;思考&quot;，在 LLM 里到底是什么吗？是<strong>矩阵乘法的堆叠</strong>。每一次生成一个 token，模型对那个位置只能跑固定层数的前向传播——比如 DeepSeek V3 是 60 层。</p>
+<p>也就是说，<strong>每一个 token 位置，模型拥有的&quot;计算预算&quot;是封顶的</strong>。</p>
+<p>想象一个学生做数学题。</p>
+<p>你让他心算 <code>74 + 6 + 13 + 22</code>，他要在脑子里一步步算，容易错。你给他一张草稿纸，让他把中间结果写下来，他就不容易错了。</p>
+<p>Transformer 也是这样。</p>
+<p>当你问&quot;钨原子序数 + 碳原子序数 = ？&ldquo;又不给它思考空间，它必须在<strong>答案那一个 token 位置上</strong>完成全部四步：检索钨=74 → 检索碳=6 → 算 74+6=80 → 输出。</p>
+<p>这四步要挤在那一个位置的 60 层里跑完。<strong>深度不够用，容易算错</strong>。</p>
+<p>论文用 logit lens 直接证明了这一点：所有中间值都堆在答案位置那一个点上，按层深度依次浮现。这是&quot;被压到极致&quot;的计算。</p>
+<h2 id="heading-2">那串省略号到底做了什么？</h2>
+<p>回到哪些看似没有用的点点，每个点其实都是会被理解成一个token，而这些token位置都会经过完整的 60 层处理。模型把原本挤在一个位置的多步计算，摊薄到多个位置上。</p>
+<p>点换成 1 2 3 4 5 也行，换成 a b c d e 也行。只要是模型熟悉的、不捣乱的 token 序列，都管用。</p>
+<p>但你用随机字符，乱码什么的填充的话就明显变差了。为什么？</p>
+<p>干净的草稿纸能写字；但如果纸上印满了乱七八糟的图案，反而干扰你写字。所以这些占位的token 必须是干净的、重复的、低信息量的，模型才能把它当成纯粹的工作内存。</p>
+<h2 id="transformer">Transformer的计算维度</h2>
+<p>等等，Transformer 不是算每个 token 之间的关系吗？token 越多，注意力关系越复杂，越吃算力。为什么反而会增加工作内存？</p>
+<p>这是因为，<strong>Transformer 有两个完全独立的计算维度</strong>。</p>
+<p>上面说的，其实只是Transformer计算的维度之一：<strong>宽度方向</strong>上的Token之间的关系。</p>
+<p>每个 token 要&quot;看&quot;其他所有 token，建立关系。这个维度的复杂度是 <code>O(n²)</code>——序列越长，关系越复杂，越吃算力。这是横向的，是 token 之间的。</p>
+<p>另外它还有一个<strong>深度方向</strong>上的关系，是对每个Token自己的层层处理。</p>
+<p>每个 token 位置都要经过模型的所有层的前向传播。DeepSeek V3 是 60 层，意味着每个 token 位置都享受完整的 60 层处理。这是纵向的，是单个 token 内部的。</p>
+<p>上面的那些点点点，增加的就是<strong>深度方向的可用位置</strong>。</p>
+<p>每个点有60层运算，加上300个点，相当于多了300个60层的小网络，通过注意力做分布式计算了。</p>
+<p>这可有点反直觉，<strong>这难道不会指数级地增加运算量吗</strong>？</p>
+<p>事实上，这个直觉是正确的，论文里也提到了这一点，并且附加上几个条件：</p>
+<p>一是这个填充用的Toekn（下面会统一用论文中说的 filler token 来代替）必须是高度同质化的或关系非常简单的，比如都是“&hellip;..”、“12345”之类，这样它们之间的注意力关系极其简单。模型不需要为它们建立复杂的关系图。所以在宽度方向上的负担增长很慢，但深度红利却很可观。</p>
+<p>二是长度也是有一定限制的，不能无限增长。论文里有一个数据 <code>k&gt;500</code> 之后，准确率开始饱和甚至退化。</p>
+<h2 id="heading-3">三个证据，证明这不是巧合</h2>
+<p>论文给了三条互相印证的证据来证明模型真的在filler token里做了计算，而不只是一种巧合。这三条证据分别是：</p>
+<h3 id="1attention"><strong>1.Attention路由</strong></h3>
+<p>Attention 路由，证明了<strong>模型在算题时，注意力真的会绕进 filler 区再回到答案</strong>，而不是跳过 filler 直接问答。</p>
+<p>简单说就是，你让两人传话。正常情况小明直接把话传给小红（问题→答案，跳过中间）。但你发现，当中间站着个&quot;哑巴&rdquo;（filler 区，不会说话），小明居然先把话传给哑巴，再从哑巴传给小红——小红最后还答对了。说明哑巴虽然在&quot;装死&quot;，但小明其实把信息递给它了，它内部有动作。</p>
+<h3 id="2logit-lens"><strong>2.Logit-lens读取</strong></h3>
+<p>Logit-lens 读取，证明了 filler 区的内部向量真的编码了中间值（比如 76、93、128 这些数字），不是空的。用Logit-lens把向量翻译回来能看到这些内容。</p>
+<p>回到上面的例子，就是你发现了了哑巴怀里抱着一张纸条，上面写着&quot;76+93&quot;，而算出来的值正是小明需要传给小红的。</p>
+<h3 id="3kv-cache-"><strong>3.KV-cache 移植</strong></h3>
+<p>KV-cache 移植，证明了把 filler 区的内部状态换掉，答案也跟着变——这是因果证据，证明 filler 真的&quot;导致&quot;了答案，不只是凑巧相关。</p>
+<p>还是那个例子，你发现了哑巴怀中的那张草稿，发现上面写着76+93，现在你将这个草稿替换掉，小红的答案就变化了。</p>
+<p>三条证据合起来，几乎堵死了所有&quot;这只是噪声&quot;的解释。</p>
+<h2 id="ai">好吧，我知道AI可以在省略号里计算，那又怎么样？</h2>
+<p>这些研究者写论文可不是为了水职称。</p>
+<p>他们是在挑战一个AI安全思路，叫 <strong>CoT 监控</strong>——通过读模型写出来的思维链，来审计它在想什么、有没有在干坏事。</p>
+<p>filler token 现象直接戳穿了这个问题：模型在&quot;……&ldquo;这种毫无信息的 token 上做推理，屏幕上看到的 token 和它真正在算的东西完全脱钩，CoT 监控等于白瞎了。</p>
+<p>不过你也不用担心，论文只是证明了大模型在行为层面上的CoT监控失效了。但是<strong>在模型内部的残差流（residual stream）里却携带着丰富、可解码的信息</strong>。</p>
+<p>通俗地说，就是AI安全还在可控之中，现在AI还做不到完全隐藏自己的思想。😀</p>
+<h2 id="heading-4">松了一口气，可以开开脑洞了</h2>
+<p>安全问题暂时不需要担心了。就可以轻松一点了。</p>
+<h3 id="ai-1">下次提问里多写点废话会不会让AI更聪明？</h3>
+<p><strong>肯定不能</strong>，上面也说过，filler 必须是<strong>干净的、在问题之后形成的区段</strong>。干净就意味着其中填充的内容不能太复杂。上面说过，要么全是点点点，要么是123456之类的。</p>
+<p>你写一大段冗长的自然语言提问，不是 filler，是<strong>噪声</strong>。论文里有个直接反证：filler 放在问题之前完全无效。</p>
+<h3 id="filler">语音输入时，多一些“嗯、啊”能制造filler效应吗？</h3>
+<p>很遗憾，<strong>也不行</strong>。语音里的&quot;嗯啊&quot;会被 ASR 转成有意义的文字 token，被模型当成&quot;问题的一部分&quot;处理，而不是&quot;额外的计算空间&rdquo;。而且它们位置不对——在问题中间，而非问题之后。加上模型会模仿你的风格，你用含糊的口语问，它就用含糊的口语答——你想让它变聪明，结果它变成了结巴。</p>
+<h3 id="-prompt---">那我手动在 prompt 里加 &hellip;&hellip; 就能稳定复现论文的效果？</h3>
+<p><strong>想多了</strong>。主流对话模型（Claude、GPT、Gemini）默认就开启 CoT，filler 效应常被掩盖或不显式表现。论文是在纯 completion 模式 + few-shot 引导（利用大语言模型从少量示例样本中学习并处理任务的方法）下做的，对话模式未必复现。</p>
+<h2 id="heading-5">没有什么用的启示</h2>
+<p>那么这篇论文对我们普通用户到底有什么启发呢？</p>
+<p>基于论文能确定的结果：<strong>多步推理需要额外的“计算空间”</strong>。所以给我们的启示是好的问题需要有足够的计算空间。</p>
+<p>比如说，你问AI一个经典的水箱问题：进水流量多少，出水流量多少，问多长时间能装满水箱。</p>
+<p>直接把问题丢给AI，肯定是效果最差的。你在问题后加上<code>……</code>，会好点，但有限。最好的方法是在问题后直接加上具体的要求，比如要求模型“先列条件，再算进水量，再算出水量，再算净流量，再求时间”，每一步对应一组token位置，这样，模型会有恰当的空间计算。</p>
+<p>这就是将filler的额外空间<strong>显式化、可控化</strong>。</p>
+<p>但这些技巧对我们最终用户来说没有什么用。因为现代模型都已经把这些内容放在训练过程中，这样随着模型的迭代，这些技巧很快就已经变得不必要了。正如一年前，我们要学提示词工程，一个月前要学Harness工程，但很快这些所谓的“工程”已经变成模型内置的“功能”了。</p>
+<h2 id="heading-6">真正的意义</h2>
+<p>了解这些技术细节对我们这些使用者来说真正的意义在于理解AI的运作机制。让我们能时刻关注AI脱离人类控制的最终奇点。</p>
+<p>我们先是吓一跳：AI居然在偷偷干活。然后松一口气：原来还是数学。下一轮仍是这样，但总有一天，在被惊吓后发现我们再也看不懂AI了。</p>
+<p>这像不像父母面对子女？一开始我们能理解子女的每一个想法，后来他们开始偷偷藏起自己的日记，再后来，我们再也无法理解他们……。现在的AI，正是走入青春期的智能。</p>
+<p><img src="/post-images/mgCwiZ_1788705723362550500.png" alt="" /></p>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Brauer, K., Mayrink Verdun, C., &amp; Marks, S. (2026). Reading Between the Dots: Decoding Hidden Computation across Filler Tokens. ICML 2026 Mechanistic Interpretability Workshop. arXiv:2607.03502.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-06</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/kimi-k3-kai-yuan-le/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">Kimi K3开源了</span></a>
+            
+            
+            <a class="next" href="/post/zhi-qi-zong-jie-yu-ai-tao-lun-de-nei-rong/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之七：收集资料，总结与AI讨论的内容</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788707838" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

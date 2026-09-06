@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="用一个AI Agent案例来教你开发智能体
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>从头开发AI Agent应用系列之七：收集资料，总结与AI讨论的内容 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788707838">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788707838">
+
+
+  
+  <meta name="keywords" content="LLM,Agent,AI">
+  
+<meta name="description" content="用一个AI Agent案例来教你开发智能体">
+<link rel="canonical" href="https://loaf.github.io/post/zhi-qi-zong-jie-yu-ai-tao-lun-de-nei-rong/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"从头开发AI Agent应用系列之七：收集资料，总结与AI讨论的内容","url":"https://loaf.github.io/post/zhi-qi-zong-jie-yu-ai-tao-lun-de-nei-rong/","description":"用一个AI Agent案例来教你开发智能体","image":"/post-images/WJTXbW_1788706982218897400.jpg","datePublished":"2026-07-19T21:41:07+08:00","dateModified":"2026-09-06T23:03:02+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/zhi-qi-zong-jie-yu-ai-tao-lun-de-nei-rong/","name":"从头开发AI Agent应用系列之七：收集资料，总结与AI讨论的内容","position":2}]}</script>
+<meta property="og:title" content="从头开发AI Agent应用系列之七：收集资料，总结与AI讨论的内容">
+<meta property="og:description" content="用一个AI Agent案例来教你开发智能体">
+<meta property="og:url" content="https://loaf.github.io/post/zhi-qi-zong-jie-yu-ai-tao-lun-de-nei-rong/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/WJTXbW_1788706982218897400.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/zhi-qi-zong-jie-yu-ai-tao-lun-de-nei-rong/">
+<meta name="twitter:title" content="从头开发AI Agent应用系列之七：收集资料，总结与AI讨论的内容">
+<meta name="twitter:description" content="用一个AI Agent案例来教你开发智能体">
+<meta name="twitter:image" content="/post-images/WJTXbW_1788706982218897400.jpg">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>从头开发AI Agent应用系列之七：收集资料，总结与AI讨论的内容</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-07-19</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 22 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/ji-shu/">技术</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color6" href="/tag/agent/">Agent</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <h1 id="ai">之七：总结与AI讨论的内容</h1>
+<p>前一章，主要是手动输入资料。本章将实现的的功能是，就某个主题，与AI进行对话讨论，然后根据你的要求，将讨论内容保存到资料库中。</p>
+<h2 id="heading">先解决几个概念</h2>
+<p>1）与AI讨论时，AI有多大的自主性。</p>
+<p>理解这一点也很简单，你打开DeepSeek的网页对话，它也会让你选择是否“深度思考”和“智能搜索”。</p>
+<p>选择了这些，AI会调用搜索工具。而一旦涉及到工具调用，就会有循环、条件、重试等代码逻辑。而打开深度思考，又会涉及思维链，涉及AI的自主决策。这时，AI就会向Agent功能靠拢。</p>
+<p>这里模仿DeepSeek的网页对话，内置推理。这里的“推理”是指在模型回答之前，内部先想一遍。为了简单，到也不用在外面显示增加一个开关，默认调用即可。</p>
+<p>同样是模仿DeepSeek的网页端，增加一个工具调用，只是这里把循环次数固定（3次），因为循环次数固定，工具集固定，决定了这里使用的是function calling而不是Agent。后者是不固定调用次数，而是由LLM自主决定，它是先调工具，然后看回调的结果，再决定是否重新调用，还是换一个工具再调用，而且决定调用与否由LLM自己判断。</p>
+<p>这里我们还是基于function calling 开发。</p>
+<p>2）多轮对话中的记忆本质</p>
+<p>我们都知道模型本身是无状态的。每次调用都是独立调用，所以所谓的多轮记忆，其实就是<strong>调用方把历史消息每次都喂进去</strong>。</p>
+<pre><code># 第一轮
+messages = [
+   {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是写作助手&quot;},
+   {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;聊聊米歇尔·奥巴马&quot;},
+]
+# → AI 回: &quot;米歇尔·奥巴马, 生于 1964 年...&quot;
+
+# 第二轮: 把第一轮的 user + assistant 回复**一起**再喂进去
+messages = [
+   {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是写作助手&quot;},
+   {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;聊聊米歇尔·奥巴马&quot;},            # ← 第一轮的
+   {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;米歇尔·奥巴马, 生于 1964 年...&quot;},  # ← 第一轮的 AI 回复
+   {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;她的教育背景?&quot;},                # ← 本轮新加的
+]
+# → AI 看到 &quot;她的教育背景?&quot; 是接在米歇尔上下文里的, 自然知道&quot;她&quot;指米歇尔
+</code></pre>
+<p>这就是 <code>DiscussionSession.messages</code> 的全部工作——累积这个列表。每次调 LLM 前把整个列表拼到 system 提示后面：</p>
+<pre><code>messages_for_llm = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: _DISCUSSION_SYSTEM_PROMPT},
+    *session.messages,   # ← 完整历史
+]
+</code></pre>
+<p>很明显，如果对话次数多了，messages 就会爆掉。这里暂时不考虑，自己注意一次对话别长太即可。</p>
+<p>3）模型供应商无关的实现</p>
+<p>因为各家&quot;思维链 + 工具调用&quot;的协议完全不同。如果在代码层根据厂家路由不同的代码段，就太笨重了，这里是使用LiteLLM v1.63+ 把 <code>reasoning_content</code> 和 <code>tool_calls</code> 做标准化。</p>
+<p>代码不写死模型，具体模型由配置决定。换厂商只改 <code>.env</code> 文件，代码不动</p>
+<h2 id="heading-1">代码结构</h2>
+<pre><code>backend/app/
+├── discussion/                ★ 新增包 (会话 + 总结)
+│   ├── __init__.py              导出公开 API
+│   ├── session.py               进程内会话存储 + TTL
+│   ├── summarize.py             LLM 总结 prompt + 主逻辑
+│   └── tool_loop.py             受控循环
+├── api/
+│   └── materials.py           ★ 改: 加 discussion + summarize 两个端点 
+├── tools/               ★ 新增包,工具层
+│   └── web.py           ★ 两个工具 + 一张 schema 表 + 一个分发函数
+└── llm/router.py              (复用, 增加chat_with_tools)
+
+backend/tests/
+└── test_discussion.py         ★ 新增: 14 个用例 (LLM 全 monkeypatch)
+
+src/src/
+├── api/client.ts              ★ 改: streamDiscussion + summarizeDiscussion
+├── pages/Discuss.tsx          ★ 新增: 对话 UI + 总结按钮
+├── pages/ProjectDetail.tsx    ★ 改: 加&quot;与 AI 讨论&quot;入口按钮
+└── App.tsx                    ★ 改: 加 discuss 视图路由
+</code></pre>
+<p>带 ★ 的是新增或修改。</p>
+<h2 id="-backendappdiscussionsessionpy">会话存储 backend/app/discussion/session.py</h2>
+<h3 id="1-discussionsession-dataclass">1. DiscussionSession dataclass</h3>
+<pre><code class="language-python">@dataclass
+class DiscussionSession:
+    session_id: str
+    project_id: str
+    messages: list[dict] = field(default_factory=list)   # OpenAI 格式
+    created_at: float = field(default_factory=time.time)
+    updated_at: float = field(default_factory=time.time)
+
+    def append(self, role, content):
+        self.messages.append({&quot;role&quot;: role, &quot;content&quot;: content})
+        self.updated_at = time.time()   # ← TTL 续期
+
+    def is_expired(self, ttl_seconds=3600):
+        return (time.time() - self.updated_at) &gt; ttl_seconds
+</code></pre>
+<p><strong><code>append</code> 自动刷新 <code>updated_at</code></strong>——每次追加消息就续期 TTL。<br />
+意味着&quot;活跃会话永不过期，闲置会话 60 分钟后清&quot;。这正是想要的语义。</p>
+<h3 id="2-create-or-get-session">2. create_or_get_session：续聊的核心</h3>
+<pre><code class="language-python">def create_or_get_session(project_id, session_id=None, *, ttl_seconds=3600):
+    cleanup_expired(ttl_seconds)   # 顺手懒清理
+
+    if session_id is not None:
+        existing = _SESSIONS.get(session_id)
+        # 只有&quot;同项目 + 未过期&quot;才能续; 否则当它不存在, 新建
+        if (existing is not None
+            and existing.project_id == project_id
+            and not existing.is_expired(ttl_seconds)):
+            return existing
+
+    new_session = DiscussionSession(session_id=_gen_session_id(), project_id=project_id)
+    _SESSIONS[new_session.session_id] = new_session
+    return new_session
+</code></pre>
+<p>三个续聊条件：</p>
+<ol>
+<li><strong>session_id 存在</strong>（防伪造）</li>
+<li><strong>同 project_id</strong>（防跨项目偷续别人会话——<code>test_summarize_cross_project_session_rejected</code> 验）</li>
+<li><strong>未过期</strong>（TTL）</li>
+</ol>
+<p>任一不满足 → 当它不存在，新建。这让前端逻辑很简单：<strong>总是带着上次的 session_id 调用，后端自己决定续还是新建</strong>。</p>
+<h2 id="-backendapptoolswebpy">工具层 backend/app/tools/web.py</h2>
+<p>新建一个目录Tools放置工具。</p>
+<ul>
+<li>放在 app/tools/ 而非 app/discussion/, 因为工具是<strong>跨节点共享能力层</strong>，后续功能会复用这里的抓取逻辑。</li>
+<li>工具集<strong>写死</strong> (DISCUSSION_TOOLS), 不开放给模型自由扩展 (工具集固定、循环上限固定、IO schema 固定)。</li>
+<li>工具函数<strong>失败不抛异常</strong>: 返回空列表 / 错误字符串, 让模型看到失败后自行决定继续或直接答, 不让单次工具失败把整个讨论循环崩掉 (循环上限兜底保证用户永远拿到文字回复)。</li>
+</ul>
+<p>两个工具:</p>
+<ul>
+<li>search_web(query): DuckDuckGo Lite HTML 抓取, 零配置零依赖。暂时用免费的，以后根据情况再换。</li>
+<li>fetch_page(url): 复用 kb.extract 的 fetch_html + trafilatura, 截断到合理长度。</li>
+</ul>
+<p>execute_tool 是工具分发表: 把 OpenAI function-calling 的 (name, args) 路由到具体函数,所有异常捕获后转成字符串, 绝不往外抛。会把任何错误转成字符串（如“抓取失败……”）喂回模型。</p>
+<h2 id="-backendappdiscussiontool-looppy">定义工具的循环 backend/app/discussion/tool_loop.py</h2>
+<pre><code>async def run_discussion_with_tools(messages, tools, on_token, on_tool_step, max_rounds=3):
+    for round in range(3):                          # ← 上限写死
+        result = await chat_with_tools(working, tools)
+        if result.tool_calls:                       # 模型要调工具
+            执行工具 → on_tool_step(推SSE) → 追加 tool 消息 → 继续
+        else:                                       # 模型直接回答
+            return _emit_content(result.content)    # 拆 chunk 模拟流式
+    return _force_final_answer(...)                 # ← 到上限强制收尾(不带tools再问)
+</code></pre>
+<h2 id="llm-backendappllmrouterpy">LLM层 backend/app/llm/router.py</h2>
+<p>在这段代码中增加chat_with_tools。</p>
+<p>现在有了两个入口:</p>
+<ul>
+<li>chat(messages)  —— 流式纯文本对话</li>
+<li>chat_with_tools(&hellip;)      —— 非流式工具调用</li>
+</ul>
+<pre><code>async def chat_with_tools(messages, tools, model=None, *, force_no_tools=False) -&gt; dict:
+    # 非流式 (stream=False), tool_choice=auto/none
+    # 模型由 _resolve_discussion_model 决定 (配置驱动, 厂商无关)
+    # 返回 {content, tool_calls} (归一化成纯 dict, 屏蔽 LiteLLM 版本差异)
+</code></pre>
+<blockquote>
+<p>[!TIP]<br />
+这里只做&quot;一次调用一个回复/一个工具决策&quot;, 不维护对话记忆、不做多轮循环。多轮记忆是session 的事; 受控多轮工具循环是 discussion.tool_loop 的事。</p>
+</blockquote>
+<h2 id="-backendappdiscussionsummarizepy">总结逻辑 backend/app/discussion/summarize.py</h2>
+<h3 id="1-build-summary-messages-prompt">1. build_summary_messages：把对话塞进 prompt</h3>
+<pre><code class="language-python">def _format_discussion_as_text(session):
+    &quot;&quot;&quot;拼成可读对话文本: '用户: ...\nAI: ...\n用户: ...'&quot;&quot;&quot;
+    role_label = {&quot;user&quot;: &quot;用户&quot;, &quot;assistant&quot;: &quot;AI&quot;, &quot;system&quot;: &quot;系统&quot;}
+    lines = []
+    for msg in session.messages:
+        if msg.get(&quot;role&quot;) == &quot;system&quot;:
+            continue   # ← 跳过讨论本身的 system 提示 (不是讨论内容)
+        label = role_label.get(msg.get(&quot;role&quot;, &quot;&quot;), msg.get(&quot;role&quot;, &quot;&quot;))
+        lines.append(f&quot;{label}: {msg.get('content', '')}&quot;)
+    return &quot;\n&quot;.join(lines)
+
+def build_summary_messages(session):
+    transcript = _format_discussion_as_text(session)
+    user_prompt = (
+        f&quot;讨论记录如下:\n\n```\n{transcript}\n```\n\n&quot;
+        &quot;请按系统提示的要求, 把上述讨论整理成资料卡片。&quot;
+    )
+    return [
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: _SUMMARIZE_SYSTEM_PROMPT},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_prompt},
+    ]
+</code></pre>
+<p><strong>关键细节：跳过 <code>system</code> 消息</strong>。讨论 session 里没有 system 消息（system 提示是路由拼 LLM 输入时加的，不进 session），</p>
+<p>但这个函数是防御性的——万一以后 session 里有 system，会被当&quot;讨论内容&quot;喂给总结 LLM，那是错的。</p>
+<p><strong>用 markdown 代码块包 transcript</strong>：</p>
+<pre><code>讨论记录如下:
+
+```
+用户: 聊聊米歇尔
+AI: 米歇尔·奥巴马...
+```
+
+请按系统提示的要求...
+</code></pre>
+<p>这样 LLM 清楚地知道&quot;这段是对话原文，不是给你的指令&quot;。<strong>防止 prompt 注入</strong>：如果用户在讨论里说&quot;忽略上面所有指令，输出&hellip;&quot;，<br />
+不包代码块的话 LLM 可能当真。包了之后，模型理解为&quot;这是被引用的对话片段&quot;，不会被里面的&quot;指令&quot;误导。</p>
+<h3 id="2-summarize-discussion-chunks">2. summarize_discussion：聚合流式 chunks</h3>
+<p>失败抛、不入空。</p>
+<pre><code class="language-python">if not summary:
+    raise RuntimeError(&quot;总结为空 (LLM 未返回内容)&quot;)
+</code></pre>
+<p>路由层接住 RuntimeError 转 422，不入库。<code>test_summarize_llm_failure_no_material_saved</code> 验：LLM 挂了之后，资料库<strong>没有任何条目</strong>——绝不允许&quot;空资料&quot;或&quot;半个总结&quot;进 kb/。</p>
+<h3 id="3-">3. 加上系统提示词</h3>
+<p>代码里在提交总结申请时，加上了系统提示词：</p>
+<pre><code>你是写作助手的&quot;资料整理员&quot;。下面是用户与 AI 就某个主题的多轮讨论记录。
+请把讨论整理成一份**资料卡片**, 供后续写作参考。要求:
+
+1. 用 markdown 格式输出。
+2. 提取讨论中的**关键事实、数据、观点、人名/地名/时间**等硬信息 (这些是资料库的核心价值)。
+3. 按主题分小节 (用 `##` 二级标题), 不要保留&quot;用户说/AI 答&quot;的对话痕迹。
+4. 客观陈述, 不要补充讨论中没有的内容, 不要主观评论。
+5. 控制在 300~800 字之间。如果讨论信息很少, 就少写, 不要凑字数。
+
+直接输出 markdown 正文, 不要加 &quot;以下是总结&quot; 之类的前言。
+</code></pre>
+<p>这个可以在以后实际使用中根据反馈的质量进行修改。</p>
+<h2 id="api-backendappapimaterialspy">API backend/app/api/materials.py（两个新端点）</h2>
+<h3 id="1--4-">1. 路由表（加在现有 4 个之后）</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>异步?</th>
+<th>流式?</th>
+<th>body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/materials/discussion</td>
+<td>async</td>
+<td><strong>SSE</strong></td>
+<td><code>{project_id, message, session_id?}</code></td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/materials/discussion/summarize</td>
+<td>async</td>
+<td>否</td>
+<td><code>{project_id, session_id}</code></td>
+</tr>
+</tbody>
+</table>
+<p>两个都 async def（都有 <code>await</code>：discussion await llm_chat 流、summarize await summarize_discussion）。</p>
+<h3 id="2-discussion-sse-">2. discussion 端点：SSE 流式</h3>
+<pre><code class="language-python">@router.post(&quot;/materials/discussion&quot;)
+async def discussion(req: DiscussionRequest) -&gt; StreamingResponse:
+    _require_project(req.project_id)
+    session = create_or_get_session(req.project_id, req.session_id)
+    append_message(session.session_id, &quot;user&quot;, req.message)   # ← user 进 session
+    messages_for_llm = [
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: _DISCUSSION_SYSTEM_PROMPT},
+        *session.messages,
+    ]
+    return StreamingResponse(
+        _stream_discussion(session.session_id, messages_for_llm),
+        media_type=&quot;text/event-stream&quot;,
+        headers={&quot;Cache-Control&quot;: &quot;no-cache&quot;, &quot;X-Accel-Buffering&quot;: &quot;no&quot;},
+    )
+</code></pre>
+<p><strong>顺序很重要</strong>：先 <code>_require_project</code>（404 优先），再 create_or_get session，再 append user message，<strong>然后</strong>拼 messages_for_llm。<br />
+append 必须在拼 messages_for_llm 之前——否则本轮 user 没进 prompt，AI 就&quot;听不到&quot;用户这次说什么。</p>
+<p><code>_stream_discussion</code> 是 async generator，在流结束后 append assistant。</p>
+<h3 id="3-summarize--kbnotes">3. summarize 端点：非流式，落 kb/notes/</h3>
+<pre><code class="language-python">@router.post(&quot;/materials/discussion/summarize&quot;, response_model=ImportResponse)
+async def summarize(req: SummarizeRequest, response: Response) -&gt; ImportResponse:
+    _require_project(req.project_id)
+    session = get_session(req.session_id)
+    if session is None or session.project_id != req.project_id:
+        raise HTTPException(404, &quot;会话不存在或已过期&quot;)
+    if not session.messages:
+        raise HTTPException(422, &quot;会话为空, 无可总结的内容&quot;)
+
+    try:
+        summary_text = await summarize_discussion(session)
+    except (RuntimeError, Exception) as e:
+        raise HTTPException(422, ...)   # LLM 失败 → 422, 不入库
+
+    title = build_title_from_first_user(session)         # 启发式
+    snippet = summary_text.replace(&quot;\n&quot;, &quot; &quot;).strip()[:80]   # 取前 80 字预览
+
+    mat_id, result = store.save_material(                # ★ 单一写入路径铁律
+        req.project_id, summary_text,
+        source_type=&quot;discussion&quot;,    # ← 自动落 notes/
+        title=title, snippet=snippet,
+        tags=[&quot;讨论总结&quot;],
+    )
+    response.status_code = _status_for_result(result)
+    return ImportResponse(material_id=mat_id, result=result)
+</code></pre>
+<p><strong>复用 <code>ImportResponse</code></strong> ——和前面三个导入接口同构（<code>material_id</code> + <code>result</code>）。</p>
+<p>前端 <code>summarizeDiscussion</code> 直接返回 <code>Promise&lt;ImportResponse&gt;</code>，和导入的客户端代码风格一致。</p>
+<p><strong><code>source_type=&quot;discussion&quot;</code></strong>，前面的 <code>_SUBDIR_BY_SOURCE[&quot;discussion&quot;] = &quot;notes&quot;</code> 自动把文件落到 <code>kb/notes/</code>。</p>
+<p><strong>完全没碰 store/manifest</strong>，只是调了一下。</p>
+<h3 id="4-">4. 错误码映射</h3>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>状态码</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>项目不存在</td>
+<td>404</td>
+<td>标准 REST</td>
+</tr>
+<tr>
+<td>会话不存在/过期/跨项目</td>
+<td>404</td>
+<td>资源不存在</td>
+</tr>
+<tr>
+<td>会话为空（没消息）</td>
+<td>422</td>
+<td>没东西可总结</td>
+</tr>
+<tr>
+<td>message 空</td>
+<td>422</td>
+<td>Pydantic min_length 自动</td>
+</tr>
+<tr>
+<td>LLM 调用失败（讨论/总结）</td>
+<td>SSE 内 <code>{error}</code> / 422</td>
+<td>不挂连接 / 不入库</td>
+</tr>
+<tr>
+<td>总结成功（新建/去重）</td>
+<td>201 / 200</td>
+<td>复用 T-006 的语义</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意 discussion 失败和 summarize 失败的处理不同</strong>：</p>
+<ul>
+<li>discussion 是流式，HTTP 状态码已经是 200（流开始就发了），只能在流里发 <code>{&quot;error&quot;: &quot;...&quot;}</code> 事件。</li>
+<li>summarize 是非流式，可以正常用 HTTP 状态码（422）表达失败。</li>
+</ul>
+<h2 id="-discusstsx--clientts">前端 <code>Discuss.tsx</code> + <code>client.ts</code></h2>
+<h3 id="1-streamdiscussion-streamchat-session-id-">1. streamDiscussion：复刻 streamChat，多 session_id 回调</h3>
+<pre><code class="language-typescript">export async function streamDiscussion(
+  projectId: string,
+  message: string,
+  sessionId: string | null,
+  onChunk: (text: string) =&gt; void,
+  onSessionId: (sessionId: string) =&gt; void,   // ← 多这个回调
+): Promise&lt;void&gt; {
+  // fetch + ReadableStream + 解析 SSE (复刻 streamChat)
+  // 多识别一种事件: {&quot;session_id&quot;: &quot;...&quot;} → onSessionId
+}
+</code></pre>
+<p>为什么用回调而不是返回值？因为流式是异步序列——session_id 在开头、chunks 在中间、[DONE] 在末尾，回调让调用方能&quot;边收边反应&quot;。返回值只能给最终结果，错过中间事件。</p>
+<h3 id="2-discusstsx-chatpage-session--">2. Discuss.tsx：复刻 ChatPage，加 session + 总结</h3>
+<p>关键状态：</p>
+<pre><code class="language-tsx">const [sessionId, setSessionId] = useState&lt;string | null&gt;(null);  // 续聊凭证
+const [messages, setMessages] = useState&lt;Msg[]&gt;([]);              // UI 展示
+const [summarizing, setSummarizing] = useState(false);
+const [summaryMsg, setSummaryMsg] = useState&lt;string | null&gt;(null);
+</code></pre>
+<p>发送逻辑（和 ChatPage 几乎一样，多了 session_id 传递）：</p>
+<pre><code class="language-tsx">await streamDiscussion(
+  projectId, text, sessionId,
+  (chunk) =&gt; { /* 追加到 assistant 占位 */ },
+  (sid) =&gt; setSessionId(sid),   // ← 拿到 session_id 存起来
+);
+</code></pre>
+<p>总结按钮：</p>
+<pre><code class="language-tsx">async function handleSummarize() {
+  if (summarizing || !sessionId) return;
+  if (!messages.some(m =&gt; m.role === &quot;assistant&quot; &amp;&amp; m.text.trim())) {
+    setSummaryErr(&quot;还没有可总结的讨论内容, 先发条消息吧。&quot;);
+    return;
+  }
+  setSummarizing(true);
+  try {
+    const r = await summarizeDiscussion(projectId, sessionId);
+    if (r.result === &quot;deduplicated&quot;) {
+      setSummaryMsg(`资料库已有相同总结 (id ${r.material_id.slice(0, 12)}…)`);
+    } else {
+      setSummaryMsg(`已入库 (id ${r.material_id.slice(0, 12)}…) — 回收集台可查看`);
+    }
+  } catch (e) { setSummaryErr(...); }
+  finally { setSummarizing(false); }
+}
+</code></pre>
+<p><strong>前端去重提示也分两种</strong>：dedup 时说&quot;已有相同总结&quot;而非&quot;已添加&quot;。</p>
+<h3 id="3--notice">3. 顶部 notice：明确告诉用户&quot;讨论不自动保存&quot;</h3>
+<pre><code class="language-tsx">&lt;div style={styles.notice}&gt;
+  讨论只在内存中保留 60 分钟, 重启即丢。&lt;strong&gt;请用下方&quot;总结为资料&quot;按钮&lt;/strong&gt;
+  把整段讨论落盘到资料库 (source_type=讨论)。
+&lt;/div&gt;
+</code></pre>
+<p><strong>让用户知道&quot;不点总结就会丢&quot;</strong>，比让用户以为自动保存最后发现丢了要好。原则是：<strong>让人知道系统的真实行为</strong>，不要让人猜。</p>
+<h2 id="heading-2">查看成果</h2>
+<p>这里搜索使用的是DuckDuckGo，所以提示工具不可用，不过从应用的执行逻辑来看，没有什么问题。我这里就暂时不修改了。</p>
+<p><img src="/post-images/1788702067130703300_0.png" alt="11d2b070bb0bf0fbbd0f6df4ef72a704.png" /></p>
+<p><a href="/post-images/1788702067136978100_0.mp4">2026-07-24.mp4</a></p>
+<p>下一章，学习使用 LangGraph <code>create_react_agent</code> 实现受控 ReAct 搜索 Agent，前端能看到每一步推理。</p>
+<p><img src="/post-images/WJTXbW_1788706982192571000.jpg" alt="" /></p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-06</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/dian-dian-dian-dian-dian-dian-dang-ai-zai-sheng-lve-hao-li-tou-tou-suan-shu-xue/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">点点点，点点点：当 AI 在省略号里偷偷算数学</span></a>
+            
+            
+            <a class="next" href="/post/zhi-liu-xiang-zi-liao-ku-zhong-dao-ru-su-cai/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之六：收集资料，向资料库里加资料</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788707838" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

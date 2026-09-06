@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="用一个AI Agent案例来教你开发智能体
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>从头开发AI Agent应用系列之一：分析需求定方案 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788707838">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788707838">
+
+
+  
+  <meta name="keywords" content="Agent,LLM,AI">
+  
+<meta name="description" content="用一个AI Agent案例来教你开发智能体">
+<link rel="canonical" href="https://loaf.github.io/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-yi-fen-xi-xu-qiu-ding-fang-an/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"从头开发AI Agent应用系列之一：分析需求定方案","url":"https://loaf.github.io/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-yi-fen-xi-xu-qiu-ding-fang-an/","description":"用一个AI Agent案例来教你开发智能体","image":"/post-images/a8xc53_1788705872370341400.jpg","datePublished":"2026-07-13T21:41:40+08:00","dateModified":"2026-09-06T22:44:32+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-yi-fen-xi-xu-qiu-ding-fang-an/","name":"从头开发AI Agent应用系列之一：分析需求定方案","position":2}]}</script>
+<meta property="og:title" content="从头开发AI Agent应用系列之一：分析需求定方案">
+<meta property="og:description" content="用一个AI Agent案例来教你开发智能体">
+<meta property="og:url" content="https://loaf.github.io/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-yi-fen-xi-xu-qiu-ding-fang-an/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/a8xc53_1788705872370341400.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-yi-fen-xi-xu-qiu-ding-fang-an/">
+<meta name="twitter:title" content="从头开发AI Agent应用系列之一：分析需求定方案">
+<meta name="twitter:description" content="用一个AI Agent案例来教你开发智能体">
+<meta name="twitter:image" content="/post-images/a8xc53_1788705872370341400.jpg">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>从头开发AI Agent应用系列之一：分析需求定方案</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-07-13</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 10 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/ji-shu/">技术</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color6" href="/tag/agent/">Agent</a>
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <p>本系列会从头开始，手把手教你开发一个AI Agent应用。经过本系列文章的学习，我们就应该可以开发一个完整的桌面版智能体应用。</p>
+<h2 id="heading">之一：分析需求，制定好开发方案</h2>
+<p>本文先从智能体的基础概念说起，以确定好流程框架、开发技术栈结束。许多内容仅为个人理解，未必正确。</p>
+<h3 id="heading-1">一、预备知识/概念</h3>
+<h4 id="heading-2">智能体到底是什么？</h4>
+<p>抛开概念，简单来说，业务流程中有很多节点需要人工判断，人工操作。其中有部分节点是可以用AI来替代的。智能体就是做这些工作的。</p>
+<p>你需要开发一个程序，这个程序运行的仍是日常的工作流，但是后台有许多节点原来是需要你打电话、查表格来进行处理，现在这些烦琐易错的工作让大模型来给你处理了。</p>
+<p>和传统应用相比，你的程序有头脑（大模型）、有手有脚（用CLI、MCP），有耐心懂规矩（用Loop、Harness）、会反思能总结（用Skill、Memory）。</p>
+<p>从宽泛的定义来看，这个应用程序就是一个AI智能体。</p>
+<p>从严格一点的定义来看，应用程序中只有涉及到调用大模型的部分才是智能体。但这里的调用并不是简单地输入提示词，等待大模型的回复这么简单。因为在一次简单的调用中，会涉及到很多具体的逻辑，比如动态路由、循环、失败重试等。所以：<strong>智能体=大模型+控制</strong></p>
+<h4 id="heading-3">智能体框架</h4>
+<p>很明显，不同的业务场景肯定有不同的大模型控制方法。框架就是这些控制方法的总结，它将通用大模型转化为具备<strong>环境感知、任务拆解和自主决策</strong>的具体能力。</p>
+<p>下面是常用的3种框架。</p>
+<h5 id="1langgraph-">1）LangGraph 基于图的控制流</h5>
+<p><a href="https://www.langchain.com/langgraph">LangGraph框架</a>将智能体逻辑视为一个“图”（Graph）。适合需要<strong>精细控制状态机和复杂循环逻辑</strong>的Agent，能处理任务失败回溯、状态持久化等复杂场景。</p>
+<p>在完成一次大模型调用时，从输入提示词开始，LangGraph将执行过程理解成一个个节点，每个节点是一个状态，这些状态是有序的。这些有序关系将节点连成一个图状结构。<br />
+<img src="/post-images/1788702102263852700_0.png" alt="LangGraph" /></p>
+<p><img src="/post-images/1788702105284247800_0.jpeg" alt="LangGraph" /></p>
+<p>上面是一个节点单纯但控制复杂的示意图，在输入要求后，调用一个路由功能，开三个代理并行工作，其中研究员代理节点涉及到多次循环，然后将三个代理的工作成果汇总生成报告进行审核。</p>
+<p>从上面能看出，控制的流程可以非常复杂，而且每个状态都是checkpoint状态点，可以回顾审查当时的状态。控制流程如果简化的话，可以从图状变成线型。从二维变成一维，那么这个框架就是LangChain了。</p>
+<h5 id="2autogen-">2）AutoGen 基于对话式多智能体循环</h5>
+<p><a href="https://github.com/microsoft/autogen">AutoGen</a>框架由微软开源，专注于“群体智能”，通过智能体间的<strong>对话驱动任务流转</strong>。易于创建不同角色的智能体（如程序员、测试员），并支持“人在回路”。</p>
+<p><img src="/post-images/1788702106519316600_0.png" alt="" /></p>
+<p>也就是说，这个框架更适合于多个角色讨论后，再通过类似于投票机制，或者仲裁角色的方式选择下一步的流转方向。工作流未必是固定的。而是在对话中涌现出来的。</p>
+<h5 id="3crewai-">3）CrewAI 基于角色的团队协作</h5>
+<p>CrewAI框架强调“工作流”和“协作逻辑”，为智能体引入“职位”、“任务”等概念，逻辑接近真实团队管理，可设定“经理”角色进行监督。</p>
+<p><img src="/post-images/1788702108169733100_0.png" alt="CrewAI" /></p>
+<p>好比一家公司里领导安排你的事务性工作，如市场调研、内容创作、金融分析等。CrewAI适用于任务边界清晰、流程相对固定的自动化工作流。</p>
+<h3 id="heading-4">二、需求分析</h3>
+<h4 id="heading-5">让我们从需求开始</h4>
+<p>先明白自己到底要写什么。这里我们以一个智能写作平台为例。</p>
+<p>主要流程很简单：收集资料 → 生成初稿 → 人工定稿 → 多平台发布</p>
+<p>先尽可能详细地构想每一步的功能，就每个功能进行头脑风暴，然后再大幅度地消减功能，精减流程。一放一收之间优化设计。</p>
+<p>因为需要分析不是我们的重点，回到本教程，我们选择一个容易实现、功能明确的方案为模板。将上面的步骤分别画流程图</p>
+<p>① 资料收集</p>
+<p>通过多种方式，最终形成一个资料库。</p>
+<pre><code class="language-mermaid">graph LR
+  A1[确定主题] --&gt; A2[网络搜索]
+  A2 --&gt; A21[选中内容]
+  A1 --&gt; A3[AI 讨论]
+  A3 --&gt; A4[自动总结]
+  A1 --&gt; A51[选择文件]
+  A51 --&gt; A5[手动导入]
+  A21 &amp; A4 &amp; A5 --&gt; KB[(资料库)]
+</code></pre>
+<p>② 生成通稿</p>
+<p>在资料库限定的范围内，根据用户要求，生成一个通用的初稿</p>
+<pre><code class="language-mermaid">graph LR
+KBformS1[(资料库)] --&gt; B1[[AI 生成]]
+B2[用户要求&lt;br/&gt;主题/风格/大纲/要点] --&gt; B1
+B1 --&gt; B3[初稿文本 &lt;br&gt;+&lt;br&gt; 配图]
+B3 --&gt; B4{人工审稿}
+B4 -- 修改 --&gt; B1
+B4 -- 通过 --&gt; DRAFT[(通用初稿)]
+</code></pre>
+<p>③ 定稿 &amp; 发布</p>
+<p>在通稿的基础上，生成多种不同格式的发布用稿。然后适配不同的工具，一键发布。</p>
+<pre><code class="language-mermaid">graph LR
+
+        DRAFTformS2[(通用初稿)] --&gt; C1[[AI 格式适配]]
+        C2[平台要求&lt;br/&gt;公众号/小红书/抖音] --&gt; C1
+        C1 --&gt; C3{人工审稿排版}
+        C3 -- 修改 --&gt; C1
+        C3 -- 通过 --&gt; C4[(专稿定稿)]
+        C4 --&gt; C5[[一键发布]]
+</code></pre>
+<h4 id="heading-6">纠结的选择</h4>
+<p>面对上面的工作流程，我们需要的是引入AI实现自动化。</p>
+<p>所以从直观上，我们应该使用工作流，但是在某一个节点，当AI加入后，又想利用AI的主动性，比如Hermes能实现的功能，AI自己会调用多个工具，相当于自动改造了工作流，在图中增加更多的控制点。</p>
+<p>这样的话，在实现开发中，我们就会面临两个选择：</p>
+<p>方案一是，用符合常规思路的工作流，某些节点调用AI智能体。</p>
+<p>方案二是，改造工作流，将AI智能体中的一些功能（比如多代理检索、并行分析等）直接写到工作流中。</p>
+<p>选择方案一，找一个开源的Agent进行二次开发，将这个Agent当作一个AI节点嵌入工作流中。</p>
+<p>选择方案二，需要直接理解各种Agent软件的优缺点，然后参考原理、精减代码，根据自己的实际需要增加工作流节点。然后在节点实现Agent的Skills、MCP、Harness和Loop。相当于将现在常用的智能体拆开自己拼装一个。</p>
+<h4 id="heading-7">定义一个原则</h4>
+<p>上面的纠结可以简化为一个选择：</p>
+<p><strong>每一段控制流,到底应该由谁来决定?是由开发者预先写死,还是由模型在运行时生成?</strong></p>
+<p>在Anthropic 那篇 Building Effective Agents 里有一个我觉得很对的工程判断:<strong>优先用工作流,只有当任务的控制流在根本上无法预先枚举时,才用 Agent</strong>。</p>
+<p>原因很简单：工作流可调试、可预测，控制流明确，反馈直观。我们不能把AI的自主性当作目的，而应该认识到它只是一个手段，只有在“不交给它就没法做”时才值得去选。</p>
+<p>现在我们再来分析上面的两个方案。</p>
+<p>方案一，嵌入一个现成的Agent当作节点，首先，我们提到的主流Agent框架是接管整个任务，而不是当作节点来用，先天有冲突。其次，如果这么做了，这个节点就成了黑盒，如果这个黑盒节点中有8步，第5步错了，你根本不知道是怎么回事。</p>
+<p>方案二，相当于在业务中重写了现有各类Agent，与AI相关的功能只剩下了API调用。好处是，写一遍你就理解了更多的细节，可以自己写一个龙虾之类的智能体了。工程量大还是小事，主要是效果可能会变差。将原来让LLM凭语义可以决定的东西，硬编码成确定性逻辑了。</p>
+<p>比如说，上面的资料收集中的“搜索网络”，如果交给LLM，它会智能判断，如果你的主题是编程类的，它会自动搜索github、CSDN等网站，如果是金融类，它会自动搜索金融街、雪球等网站。而你一定要将这类LLM可以凭语义决定的逻辑硬编码，代码冗长的同时灵活性反而下降。而且还可能出现资源浪费，比如我们可能会为了提高效率，同时激发多个Agent并行，但是同一个流程节点在处理不同任务时，需要的资源可能有天壤之别。</p>
+<p>很明显，方案二先被淘汰，因为它根本没有“智能”。</p>
+<p>只能选择方案一了。就是主要流程由自己控制，别让AI跨节点地改造你的工作流拓扑。这个工作流才是你的业务核心。</p>
+<p>那么怎么解决方案一的缺陷呢？</p>
+<p>每个节点首先不能是直接调用Hermes、OpenClaw之类的工具，也不能是某个框架，比如CrewAI、NanoBot之类，即使某些具体节点看起来很适合某种特定框架或者工具也不能直接调用。这个能不能调用的标准在于是否可控。</p>
+<p>这样的话，我们应该做的是在特定需要AI参与的节点，写自己的Agent，这个Agent是轻量的。在这个<strong>节点的边界内实现ReAct循环</strong>，调用多个工具。（关于ReAct，可以参看前面的文章https://mp.weixin.qq.com/s/pGBvAHvf0owmhEFxqF1-7Q ）</p>
+<p>这样我们可以确定智能体开发的原则了：</p>
+<ol>
+<li><strong>先设计确定性工作流主干,明确每个节点的输入输出</strong>。</li>
+<li><strong>对每个节点,判断它&quot;需不需要 AI&quot;以及&quot;控制流能不能预先写死&quot;</strong>:
+<ul>
+<li>不需要 AI → 普通函数节点。</li>
+<li>需要 AI 但控制流可写死 → LLM 单次调用(或 prompt chaining 等工作流模式)。</li>
+<li>需要 AI 且控制流不能写死 → 受控 Agent。</li>
+</ul>
+</li>
+<li><strong>对于受控 Agent 节点,不手搓 ReAct 实现,而是用成熟库的能力(LangGraph 的 create_react_agent),自己只定义边界契约:工具集固定、循环上限、输入输出 schema、退出条件、可中断、可观测</strong>。</li>
+<li><strong>Agent 的&quot;自主&quot;永远只在节点内部发生,不污染宏观工作流拓扑</strong>。</li>
+</ol>
+<h4 id="heading-8">有原则有需求，自然就能出方案</h4>
+<h5 id="heading-9">根据需求定框架</h5>
+<p>根据需求，我们的的项目主干是三个流程的简单顺序串联。而每个流程里又各有一个子图，子图内再按节点进行拆分。</p>
+<p>用LangGraph StateGraph作为主干是再恰当不过了。</p>
+<p>为什么不选CrewAI呢？首先，与我们的节点内使用轻量ReAct循环违背。其次，CrewAI的设计哲学是“一次性完成”。它给每个Agent分配Task，任务完成后输出结果，流程就结束了。而上面的流程明显看到，步骤之间的多次循环，比如人工定稿时会有返回原节点的循环。</p>
+<h5 id="heading-10">根据原则定方案</h5>
+<p>首先，我们看一下哪些节点可能需要用到AI：</p>
+<p>流程① 资料收集</p>
+<table>
+<thead>
+<tr>
+<th align="center">节点</th>
+<th align="center">是否需要AI</th>
+<th align="center">流程是否写死</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">确定主题</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="left">表单输入，输出topic字符串</td>
+</tr>
+<tr>
+<td align="center">网络搜索</td>
+<td align="center"><font style="color:#ff0000;">是，受控Agent</font></td>
+<td align="center">否，根据搜索结果决定</td>
+<td align="left">表单输入，输出topic字符串</td>
+</tr>
+<tr>
+<td align="center">AI讨论</td>
+<td align="center"><font style="color:#ff0000;">是，对话式Agent </font></td>
+<td align="center">否，对话轮数动态</td>
+<td align="left">边界契约，topic进，讨论记录出</td>
+</tr>
+<tr>
+<td align="center">AI自动总结</td>
+<td align="center"><font style="color:#ff0000;">是</font></td>
+<td align="center">是</td>
+<td align="left">固定prompt单次总结讨论记录</td>
+</tr>
+<tr>
+<td align="center">手工导入文件</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="left">文件目录</td>
+</tr>
+</tbody>
+</table>
+<p>流程② 生成通稿</p>
+<table>
+<thead>
+<tr>
+<th align="center">节点</th>
+<th align="center">是否需要AI</th>
+<th align="center">流程是否写死</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">选择资料</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="left">选择资料</td>
+</tr>
+<tr>
+<td align="center">用户要求</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="left">输入文本要求</td>
+</tr>
+<tr>
+<td align="center">AI生成</td>
+<td align="center"><font style="color:#ff0000;">是</font></td>
+<td align="center">是</td>
+<td align="left">LangGraph中prompt chaining,控制可写死，输出初稿</td>
+</tr>
+<tr>
+<td align="center">人工审稿</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="left">人工处理，需要时让才让AI再次生成</td>
+</tr>
+</tbody>
+</table>
+<p>流程③ 定稿 &amp; 发布</p>
+<table>
+<thead>
+<tr>
+<th align="center">节点</th>
+<th align="center">是否需要AI</th>
+<th align="center">流程是否写死</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">输入平台要求</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="left">输入提示词</td>
+</tr>
+<tr>
+<td align="center">AI格式适配</td>
+<td align="center"><font style="color:#ff0000;">是</font></td>
+<td align="center">是</td>
+<td align="left">prompt chaining,单次调用</td>
+</tr>
+<tr>
+<td align="center">人工审稿</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="left">人工处理，根据需要让AI重写或直接在此基础上修改</td>
+</tr>
+<tr>
+<td align="center">一键发布</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="left">平台API调用</td>
+</tr>
+</tbody>
+</table>
+<p>列出后很容易发现，此项目中要用的AI的地方并不多。完全不需要直接使用引入完整的第三方Agent，只要使用ReAct即可。</p>
+<p>其次，决定技术栈：</p>
+<ul>
+<li>前端，选择Node.js+Vite</li>
+<li>后端，选择FastAPI（Python 3.12）</li>
+<li>Shell，选择Tauri</li>
+<li>LLM抽象层，选择LiteLLM</li>
+<li>富文本编辑器，选择Tiptap</li>
+<li>数据库，选择SQLite（保存元数据及工作流状态）</li>
+<li>网络搜索，选择TavilyAPI</li>
+<li>文生图，调用通义万相</li>
+</ul>
+<p>下一篇文章，我们将开始正式编码开发。</p>
+<p><img src="/post-images/a8xc53_1788705872349040800.jpg" alt="" /></p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-06</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/cors-yun-xu-na-xie-wang-zhi-lai-diao-zhe-ge-hou-duan/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之二：搭好应用骨架，调用大模型对话</span></a>
+            
+            
+            <a class="next" href="/post/da-mo-xing-ye-you-xiao-qing-xu-anthropic-zong-neng-gei-ni-zheng-dian-xin-hua-yang/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">大模型也有小情绪，Anthropic总能给你整点新花样</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788707838" defer></script>
+
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+// theme 必须显式指定浅色：mermaid v10+ 的 default 主题跟随系统 prefers-color-scheme，
+// 深色模式下会在浅色页面里渲染出黑底图
+mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
+const blocks = document.querySelectorAll('pre > code.language-mermaid');
+let n = 0;
+for (const el of blocks) {
+  const src = el.textContent;
+  // 连外层 <pre> 整块替换：不少主题（如 plume）给 pre 配了深色代码块背景，
+  // 透明底 SVG 留在 pre 里就会衬成黑底图。图不是代码块，不该继承代码块样式。
+  // 容器显式白底：无论站点深浅色模式，图表统一白底浅色样式。
+  const host = el.closest('pre') || el;
+  const div = document.createElement('div');
+  div.className = 'mermaid-svg';
+  div.style.cssText = 'background:#fff;margin:.75rem 0;overflow-x:auto';
+  host.parentElement.replaceChild(div, host);
+  try {
+    const { svg } = await mermaid.render('mmd-svg-' + (++n), src);
+    div.innerHTML = svg;
+  } catch (e) {
+    div.className = 'mermaid-fallback';
+    div.style.cssText += ';font-family:monospace;white-space:pre;padding:1rem';
+    div.textContent = src;
+  }
+}
+</script>
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

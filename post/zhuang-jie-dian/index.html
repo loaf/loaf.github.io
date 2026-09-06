@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="用一个AI Agent案例来教你开发智能体
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>从头开发AI Agent应用系列之三：用LangGraph建工作流 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788707838">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788707838">
+
+
+  
+  <meta name="keywords" content="LLM,Agent">
+  
+<meta name="description" content="用一个AI Agent案例来教你开发智能体">
+<link rel="canonical" href="https://loaf.github.io/post/zhuang-jie-dian/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"从头开发AI Agent应用系列之三：用LangGraph建工作流","url":"https://loaf.github.io/post/zhuang-jie-dian/","description":"用一个AI Agent案例来教你开发智能体","image":"/post-images/8BGttr_1788706274446575500.jpg","datePublished":"2026-07-15T21:41:11+08:00","dateModified":"2026-09-06T22:51:14+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/zhuang-jie-dian/","name":"从头开发AI Agent应用系列之三：用LangGraph建工作流","position":2}]}</script>
+<meta property="og:title" content="从头开发AI Agent应用系列之三：用LangGraph建工作流">
+<meta property="og:description" content="用一个AI Agent案例来教你开发智能体">
+<meta property="og:url" content="https://loaf.github.io/post/zhuang-jie-dian/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/8BGttr_1788706274446575500.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/zhuang-jie-dian/">
+<meta name="twitter:title" content="从头开发AI Agent应用系列之三：用LangGraph建工作流">
+<meta name="twitter:description" content="用一个AI Agent案例来教你开发智能体">
+<meta name="twitter:image" content="/post-images/8BGttr_1788706274446575500.jpg">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>从头开发AI Agent应用系列之三：用LangGraph建工作流</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-07-15</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 26 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/ji-shu/">技术</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color6" href="/tag/agent/">Agent</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <h2 id="langgraph">之三：用LangGraph建工作流</h2>
+<p>本章的目标是：用 LangGraph 搭出 collect → generate → finalize → publish 四阶段状态机，节点先返回桩数据（stub），验证 checkpoint 能持久化到 SQLite 且可恢复。</p>
+<h3 id="heading">代码结构</h3>
+<p>主要增加的内容在APP目录下</p>
+<pre><code>backend/
+└── pyproject.toml # 加了 3 个依赖 + pytest 配置：
+
+backend/app/
+├── db.py			# ★ SQLite 数据层: 连接 + 业务表 + CRUD
+├── config.py		# 加了 mewgo_data_dir 配置
+├── main.py			# 挂 workflow 路由 + 启动时初始化 DB
+├── workflow/                # ★ 工作流核心
+│   ├── state.py 		# WorkflowState (TypedDict) + Stage 枚举
+│   ├── graph.py		# 四节点 + build_graph + run/resume/get_state
+│   └── checkpoint.py        #   SqliteSaver 单例
+├── api/
+│   └── workflow.py          # ★ POST /start, GET /state, POST /resume
+└── ...
+
+backend/tests/
+├── conftest.py              # ★ pytest fixture (临时 DB 隔离)
+└── test_workflow_graph.py   # ★ 三个验收用例
+</code></pre>
+<p>带 ★ 的是这次新增的文件。</p>
+<h3 id="pyprojecttoml"><code>pyproject.toml</code>增加依赖类</h3>
+<p>在backend/pyproject.toml —— 加了 3 个依赖 + pytest 配置</p>
+<pre><code>&quot;langgraph&gt;=0.2.60&quot;,                    # 状态机引擎
+&quot;langgraph-checkpoint-sqlite&gt;=2.0.6&quot;,   # SqliteSaver（独立包！）
+&quot;pytest&gt;=8.0&quot;,                          # 测试框架
+
+[tool.pytest.ini_options]               # 新增整段：让 pytest 知道去 tests/ 找用例
+testpaths = [&quot;tests&quot;]
+pythonpath = [&quot;.&quot;]
+</code></pre>
+<p>修改后需要 <code>uv sync</code> 同步一下。</p>
+<h3 id="appconfigpy"><code>app/config.py</code>中增加一个目录配置</h3>
+<pre><code>mewgo_data_dir: str = &quot;./data&quot;
+</code></pre>
+<h3 id="appdbpy-"><code>app/db.py</code> 数据层</h3>
+<p>暂时新建了两个表</p>
+<table>
+<thead>
+<tr>
+<th align="left">表名</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">workflow_runs</td>
+<td align="left">一次工作流运行的元数据：run_id、project_id、当前阶段、状态(running/paused/completed)、上下文</td>
+</tr>
+<tr>
+<td align="left">node_executions</td>
+<td align="left">每个节点执行的留痕：输入、输出、LLM 调用、错误、时间。用于回放和调试</td>
+</tr>
+</tbody>
+</table>
+<pre><code>CREATE TABLE IF NOT EXISTS workflow_runs (
+    id            TEXT PRIMARY KEY,
+    project_id    TEXT NOT NULL,
+    current_stage TEXT,
+    current_node  TEXT,
+    status        TEXT NOT NULL,
+    context       TEXT,
+    checkpoint    BLOB,
+    created_at    TEXT NOT NULL,
+    updated_at    TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS node_executions (
+    id               TEXT PRIMARY KEY,
+    workflow_run_id  TEXT NOT NULL,
+    node_name        TEXT NOT NULL,
+    input            TEXT,
+    output           TEXT,
+    llm_calls        TEXT,
+    agent_steps      TEXT,
+    error            TEXT,
+    started_at       TEXT NOT NULL,
+    finished_at      TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_node_exec_run
+    ON node_executions(workflow_run_id);
+&quot;&quot;&quot;
+</code></pre>
+<h3 id="appworkflowstatepy"><code>app/workflow/state.py</code>，工作流状态定义</h3>
+<pre><code>from __future__ import annotations
+
+from enum import Enum
+from typing import TypedDict
+
+
+class Stage(str, Enum):
+    &quot;&quot;&quot;工作流四阶段。用 str 枚举方便 JSON 序列化。&quot;&quot;&quot;
+
+    COLLECT = &quot;collect&quot;      # 资料收集
+    GENERATE = &quot;generate&quot;    # 初稿生成
+    FINALIZE = &quot;finalize&quot;    # 定稿(人工介入)
+    PUBLISH = &quot;publish&quot;      # 多平台发布
+
+
+class WorkflowState(TypedDict, total=False):
+    &quot;&quot;&quot;LangGraph 全局状态。
+
+    total=False: 所有字段可选, 初始 state 可以只带 project_id, 后续节点逐步填充。
+    每个节点 return 一个 dict, LangGraph 按 key 覆盖合并。
+
+    字段对应各阶段的产物:
+        materials     — collect 产出 (资料卡片列表)
+        outline       — generate 的输入大纲
+        draft         — generate 产出 (初稿)
+        final         — finalize 产出 (定稿, 人工确认后写入)
+        platform_posts— publish 产出 (各平台稿)
+    &quot;&quot;&quot;
+
+    project_id: str
+    current_stage: str           # 当前阶段, 便于观察
+    # collect
+    materials: list[dict]
+    # generate
+    outline: dict
+    draft: str
+    # finalize
+    final: str
+    # publish
+    platform_posts: list[dict]
+    # 横切
+    errors: list[str]
+
+
+def initial_state(project_id: str) -&gt; WorkflowState:
+    &quot;&quot;&quot;构造工作流初始状态。&quot;&quot;&quot;
+    return WorkflowState(
+        project_id=project_id,
+        current_stage=Stage.COLLECT.value,
+        materials=[],
+        outline={},
+        draft=&quot;&quot;,
+        final=&quot;&quot;,
+        platform_posts=[],
+        errors=[],
+    )
+
+</code></pre>
+<h3 id="appworkflowgraphpy-"><code>app/workflow/graph.py</code> 四个桩节点</h3>
+<pre><code># ---- 桩节点 ----
+# 每个节点: 入参是当前 state, 返回一个 partial dict, LangGraph 合并进全局 state。
+
+def collect_node(state: WorkflowState) -&gt; dict:
+    &quot;&quot;&quot;阶段1: 资料收集。桩: 返回固定资料卡片。&quot;&quot;&quot;
+    stub_materials = [
+        {&quot;id&quot;: &quot;mat-1&quot;, &quot;title&quot;: &quot;示例资料&quot;, &quot;source_type&quot;: &quot;import&quot;,
+         &quot;summary&quot;: &quot;桩数据: collect 节点占位资料。&quot;},
+    ]
+    return {
+        &quot;current_stage&quot;: Stage.COLLECT.value,
+        &quot;materials&quot;: stub_materials,
+    }
+
+
+def generate_node(state: WorkflowState) -&gt; dict:
+    &quot;&quot;&quot;阶段2: 初稿生成。桩: 返回固定初稿文本。&quot;&quot;&quot;
+    stub_draft = (
+        &quot;# 示例初稿(桩)\n\n&quot;
+        f&quot;基于 {len(state.get('materials', []))} 条资料生成的占位初稿。&quot;
+        &quot; 以后会接入真实大纲驱动生成。&quot;
+    )
+    return {
+        &quot;current_stage&quot;: Stage.GENERATE.value,
+        &quot;draft&quot;: stub_draft,
+    }
+
+
+def finalize_node(state: WorkflowState) -&gt; dict:
+    &quot;&quot;&quot;阶段3: 定稿(人工介入点)。
+
+    这里调 interrupt() 暂停整个工作流 —— state 被 checkpoint 落盘,
+    控制权交回前端, 等用户在编辑器里确认定稿后 resume。
+    resume 时 interrupt() 返回 resume_value, 节点继续往下走。
+    &quot;&quot;&quot;
+    resume_value = interrupt({&quot;prompt&quot;: &quot;请在编辑器确认定稿&quot;})
+    # resume_value 是人工注入的结果; 真实场景是定稿内容, 这里桩处理:
+    final_text = state.get(&quot;draft&quot;, &quot;&quot;)
+    if isinstance(resume_value, dict) and &quot;final&quot; in resume_value:
+        final_text = resume_value[&quot;final&quot;]
+    elif isinstance(resume_value, str) and resume_value:
+        final_text = resume_value
+    return {
+        &quot;current_stage&quot;: Stage.FINALIZE.value,
+        &quot;final&quot;: final_text or &quot;(空定稿)&quot;,
+    }
+
+
+def publish_node(state: WorkflowState) -&gt; dict:
+    &quot;&quot;&quot;阶段4: 多平台发布。桩: 返回固定平台稿列表。&quot;&quot;&quot;
+    stub_posts = [
+        {&quot;platform&quot;: &quot;wechat&quot;, &quot;status&quot;: &quot;stub&quot;},
+        {&quot;platform&quot;: &quot;wordpress&quot;, &quot;status&quot;: &quot;stub&quot;},
+    ]
+    return {
+        &quot;current_stage&quot;: Stage.PUBLISH.value,
+        &quot;platform_posts&quot;: stub_posts,
+    }
+</code></pre>
+<p>上面的 <code>finalize_node</code> 会调用中断函数 <code>interrupt()</code> 等待人工介入。</p>
+<p>节点配置后，用<code>build_graph</code> 组装状态机：</p>
+<pre><code># ---- 图构建 ----
+
+def build_graph(checkpointer: BaseCheckpointSaver):
+    &quot;&quot;&quot;构建并编译四阶段状态图。
+
+    拓扑: START → collect → generate → finalize → publish → END (线性)。
+    checkpointer 决定 checkpoint 存哪里(SqliteSaver 存 SQLite)。
+    &quot;&quot;&quot;
+    g = StateGraph(WorkflowState)
+    g.add_node(&quot;collect&quot;, collect_node)
+    g.add_node(&quot;generate&quot;, generate_node)
+    g.add_node(&quot;finalize&quot;, finalize_node)
+    g.add_node(&quot;publish&quot;, publish_node)
+    g.add_edge(START, &quot;collect&quot;)
+    g.add_edge(&quot;collect&quot;, &quot;generate&quot;)
+    g.add_edge(&quot;generate&quot;, &quot;finalize&quot;)
+    g.add_edge(&quot;finalize&quot;, &quot;publish&quot;)
+    g.add_edge(&quot;publish&quot;, END)
+    return g.compile(checkpointer=checkpointer)
+
+
+def _config(run_id: str) -&gt; dict:
+    &quot;&quot;&quot;LangGraph 的 thread 配置。thread_id = run_id, 同一 run 的所有
+    invoke / get_state 用同一 thread_id 才能定位到 checkpoint。&quot;&quot;&quot;
+    return {&quot;configurable&quot;: {&quot;thread_id&quot;: run_id}}
+</code></pre>
+<p>下面则是状态机在运行过程中的关键函数 <code>run_workflow()</code> 和 <code>resume_workflow()</code>。</p>
+<pre><code>def run_workflow(project_id: str, run_id: str, checkpointer: BaseCheckpointSaver) -&gt; dict:
+    &quot;&quot;&quot;启动/推进工作流。
+
+    从初始状态 invoke。跑到 finalize 节点会因 interrupt 暂停 ——
+    此时函数返回暂停点的 state snapshot values, 调用方据 status=paused_human
+    判断需等待人工 resume。
+    &quot;&quot;&quot;
+    graph = build_graph(checkpointer)
+    cfg = _config(run_id)
+    init = initial_state(project_id)
+
+    db.update_workflow_run(run_id, status=&quot;running&quot;, current_stage=Stage.COLLECT.value)
+
+    # invoke 到 interrupt 处会返回当前累计的 state values (不抛异常)
+    # 注意: result 里可能带 __interrupt__ (LangGraph 内部对象, 不可 JSON 序列化),
+    # 所以存库/返回都用 snap.values (干净的用户状态)。
+    result = graph.invoke(init, cfg)
+    snap = graph.get_state(cfg)
+    clean_values = dict(snap.values)
+
+    # 留痕: 每个已执行节点记一条
+    for node_name, node_input, node_output in _collect_node_io(graph, cfg):
+        _record_execution(run_id, node_name, node_input, node_output)
+
+    # 根据 snapshot 判断是暂停还是完成
+    if snap.next:  # 还有未执行的节点 → 在 interrupt 处暂停
+        db.update_workflow_run(
+            run_id,
+            status=&quot;paused_human&quot;,
+            current_stage=Stage.FINALIZE.value,
+            current_node=snap.next[0] if snap.next else None,
+            context=clean_values,
+        )
+    else:
+        db.update_workflow_run(
+            run_id,
+            status=&quot;completed&quot;,
+            current_stage=Stage.PUBLISH.value,
+            current_node=None,
+            context=clean_values,
+        )
+    return clean_values
+
+
+def resume_workflow(run_id: str, resume_value: Any,
+                    checkpointer: BaseCheckpointSaver) -&gt; dict:
+    &quot;&quot;&quot;从中断处恢复工作流。
+
+    把 resume_value(人工结果)通过 Command 注入, 工作流从 finalize 节点继续。
+    &quot;&quot;&quot;
+    graph = build_graph(checkpointer)
+    cfg = _config(run_id)
+
+    db.update_workflow_run(run_id, status=&quot;running&quot;)
+
+    result = graph.invoke(Command(resume=resume_value), cfg)
+    snap = graph.get_state(cfg)
+    clean_values = dict(snap.values)
+
+    if snap.next:
+        db.update_workflow_run(
+            run_id, status=&quot;paused_human&quot;,
+            current_node=snap.next[0] if snap.next else None,
+            context=clean_values,
+        )
+    else:
+        db.update_workflow_run(
+            run_id, status=&quot;completed&quot;,
+            current_stage=Stage.PUBLISH.value,
+            current_node=None,
+            context=clean_values,
+        )
+    return clean_values
+</code></pre>
+<p>上面 <code>snap=graph.get_state(cfg)</code>，因为<code>get_state()</code>返回的 <code>StateSnapshot</code> 有个 <code>next</code> 字段，是&quot;接下来要执行的节点名元组&quot;。 如果 next 非空，说明工作流停在某个节点前（比如 interrupt 了）；如果 next 为空，说明跑完了。 这是我们判断&quot;暂停还是完成&quot;的依据。</p>
+<p>而<code>resume_workflow</code>和<code>run_workflow</code>基本上流程差不多，只是在调用时，传的不是初始状态，而是恢复的状态<code>Command(resume=resume_value)</code>。</p>
+<h3 id="appworkflowcheckpointpy-sqlite"><code>app/workflow/checkpoint.py</code> sqlite单例</h3>
+<p>LangGraph 的 SqliteSaver 把工作流状态(checkpoint)序列化进 SQLite。<br />
+它和 db.py 的业务表(workflow_runs / node_executions)共用同一个 .sqlite 文件和同一个连接 —— 这样一份数据库既有 LangGraph 的检查点, 又有我们的元数据。</p>
+<p>全进程一个 SqliteSaver + 一个 sqlite 连接,能避免多连接写锁竞争。</p>
+<pre><code>from langgraph.checkpoint.sqlite import SqliteSaver
+from functools import lru_cache
+
+@lru_cache
+def get_checkpointer() -&gt; SqliteSaver:
+    conn = db.get_conn()              # 共用 db.py 的连接
+    db.init_db(conn)                  # 建业务表
+    saver = SqliteSaver(conn)
+    saver.setup() # 建检查点表 (langgraph 自己的表)
+    return saver
+</code></pre>
+<h3 id="apiworkflowpy-api"><code>api/workflow.py</code> API路由</h3>
+<pre><code>router = APIRouter(prefix=&quot;/api/v1&quot;, tags=[&quot;workflow&quot;])
+
+@router.post(&quot;/projects/{project_id}/workflow/start&quot;)
+def start_workflow(project_id: str):
+    checkpointer = checkpoint.get_checkpointer()
+    run_id = db.create_workflow_run(project_id)
+    state = graph.run_workflow(project_id, run_id, checkpointer)
+    snap = graph.get_state_snapshot(run_id, checkpointer)
+    return _build_response(run_id, state, list(snap.next))
+
+@router.get(&quot;/projects/{project_id}/workflow/state&quot;)
+def get_workflow_state(project_id: str, run_id: str): ...
+
+@router.post(&quot;/projects/{project_id}/workflow/resume&quot;)
+def resume_workflow(project_id: str, req: WorkflowResumeRequest): ...
+</code></pre>
+<p>这里使用def 而不是 async_def，这是因为LangGraph中如果用 <code>async def</code> 调同步阻塞函数，会卡住事件循环。用 <code>def</code>，FastAPI 自动把它丢到线程池跑，不阻塞其他请求。 这是 FastAPI 的约定：路由里调同步阻塞代码就用 <code>def</code>，调 async 库才用 <code>async def</code>。</p>
+<h3 id="appmainpy"><code>app/main.py</code>中修改配置</h3>
+<p>加了 lifespan 启动钩子 + app.include_router(workflow.router)。这是把新模块&quot;接进主干&quot;的接线点。</p>
+<pre><code>@asynccontextmanager
+async def lifespan(app: FastAPI):
+    &quot;&quot;&quot;应用生命周期: 启动时初始化 SQLite + 预热 checkpointer。
+
+    get_checkpointer() 首次调用会建表(workflow_runs / node_executions +
+    LangGraph 检查点表), 这里显式调一次确保启动时就绪。
+    &quot;&quot;&quot;
+    checkpoint.get_checkpointer()
+    yield
+</code></pre>
+<p>最后增加一行</p>
+<pre><code>app.include_router(workflow.router)
+</code></pre>
+<p><code>lifespan</code> 是 FastAPI 的生命周期钩子。 yield 前的代码在启动时跑一次，yield 后的在关闭时跑。这里用它预热 checkpointer（建表）。</p>
+<p>以上让LangGraph跑起来了。因为并没有界面，下面写测试用例。</p>
+<h3 id="testconftestpy--testtest-workflow-graphpy">test/conftest.py 和 test/test_workflow_graph.py</h3>
+<p>在conftest.py中写配置，让每个测试用独立的临时 SQLite 文件, 互不污染。<br />
+做法: <code>monkeypatch</code> <code>Settings.mewgo_data_dir</code> 指向 tmp_path, 再清掉 checkpointer单例缓存, 这样 get_checkpointer() 会基于新路径重建。</p>
+<pre><code>@pytest.fixture
+def tmp_data_dir(tmp_path, monkeypatch):
+    settings = get_settings()
+    monkeypatch.setattr(settings, &quot;mewgo_data_dir&quot;, str(tmp_path))
+    checkpoint.reset_checkpointer_for_tests()   # 清单例缓存
+    yield tmp_path
+    checkpoint.reset_checkpointer_for_tests()
+</code></pre>
+<p>在test_workflow_graph.py中写三个测试用例。</p>
+<h4 id="-1test-run-completes-all-stages--">用例 1：test_run_completes_all_stages —— 跑通四阶段</h4>
+<pre><code>run_id = db.create_workflow_run(&quot;proj-1&quot;)
+state = graph.run_workflow(&quot;proj-1&quot;, run_id, saver)     # 跑到 finalize 暂停
+snap = graph.get_state_snapshot(run_id, saver)
+assert snap.next and &quot;finalize&quot; in snap.next            # 停在 finalize
+assert state[&quot;materials&quot;]                                # collect 产出了
+assert state[&quot;draft&quot;]                                    # generate 产出了
+
+final_state = graph.resume_workflow(run_id, &quot;人工定稿&quot;, saver)  # 恢复
+assert final_state[&quot;current_stage&quot;] == &quot;publish&quot;        # 跑到 publish
+assert final_state[&quot;final&quot;] == &quot;人工定稿&quot;               # resume_value 注入成功
+assert db.get_workflow_run(run_id)[&quot;status&quot;] == &quot;completed&quot;
+</code></pre>
+<h4 id="-2test-checkpoint-persists--kill-">用例 2：test_checkpoint_persists —— kill 后恢复</h4>
+<pre><code># 第一次&quot;进程&quot;
+saver1 = _new_saver(db_path)
+run_id = db.create_workflow_run(&quot;proj-2&quot;)
+graph.run_workflow(&quot;proj-2&quot;, run_id, saver1)    # 跑到暂停
+
+# 模拟进程死亡: 删掉所有内存对象
+del saver1
+gc.collect()
+
+# 第二次&quot;进程&quot;: 全新 saver, 同一个 sqlite 文件
+saver2 = _new_saver(db_path)
+snap2 = graph.get_state_snapshot(run_id, saver2)
+assert snap2.next and &quot;finalize&quot; in snap2.next      # ★ 能读回暂停状态!
+assert snap2.values.get(&quot;draft&quot;)                     # ★ generate 的产物还在!
+
+# 能从断点 resume
+final_state = graph.resume_workflow(run_id, &quot;断点恢复定稿&quot;, saver2)
+assert final_state[&quot;current_stage&quot;] == &quot;publish&quot;     # 跑完了
+</code></pre>
+<p>这个测试验证了什么？ 真实场景：用户跑到一半，sidecar 崩了 / 应用关了。 Rust 主进程重启 sidecar，新进程重新连 sqlite，读回 checkpoint，接着跑。 测试里 del saver1 + 新建 saver2 模拟的就是&quot;进程死亡再重生&quot;。能读回暂停状态 + 能 resume = 可恢复性验证通过。</p>
+<h4 id="-3test-interrupt-and-resume--interrupt-">用例 3：test_interrupt_and_resume —— interrupt 语义</h4>
+<pre><code>g = graph.build_graph(saver)
+cfg = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;run-test&quot;}}
+
+g.invoke(graph.initial_state(&quot;proj-3&quot;), cfg)     # 跑到 finalize 暂停
+snap = g.get_state(cfg)
+assert snap.next == (&quot;finalize&quot;,)                # 精确停在 finalize
+assert snap.values.get(&quot;draft&quot;)                  # generate 已执行
+assert not snap.values.get(&quot;final&quot;)              # finalize 未完成, final 为空
+
+g.invoke(Command(resume=&quot;人工确认定稿&quot;), cfg)     # resume
+snap2 = g.get_state(cfg)
+assert not snap2.next                            # 跑完了, next 为空
+assert snap2.values[&quot;final&quot;] == &quot;人工确认定稿&quot;   # resume_value 注入成功
+assert snap2.values[&quot;current_stage&quot;] == &quot;publish&quot;
+</code></pre>
+<h3 id="heading-1">手动验证</h3>
+<p>因为上面只有逻辑代码，没有办法可视化地验证。但我们可以从中间数据来跟踪工作流的实现情况。</p>
+<p>先在终端开启服务：</p>
+<pre><code>cd backend
+uv sync
+uv run uvicorn app.main:app --port 8000
+</code></pre>
+<p>然后在另一个终端（因为是在Windows平台，可用PowerShell）</p>
+<pre><code>Invoke-RestMethod -Uri &quot;http://localhost:8000/api/v1/projects/test-1/workflow/start&quot; -Method POST
+</code></pre>
+<p><img src="/post-images/1788702072443143300_0.png" alt="11" /></p>
+<p>能看到run_id是<code>ddd2cde7-f6a8-48f8-bd16-5cc6c1ffa939</code></p>
+<pre><code>Invoke-RestMethod -Uri &quot;http://localhost:8000/api/v1/projects/test-1/workflow/state?run_id=ddd2cde7-f6a8-48f8-bd16-5cc6c1ffa939&quot;
+</code></pre>
+<p><img src="/post-images/1788702073177517300_0.png" alt="12" /></p>
+<p>最后一个是</p>
+<pre><code>Invoke-RestMethod -Uri &quot;http://localhost:8000/api/v1/projects/test-1/workflow/resume&quot; -Method POST -ContentType &quot;application/json&quot; -Body '{&quot;run_id&quot;:&quot;ddd2cde7-f6a8-48f8-bd16-5cc6c1ffa939&quot;,&quot;resume_value&quot;:&quot;定稿内容&quot;}'
+</code></pre>
+<p><img src="/post-images/1788702073631979300_0.png" alt="13" /></p>
+<p>这里涉及到另一个细节，正常的命令应该是</p>
+<pre><code>curl -X POST http://localhost:8000/api/v1/projects/test-1/workflow/start
+
+curl &quot;http://localhost:8000/api/v1/projects/test-1/workflow/state?run_id=&lt;上面返回的run_id&gt;&quot;
+
+
+curl -X POST http://localhost:8000/api/v1/projects/test-1/workflow/resume \
+  -H &quot;Content-Type: application/json&quot; \
+  --data-binary '{&quot;run_id&quot;:&quot;ddd2cde7-f6a8-48f8-bd16-5cc6c1ffa939&quot;,&quot;resume_value&quot;:&quot;定稿内容&quot;}'
+</code></pre>
+<p>但PowerShell并不支持原生的<code>curl</code>，所以用<code>Invoke-RestMethod</code>代替。</p>
+<p>而且，这时会出现文件：<code>backend/data/mewgo.sqlite</code></p>
+<p>可以用Navicat查看这个sqlite库的情况：</p>
+<p><img src="/post-images/1788702074196758900_0.png" alt="14" /></p>
+<p>致此，工作流的骨架已经建立。LangGraph的状态机能够跑通。可启动，可暂定，也可恢复。状态能保存在SQLite中。</p>
+<p>下一章，我们将继续工作流的操作，并让工作流状态可视化。因为源代码量比较大，以后将只贴关键代码或伪代码。保证对代码的理解即可。</p>
+<p><img src="/post-images/8BGttr_1788706096485047500.jpg" alt="" /></p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-06</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-si-ke-shi-hua-gong-zuo-liu/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之四：可视化工作流</span></a>
+            
+            
+            <a class="next" href="/post/cors-yun-xu-na-xie-wang-zhi-lai-diao-zhe-ge-hou-duan/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之二：搭好应用骨架，调用大模型对话</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788707838" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

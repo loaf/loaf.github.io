@@ -2,9 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://loaf.github.io/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/anthropic-gei-shu-chu-de-wen-zhang-jia-shui-yin-shi-wei-le-fan-zheng-liu/</loc>
+    <lastmod>2026-09-06T22:08:52+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/3bdJdx_1788703732794853600.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://loaf.github.io/post/yong-1wan-yi-ge-tokenxun-lian-chu-yi-ge-guo-jia-zhu-quan-da-mo-xing/</loc>
@@ -34,12 +43,129 @@
     </image:image>
   </url>
   <url>
+    <loc>https://loaf.github.io/post/xue-xi-deepseek-harness-yong-tailscale-yuan-cheng-bu-shu-dsh-bing-pei-zhi-cha-jian/</loc>
+    <lastmod>2026-09-06T21:59:01+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/DASwKf_1788703141049541400.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/chajianxitong/</loc>
+    <lastmod>2026-09-06T22:03:04+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/9L5Pi8_1788703384693235800.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://loaf.github.io/post/can-shu-gui-mo-bu-zengglm-53ping-shi-me-neng-cheng-wei-guo-chan-mo-xing-de-lao-da/</loc>
-    <lastmod>2026-08-15T23:01:03+08:00</lastmod>
+    <lastmod>2026-09-06T22:03:49+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://loaf.github.io/post-images/1788015815810003800_0.svg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/yong-zheng-ju-shuo-hua-dao-di-na-jia-kai-yuan-mo-xing-zai-zheng-liu/</loc>
+    <lastmod>2026-09-06T21:56:50+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/QTW4cY_1788703010918347700.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/dou-bao-ye-ke-dang-gan-liang-seed-evolving-de-zhou-geng-di-qi-yu-liu-xiang-shi-ce/</loc>
+    <lastmod>2026-09-06T22:18:01+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/cVWp3l_1788704281781673800.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/kimi-k3-kai-yuan-le/</loc>
+    <lastmod>2026-09-06T22:11:29+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/7862HL_1788703889154908200.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/dian-dian-dian-dian-dian-dian-dang-ai-zai-sheng-lve-hao-li-tou-tou-suan-shu-xue/</loc>
+    <lastmod>2026-09-06T22:42:03+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/mgCwiZ_1788705723387690700.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/zhi-qi-zong-jie-yu-ai-tao-lun-de-nei-rong/</loc>
+    <lastmod>2026-09-06T23:03:02+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/WJTXbW_1788706982218897400.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/zhi-liu-xiang-zi-liao-ku-zhong-dao-ru-su-cai/</loc>
+    <lastmod>2026-09-06T23:00:33+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/s2vuSa_1788706833838009500.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/zhi-wu-jian-li-zi-liao-ku/</loc>
+    <lastmod>2026-09-06T22:57:12+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/GtI9ok_1788706632926263700.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-si-ke-shi-hua-gong-zuo-liu/</loc>
+    <lastmod>2026-09-06T22:54:41+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/9QowTT_1788706481172250700.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/zhuang-jie-dian/</loc>
+    <lastmod>2026-09-06T22:51:14+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/8BGttr_1788706274446575500.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/cors-yun-xu-na-xie-wang-zhi-lai-diao-zhe-ge-hou-duan/</loc>
+    <lastmod>2026-09-06T22:47:06+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/KoQIAY_1788706026787093900.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-yi-fen-xi-xu-qiu-ding-fang-an/</loc>
+    <lastmod>2026-09-06T22:44:32+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://loaf.github.io/post-images/a8xc53_1788705872370341400.jpg</image:loc>
     </image:image>
   </url>
   <url>
@@ -707,517 +833,523 @@
   </url>
   <url>
     <loc>https://loaf.github.io/post/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/memos/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tags/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/archives/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ren-gong-zhi-neng/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/zong-jiao/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/yin-du-jiao/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/llm/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/deepseek/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ai/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/zhe-xue/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ren-wen/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ke-pu/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/dai-li/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/zheng-zhi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/jing-ji-xue/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/tong-ji-xue/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/glm/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/agent/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/moe/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/mergekit/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/it-yun-wei/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/suan-fa/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/gai-lv/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/rag/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/du-shu-bi-ji/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/xi-nao-shu/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/xin-li-xue/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ke-ji-ren-wen/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/chuan-tong-wen-hua/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/mi-xin/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/she-hui/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ke-ji-you-yi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/hei-an-qi-meng/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/jia-su-zhu-yi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/jue-ce/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/zhi-neng/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ju-shen-zhi-neng/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/chuang-shi-chuan-shuo/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ling-hun/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ren-sheng-yi-yi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/bo-ke/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/agi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/kronos/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/liang-hua-jiao-yi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/da-mo-xing/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/transformer/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/yue-du/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/liang-hua/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/tou-zi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ying-ping/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/wang-luo/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/she-hui-xue/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/aigc/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/vae/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/gan/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ping-lun/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ren-sheng-fu-ben/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/it/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ji-qi-xue-xi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/python/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/qian-duan/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/wang-zhan/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/shu-xue/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/an-quan/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/zheng-liu/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/openclaw/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/xuan-xue/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/wu-yong-de-zhi-shi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/a/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/anthropic/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/dario-amodei/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ea-zhu-yi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/you-xi/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/yu-liao/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/geo-tou-du/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/hua-wei/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/guang-ke-ji/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/mo-er-ding-lv/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ban-dao-ti/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/mo-ni/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/ai-jin-hua/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/zi-zhu-gou-jian/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/j-space/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/tag/luo-ji-zhe-die/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://loaf.github.io/tag/harness/</loc>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://loaf.github.io/links/</loc>
-    <lastmod>2026-09-06T14:25:20+08:00</lastmod>
+    <lastmod>2026-09-06T23:17:21+08:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>

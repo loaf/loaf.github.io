@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="让DeepSeek Harness运行在远程服务器上
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>学习Deepseek Harness：用Tailscale远程部署DSH并配置插件 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788707838">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788707838">
+
+
+  
+  <meta name="keywords" content="人工智能,DeepSeek,Agent">
+  
+<meta name="description" content="让DeepSeek Harness运行在远程服务器上">
+<link rel="canonical" href="https://loaf.github.io/post/xue-xi-deepseek-harness-yong-tailscale-yuan-cheng-bu-shu-dsh-bing-pei-zhi-cha-jian/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"学习Deepseek Harness：用Tailscale远程部署DSH并配置插件","url":"https://loaf.github.io/post/xue-xi-deepseek-harness-yong-tailscale-yuan-cheng-bu-shu-dsh-bing-pei-zhi-cha-jian/","description":"让DeepSeek Harness运行在远程服务器上","image":"/post-images/DASwKf_1788703141049541400.png","datePublished":"2026-08-18T21:42:07+08:00","dateModified":"2026-09-06T21:59:01+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/xue-xi-deepseek-harness-yong-tailscale-yuan-cheng-bu-shu-dsh-bing-pei-zhi-cha-jian/","name":"学习Deepseek Harness：用Tailscale远程部署DSH并配置插件","position":2}]}</script>
+<meta property="og:title" content="学习Deepseek Harness：用Tailscale远程部署DSH并配置插件">
+<meta property="og:description" content="让DeepSeek Harness运行在远程服务器上">
+<meta property="og:url" content="https://loaf.github.io/post/xue-xi-deepseek-harness-yong-tailscale-yuan-cheng-bu-shu-dsh-bing-pei-zhi-cha-jian/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/DASwKf_1788703141049541400.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/xue-xi-deepseek-harness-yong-tailscale-yuan-cheng-bu-shu-dsh-bing-pei-zhi-cha-jian/">
+<meta name="twitter:title" content="学习Deepseek Harness：用Tailscale远程部署DSH并配置插件">
+<meta name="twitter:description" content="让DeepSeek Harness运行在远程服务器上">
+<meta name="twitter:image" content="/post-images/DASwKf_1788703141049541400.png">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>学习Deepseek Harness：用Tailscale远程部署DSH并配置插件</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-08-18</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 11 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/sui-bi/">随笔</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color3" href="/tag/ren-gong-zhi-neng/">人工智能</a>
+    
+    <a class="page-tag-item clickable color2" href="/tag/deepseek/">DeepSeek</a>
+    
+    <a class="page-tag-item clickable color6" href="/tag/agent/">Agent</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <h2 id="dsh">先在服务器上部署一个DSH</h2>
+<p>在本地，当然是从源码部署，但是在远程服务器上，可以简单一点，直接运行npx命令来运行。</p>
+<p>但是要注意，当前的dsh web只支持本机访问，也就是说，只能通过127.0.0.1这个IP地址访问。</p>
+<p>我是使用Tailscale来远程访问的。</p>
+<p>首先，我的服务器上已经安装了node，就不用管它了。为了后台运行服务，又安装了一个pm2。</p>
+<pre><code>pm2 start npx --name &quot;dsh-web&quot; -- @deepseek-ai/dsh web
+</code></pre>
+<blockquote>
+<p>[!TIP]<br />
+常用管理命令：</p>
+<p>查看所有进程状态：pm2 list 或 pm2 status<br />
+停止应用：pm2 stop dsh-web<br />
+重启应用：pm2 restart dsh-web<br />
+删除应用：pm2 delete dsh-web<br />
+查看日志：pm2 logs dsh-web</p>
+<p>设置开机自启（可选）：</p>
+<pre><code>pm2 startup
+pm2 save
+</code></pre>
+<p>这个命令会生成一段脚本，运行后能让 pm2 在系统重启时自动恢复之前保存的进程列表。</p>
+</blockquote>
+<p>这时从外网是不能访问的，通过Tailscale serve来穿透。</p>
+<p><code>tailscale serve -bg 3080</code></p>
+<blockquote>
+<p>[!TIP]<br />
+要关闭它，使用</p>
+<pre><code>tailscale serve --https=443
+</code></pre>
+</blockquote>
+<p>运行后，它会提供一个证书和域名，你直接访问这个域名即可打开dsh。</p>
+<p>但是，你在运行时会发现报错，并不能正常使用。这是因为 dsh 出于安全考虑设计的“<strong>回环限制（loopback restriction）</strong>”机制导致的。</p>
+<p>简单来说，为了安全，dsh 的 Web UI 默认只信任来自本机（127.0.0.1 或 localhost）的访问。当你通过 Tailscale 的域名（如 xxx.ts.net）访问时，请求来源不再是本机，因此触发了安全限制，导致 API 请求被拦截，配置页面无法正常加载。</p>
+<pre><code>pm2 stop dsh-web
+pm2 start npx --name &quot;dsh-web&quot; -- @deepseek-ai/dsh web --trusted-host your-machine.ts.net
+</code></pre>
+<p>这时，就能访问web页面，进行对话，但是在设置页面的大多数项目中都会出现：<code>transport failure for /api/settings.describe: HTTP 403</code>，这个是源代码里故意写死的。</p>
+<p><code>settings.describe</code> 在 PRIVILEGED_METHODS 列表里（line 511），这类方法被刻意钉死在 loopback—— 注释写得很清楚：&ldquo;privileged methods additionally pass it with an empty trust list, which pins them to loopback&rdquo;。也就是说无论 &ndash;trusted-host 配什么，远程访问特权 API 一律 403，这是防 DNS-rebinding / 跨站攻击的安全设计。</p>
+<p>解决方案有两种。一种是SSH端口转发，在客户端机器上建立隧道。另一种方法是修改源码。因为我这里主要是测试用，而且使用了Tailscale serve，所以我决定修改源码。</p>
+<p>把 <code>dsh-client-connection/lib/index.js</code> 第 538 行的 <code>isTrustedApiRequest(request, [])</code> 改为 <code>isTrustedApiRequest(request, trustedHosts)</code> 可以让远程访问特权 API。但会引入 DNS-rebinding 风险，且 npm 更新会被覆盖。</p>
+<p>好在这台机器上原来安装过hermes，我直接让它修改，它自动修改了，我现在可以通过tailscale serve直接访问了。</p>
+<h2 id="dsh-1">为DSH增加插件</h2>
+<p>在服务运行时，会在用户目录创建一个名为<code>.dsh</code>的隐藏目录。</p>
+<p>当前我用root登录的，所以<code>DSH_HOME=/root/.dsh</code>，profile 位于 <code>/root/.dsh/profiles/</code>。</p>
+<p>这里DSH_HOME可以理解为一个实例。如果你要在一台服务器上运行多个Agent实例，就需要建多个DSH_HOME。</p>
+<p>我们看一下<code>.dsh</code>目录下的内容：</p>
+<pre><code>.dsh
+├── profiles
+│   └── web
+│       ├── cordis.patch.yml
+│       ├── cordis.yml
+│       ├── package.json
+│       └── pnpm-workspace.yaml
+├── sessions
+│   └── ...
+├── settings.yaml
+└── storages
+    ├── session_projcache.json
+    └── workspace.json
+</code></pre>
+<p>sessions下是会话内容。</p>
+<p>当前profile只有一个web，就是我们正在用的这个GUI，如果你后面要增加其它的交互方式，比如用微信、飞书等，会有新的目录。</p>
+<p>我们看web下的package.json文件</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;dsh-profile-web&quot;,
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {},
+  &quot;dsh&quot;: {
+    &quot;profile&quot;: {
+      &quot;bundles&quot;: [
+        &quot;@deepseek-ai/dsh-base&quot;,
+        &quot;@deepseek-ai/dsh-web-app&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p>我先在github上找一个插件，<code>zhu1090093659/dsh-web-ui</code>挺好。我先只安装主题皮肤。</p>
+<p>npx @deepseek-ai/dsh plugin &ndash;profile web add @linxin666/dsh-skins@latest</p>
+<p>完成后再看web下的package.json文件:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;dsh-profile-web&quot;,
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {
+    &quot;@linxin666/dsh-skins&quot;: &quot;^0.1.20&quot;
+  },
+  &quot;dsh&quot;: {
+    &quot;profile&quot;: {
+      &quot;bundles&quot;: [
+        &quot;@deepseek-ai/dsh-base&quot;,
+        &quot;@deepseek-ai/dsh-web-app&quot;,
+        &quot;@linxin666/dsh-skins&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p><code>pm2 restart dsh-web</code>，重启后就能看到皮肤中心了。<br />
+npx @deepseek-ai/dsh web &ndash;restart</p>
+<h2 id="the-user-aborted-a-request-internal-">处理“历史加载失败：The user aborted a request (internal) ”错误</h2>
+<p>但是我在打开某些会话时，会出现“历史加载失败：The user aborted a request (internal) ”错误。</p>
+<p>遇事不决问AI，DeepSeek说，这个报错通常意味着会话的历史日志文件已损坏，DSH 在加载时无法按顺序读取。是因为我上面反复强制重启、安装皮肤，引起了<strong>DSH 的会话日志文件出现了数据冲突或损坏</strong>。</p>
+<p>DSH 的每个会话都对应一个日志文件（通常是 ~/.dsh/sessions/&hellip;/session.jsonl.zstd）。当服务异常关闭（如进程被强制结束）或有多个进程同时尝试写入同一个日志文件时，就可能造成数据损坏。</p>
+<p>损坏的典型特征是日志中的事件序号（seq）出现了回退（seq gap），即新写入的事件序号小于已存在的序号。当加载器发现序号不连续时，就会拒绝加载整个历史，并抛出类似“corrupt session log: seq gap&hellip;”的错误。</p>
+<p>最简单粗暴的解决方案是删除这个会话。</p>
+<p>先删除会话内容：</p>
+<pre><code>rm -rf ~/.dsh/sessions/--root-dshwork--/session-19fcc9d1-3524-4d11-9f6f-f12e394c8166/
+</code></pre>
+<p>找到这个session id的方法也比较简单，你可以在出错的会话中，点击右上角的session log下载，下载的文件名就是对应的session id号。</p>
+<p>然后还有两个地方需要处理：</p>
+<table>
+<thead>
+<tr>
+<th align="left">数据</th>
+<th align="left">位置</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">工作区注册表</td>
+<td align="left"><code>~/.dsh/storages/workspace.json</code></td>
+<td align="left">这就是&quot;会话列表&quot;的持久化账本：workspaceIds 顺序、每个工作区的 sessionIds 有序列表、archivedSessionIds</td>
+</tr>
+<tr>
+<td align="left">会话投影缓存</td>
+<td align="left"><code>~/.dsh/storages/session_projcache.json</code></td>
+<td align="left">每个会话的标题/统计等缓存</td>
+</tr>
+</tbody>
+</table>
+<p>这两个地方需要在服务器停止时处理。</p>
+<p>因为自己处理比较麻烦，其实最简单的方法是开一个新会话，然后把问题抛给AI，它会自己处理这些问题。它不能处理的，会给你一个脚本，让你在停止服务后自己运行。</p>
+<div>
+<svg role="img" aria-labelledby="f1a-t f1a-d" viewBox="0 0 880 420"><title id="f1a-t">Harness 定位与可替换内核</title><desc id="f1a-d">一个内核可被装配为 Web、Headless、ACP、SDK 四种形态，内部所有部件都是插件</desc>
+    <defs>
+      <marker id="a1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#5a6478"/></marker>
+      <marker id="a1a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#bf4e36"/></marker>
+    </defs>
+    <rect x="300" y="150" width="280" height="120" rx="8" class="b-focal"/>
+    <text x="440" y="184" text-anchor="middle" class="ttl" style="font-size:14px">可组合插件内核（Cordis 树）</text>
+    <text x="440" y="206" text-anchor="middle" class="sub">agent-loop · session · tools · llm …</text>
+    <text x="440" y="224" text-anchor="middle" class="sub-sm">没有特权核心，一切可从配置替换</text>
+    <text x="440" y="250" text-anchor="middle" class="title-marker">“everything is a plugin”</text>
+    <rect x="60" y="40" width="150" height="64" rx="6" class="b"/><text x="135" y="68" text-anchor="middle" class="ttl-sm">Web UI</text><text x="135" y="86" text-anchor="middle" class="sub">dsh web :3080</text>
+    <rect x="60" y="178" width="150" height="64" rx="6" class="b"/><text x="135" y="206" text-anchor="middle" class="ttl-sm">Headless</text><text x="135" y="224" text-anchor="middle" class="sub">一次性任务 runner</text>
+    <rect x="670" y="40" width="150" height="64" rx="6" class="b"/><text x="745" y="68" text-anchor="middle" class="ttl-sm">ACP server</text><text x="745" y="86" text-anchor="middle" class="sub">自动化协议</text>
+    <rect x="670" y="178" width="150" height="64" rx="6" class="b"/><text x="745" y="206" text-anchor="middle" class="ttl-sm">JSON-RPC / SDK</text><text x="745" y="224" text-anchor="middle" class="sub">TS &amp; Python 客户端</text>
+    <path class="ln flow" d="M210 72 L300 170" marker-end="url(#a1)"/>
+    <path class="ln flow" d="M210 210 L300 210" marker-end="url(#a1)"/>
+    <path class="ln-link flow" d="M580 170 L670 72" marker-end="url(#a1)"/>
+    <path class="ln-link flow" d="M580 210 L670 210" marker-end="url(#a1)"/>
+    <rect x="200" y="330" width="480" height="64" rx="6" class="grp"/>
+    <text x="440" y="356" text-anchor="middle" class="ttl-sm">同一份内核，按 profile/bundle 装配出不同产品形态</text>
+    <text x="440" y="376" text-anchor="middle" class="sub">cordis.yml 行 → Loader → Fiber 树；patch 层按 id 覆盖任意行</text>
+  </svg></div>
+<p><img src="/post-images/1788702127688678800_0.svg" alt="1.svg" /></p>
+<p><img src="/post-images/DASwKf_1788703141033976000.png" alt="" /></p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-06</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/wei-shi-me-xi-fang-ren-lao-shi-dan-xin-aijue-xing-hui-hui-mie-ren-leizhong-guo-ren-que-bu-zai-hu/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">为什么西方人老是担心AI觉醒会毁灭人类，中国人却不在乎？</span></a>
+            
+            
+            <a class="next" href="/post/chajianxitong/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">学习DeepSeek Harness：插件系统</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788707838" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="用一个AI Agent案例来教你开发智能体
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>从头开发AI Agent应用系列之二：搭好应用骨架，调用大模型对话 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788707838">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788707838">
+
+
+  
+  <meta name="keywords" content="LLM,AI,Agent">
+  
+<meta name="description" content="用一个AI Agent案例来教你开发智能体">
+<link rel="canonical" href="https://loaf.github.io/post/cors-yun-xu-na-xie-wang-zhi-lai-diao-zhe-ge-hou-duan/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"从头开发AI Agent应用系列之二：搭好应用骨架，调用大模型对话","url":"https://loaf.github.io/post/cors-yun-xu-na-xie-wang-zhi-lai-diao-zhe-ge-hou-duan/","description":"用一个AI Agent案例来教你开发智能体","image":"/post-images/KoQIAY_1788706026787093900.jpg","datePublished":"2026-07-14T21:40:56+08:00","dateModified":"2026-09-06T22:47:06+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/cors-yun-xu-na-xie-wang-zhi-lai-diao-zhe-ge-hou-duan/","name":"从头开发AI Agent应用系列之二：搭好应用骨架，调用大模型对话","position":2}]}</script>
+<meta property="og:title" content="从头开发AI Agent应用系列之二：搭好应用骨架，调用大模型对话">
+<meta property="og:description" content="用一个AI Agent案例来教你开发智能体">
+<meta property="og:url" content="https://loaf.github.io/post/cors-yun-xu-na-xie-wang-zhi-lai-diao-zhe-ge-hou-duan/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/KoQIAY_1788706026787093900.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/cors-yun-xu-na-xie-wang-zhi-lai-diao-zhe-ge-hou-duan/">
+<meta name="twitter:title" content="从头开发AI Agent应用系列之二：搭好应用骨架，调用大模型对话">
+<meta name="twitter:description" content="用一个AI Agent案例来教你开发智能体">
+<meta name="twitter:image" content="/post-images/KoQIAY_1788706026787093900.jpg">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>从头开发AI Agent应用系列之二：搭好应用骨架，调用大模型对话</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-07-14</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 44 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/ji-shu/">技术</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+    <a class="page-tag-item clickable color6" href="/tag/agent/">Agent</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <h2 id="-">之二： 搭好应用骨架</h2>
+<p>本章目标是，最终得到一个可执行文件，运行后能看到调用后端服务，也能调用远程LLM的API，并能进行流式对话。</p>
+<h3 id="1">1.搭应用框架</h3>
+<p>因为我选择的技术栈是Tauri+React 前端+FastAPI后端，所以我们先得将这个框架跑通。</p>
+<p>这里要注意的是，React前端，与上面说的智能体中ReAct是完全不同的两回事。前者是由Meta开发的用户界面JavaScript库，后者是AI开发的工程范式，不是一个代码库，而是一种编码理念，体现在FastAPI后端（或者单独调用的LLM服务中）。</p>
+<h4 id="1-pythonbackend"><strong>步骤1： Python后端（backend目录）</strong></h4>
+<p>一般情况下：</p>
+<pre><code>uv init backend
+cd backend
+uv add fastapi &quot;uvicorn[standard]&quot;
+</code></pre>
+<p>上面会在项目目录下生成backend目录，并配置后一个框架。</p>
+<p>不过因为项目特点，我需要自定义目录结构，所以完全手工来处理这个目录。</p>
+<p>1-1）手工建backend目录</p>
+<p>1-2）手工创建<code>pyproject.toml</code>和<code>.python-version</code>两个文件。</p>
+<p>1-3）在<code>pyproject.toml</code>文件中，修改内容为：</p>
+<pre><code>[project]
+name = &quot;mewgo-backend&quot;
+version = &quot;0.1.0&quot;
+requires-python = &quot;&gt;=3.12,&lt;3.13&quot;
+dependencies = [
+    &quot;fastapi&gt;=0.115&quot;,
+    &quot;uvicorn[standard]&gt;=0.30&quot;,
+]
+</code></pre>
+<p>1-4）在<code>.python-version</code>中写一行3.12，确定版本即可。</p>
+<p>1-5）创建<code>backend/app/main.py</code>文件，这是FastAPI应用入口</p>
+<pre><code>from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.api import system
+
+app = FastAPI(title=&quot;MewGo Backend&quot;)
+
+# CORS: 允许哪些网址来调这个后端。
+# 前端在 5173，Tauri 窗口是 tauri://localhost，都得放行。
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[&quot;http://localhost:5173&quot;, &quot;tauri://localhost&quot;, &quot;http://tauri.localhost&quot;],
+    allow_methods=[&quot;*&quot;],
+    allow_headers=[&quot;*&quot;],
+)
+app.include_router(system.router)
+</code></pre>
+<p>1-6）创建文件<code>backend/app/api/system.py</code> ，这是 <code>/health</code> 接口：</p>
+<pre><code>from fastapi import APIRouter
+router = APIRouter()
+
+@router.get(&quot;/health&quot;)
+async def health():
+    return {&quot;status&quot;: &quot;ok&quot;}
+</code></pre>
+<p>1-7) 运行并测试</p>
+<pre><code>cd backend
+uv sync # 自动装 Python 3.12 + 建虚拟环境 + 装依赖
+uv run uvicorn app.main:app --port 8000   # 启动！
+</code></pre>
+<p>然后在本地浏览器中访问<code>http://localhost:8000/health</code></p>
+<p>看到 <code>{&quot;status&quot;:&quot;ok&quot;}</code>。</p>
+<h4 id="-2react--vite--ts---src"><strong>步骤 2：React + Vite + TS 前端（仓库根 + src/）</strong></h4>
+<p>2-1）建 src文件夹</p>
+<p>2-2）新建文件 src/package.json</p>
+<pre><code>{
+  &quot;name&quot;: &quot;mewgo-frontend&quot;,
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;vite&quot;,                    // 开发模式，起本地服务器带热更新
+    &quot;build&quot;: &quot;tsc --noEmit &amp;&amp; vite build&quot;   // 生产构建
+  },
+  &quot;dependencies&quot;: {
+    &quot;@tauri-apps/api&quot;: &quot;^2.4.0&quot;,      // Tauri 提供给前端的工具（调 IPC 用）
+    &quot;react&quot;: &quot;^18.3.1&quot;,
+    &quot;react-dom&quot;: &quot;^18.3.1&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@types/react&quot;: &quot;^18.3.12&quot;,
+    &quot;@vitejs/plugin-react&quot;: &quot;^4.3.4&quot;,
+    &quot;typescript&quot;: &quot;^5.6.3&quot;,
+    &quot;vite&quot;: &quot;^5.4.11&quot;
+  }
+}
+</code></pre>
+<p>注意，上面的注释是为了理解，在编译时，要全部删除。</p>
+<p>2-3）建文件src/vite.config.ts</p>
+<pre><code>server: {
+  port: 5173,           // 固定端口
+  strictPort: true,     // 端口被占了就报错，不换端口（Tauri 依赖这个固定地址）
+}
+</code></pre>
+<p>2-4） <code>src/src/App.tsx</code>，页面文件，只有一个按钮</p>
+<pre><code>import { useState } from &quot;react&quot;;
+import { getHealth } from &quot;./api/client&quot;;
+
+export default function App() {
+  const [status, setStatus] = useState&lt;string | null&gt;(null);
+
+  async function checkHealth() {
+    const data = await getHealth();   // 调后端
+    setStatus(data.status);           // 把 &quot;ok&quot; 显示出来
+  }
+
+  return (
+    &lt;div&gt;
+    &lt;button onClick={checkHealth}&gt;检查后端健康&lt;/button&gt;
+    {status &amp;&amp; &lt;p&gt;后端状态: {status}&lt;/p&gt;}
+	  &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>2-5）<code>src/src/api/client.ts</code>客户端代码用来调用后端服务</p>
+<pre><code>async function resolveBaseUrl() {
+  try {
+    const { invoke } = await import(&quot;@tauri-apps/api/core&quot;);
+    return await invoke&lt;string&gt;(&quot;get_backend_base_url&quot;);   // 问 Rust：后端地址是啥？
+  } catch {
+    return &quot;http://localhost:8000&quot;;   // 不在 Tauri 里（纯浏览器调试），用默认地址
+  }
+}
+
+export async function getHealth() {
+  const base = await resolveBaseUrl();
+  const res = await fetch(`${base}/health`);   // 用浏览器原生 fetch 发 HTTP 请求
+  return res.json();
+}
+</code></pre>
+<p>上面两步要注意目录结构。</p>
+<p>2-6）<code>src/index.html</code>内容：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Mewgo Frontend&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+    &lt;script type=&quot;module&quot; src=&quot;/src/main.tsx&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>2-7） <code>src/src/main.tsx</code>，内容：</p>
+<pre><code>import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  &lt;React.StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/React.StrictMode&gt;
+);
+</code></pre>
+<p>2-8）在vite.config.ts中添加React插件</p>
+<pre><code>import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
+  plugins: [react()],   // 启用 React 支持
+});
+</code></pre>
+<p>2-9）安装并运行</p>
+<pre><code>cd src
+npm install        # 按 package.json 装包到 node_modules/
+npm run dev        # 起开发服务器
+</code></pre>
+<p>这里如果第一步的8000端口服务仍在运行，就能看到一个“检查后端健康”的按纽，点击后出现</p>
+<p><img src="/post-images/1788702057216221000_0.png" alt="cut" /></p>
+<h4 id="-3tauri-2-src-tauri"><strong>步骤 3：Tauri 2 壳（src-tauri/）</strong></h4>
+<p>在当前目录下，<code>npm install --save-dev @tauri-apps/cli</code>（拿到本地 tauri 命令，避免全局安装）。</p>
+<p><code>npx tauri init</code>，提示对应答：app name=MewGo、window title=MewGo、devUrl=http://localhost:5173、frontendDist=../dist、dev cmd=npm run dev、build cmd=npm run build。生成 src-tauri/ 含 Cargo.toml、main.rs、tauri.conf.json、capabilities/、icons/。</p>
+<p>上面创建脚手架时乱写也没有关系，因为我们会在下面各个文件单独检查、修改。</p>
+<p>3-1） <code>src-tauri/Cargo.toml</code>，这是Rust项目的说明，相当于上面的Package.json</p>
+<pre><code>[package]
+name = &quot;mewgo&quot;
+version = &quot;0.1.0&quot;
+description = &quot;MewGo - AI 辅助写作工作站&quot;
+edition = &quot;2021&quot;
+
+[lib]
+name = &quot;mewgo_lib&quot;
+crate-type = [&quot;staticlib&quot;, &quot;cdylib&quot;, &quot;rlib&quot;]
+
+[build-dependencies]
+tauri-build = { version = &quot;2&quot;, features = [] }
+
+[dependencies]
+tauri = { version = &quot;2&quot;, features = [] }
+serde = { version = &quot;1&quot;, features = [&quot;derive&quot;] }
+serde_json = &quot;1&quot;
+reqwest = { version = &quot;0.12&quot;, default-features = false, features = [&quot;blocking&quot;] }
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
+
+[features]
+custom-protocol = [&quot;tauri/custom-protocol&quot;]
+</code></pre>
+<p>3-2）<code>src-tauri/tauri.conf.json</code>，Tauri 的核心配置文件</p>
+<pre><code>{
+  &quot;$schema&quot;: &quot;https://schema.tauri.app/config/2&quot;,
+  &quot;productName&quot;: &quot;MewGo&quot;,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;identifier&quot;: &quot;com.mewgo.app&quot;,
+  &quot;build&quot;: {
+    &quot;beforeDevCommand&quot;: &quot;npm --prefix src run dev&quot;,
+    &quot;beforeBuildCommand&quot;: &quot;npm --prefix src run build&quot;,
+    &quot;devUrl&quot;: &quot;http://localhost:5173&quot;,
+    &quot;frontendDist&quot;: &quot;../src/dist&quot;
+  },
+  &quot;app&quot;: {
+    &quot;windows&quot;: [
+      {
+        &quot;title&quot;: &quot;MewGo&quot;,
+        &quot;width&quot;: 1200,
+        &quot;height&quot;: 800
+      }
+    ],
+    &quot;security&quot;: {
+      &quot;csp&quot;: null
+    }
+  },
+  &quot;bundle&quot;: {
+    &quot;active&quot;: true,
+    &quot;targets&quot;: &quot;all&quot;,
+    &quot;icon&quot;: [
+      &quot;icons/32x32.png&quot;,
+      &quot;icons/128x128.png&quot;,
+      &quot;icons/128x128@2x.png&quot;,
+      &quot;icons/icon.icns&quot;,
+      &quot;icons/icon.ico&quot;
+    ]
+  }
+}
+
+</code></pre>
+<p>3-3）<code>src-tauri/src/main.rs</code> , 程序入口（一行调用）：</p>
+<pre><code>// Prevents additional console window on Windows in release.
+#![cfg_attr(not(debug_assertions), windows_subsystem = &quot;windows&quot;)]
+
+fn main() {
+    mewgo_lib::run()
+}
+
+</code></pre>
+<p>3-4）<code>src-tauri/src/lib.rs</code> ，业务逻辑：</p>
+<pre><code>//! MewGo Tauri 壳 —— 入口。
+//!
+//! 1. spawn Python sidecar (uv → uvicorn)
+//! 2. 轮询 /health 等它就绪
+//! 3. 注册 IPC, 开窗口
+//! 4. 退出时 kill sidecar
+
+mod commands;
+mod sidecar;
+
+use sidecar::SidecarGuard;
+use std::sync::Arc;
+use tauri::Manager;
+
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+    tauri::Builder::default()
+        .manage(SidecarGuard::empty())
+        .setup(|app| {
+            // backend 目录 = 应用资源目录(开发期是 src-tauri)的 ../backend
+            // 开发期: 当前工作目录是 src-tauri,所以 ../backend 即可。
+            let backend_dir = std::env::current_dir()
+                .map(|d| d.join(&quot;../backend&quot;))
+                .map(|p| p.to_string_lossy().to_string())
+                .unwrap_or_else(|_| &quot;../backend&quot;.to_string());
+
+            match sidecar::spawn_sidecar(&amp;backend_dir) {
+                Ok(child) =&gt; {
+                    let guard = app.state::&lt;SidecarGuard&gt;();
+                    guard.set_child(child);
+                    println!(&quot;[mewgo] sidecar spawned, waiting for /health...&quot;);
+                    match sidecar::wait_until_healthy(60) {
+                        Ok(()) =&gt; println!(&quot;[mewgo] backend healthy ✓&quot;),
+                        Err(e) =&gt; {
+                            eprintln!(&quot;[mewgo] WARN backend not healthy: {e}&quot;);
+                            eprintln!(&quot;[mewgo] 应用仍会启动,但后端调用可能失败。&quot;);
+                        }
+                    }
+                }
+                Err(e) =&gt; {
+                    eprintln!(&quot;[mewgo] 启动 sidecar 失败: {e}&quot;);
+                    eprintln!(&quot;[mewgo] 请确认 uv 在 PATH 中,且 backend/pyproject.toml 已 `uv sync`。&quot;);
+                }
+            }
+            Ok(())
+        })
+        .invoke_handler(tauri::generate_handler![commands::get_backend_base_url])
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { .. } = event {
+                if let Some(guard) = window.app_handle().try_state::&lt;SidecarGuard&gt;() {
+                    guard.kill();
+                    println!(&quot;[mewgo] sidecar killed on window close&quot;);
+                }
+            }
+        })
+        .run(tauri::generate_context!())
+        .expect(&quot;error while running tauri application&quot;);
+}
+
+// 让 Arc&lt;SidecarGuard&gt; 不触发未使用警告(留给后续卡用)
+#[allow(dead_code)]
+type _SharedGuard = Arc&lt;SidecarGuard&gt;;
+
+</code></pre>
+<p>3-5）<code>src-tauri/src/sidecar.rs</code> ， 后端进程管理：</p>
+<pre><code>//! Sidecar 生命周期管理。
+//!
+//! 流程:
+//! 1. spawn `uv run --project &lt;backend&gt; uvicorn app.main:app --port 8000`
+//! 2. 轮询 `GET /health` 直到通(或超时)
+//! 3. 把 child guard 挂到 state; 退出时 kill
+
+use std::process::{Child, Command, Stdio};
+use std::sync::Mutex;
+
+/// 后端 sidecar 监听端口。
+pub const BACKEND_PORT: u16 = 8000;
+pub const BACKEND_BASE_URL: &amp;str = &quot;http://localhost:8000&quot;;
+
+/// 持有 sidecar 子进程的 guard。显式 kill 时终结子进程。
+pub struct SidecarGuard {
+    child: Mutex&lt;Option&lt;Child&gt;&gt;,
+}
+
+impl SidecarGuard {
+    /// 占位构造,供 tauri::State 初始化用; 实际 child 在 setup 里替换。
+    pub fn empty() -&gt; Self {
+        Self {
+            child: Mutex::new(None),
+        }
+    }
+
+    /// 把 spawn 出的 child 注入(setup 阶段用)。
+    pub fn set_child(&amp;self, child: Child) {
+        if let Ok(mut guard) = self.child.lock() {
+            *guard = Some(child);
+        }
+    }
+
+    pub fn kill(&amp;self) {
+        if let Ok(mut guard) = self.child.lock() {
+            if let Some(mut child) = guard.take() {
+                let _ = child.kill();
+                let _ = child.wait();
+            }
+        }
+    }
+}
+
+/// spawn Python sidecar。返回 child。
+///
+/// backend 目录相对 src-tauri 是 `../backend`。
+/// `uv run --project &lt;dir&gt;` 会用该目录的 pyproject + venv。
+pub fn spawn_sidecar(backend_dir: &amp;str) -&gt; std::io::Result&lt;Child&gt; {
+    let port = BACKEND_PORT.to_string();
+    let mut cmd = Command::new(&quot;uv&quot;);
+    cmd.args([
+        &quot;run&quot;,
+        &quot;--project&quot;,
+        backend_dir,
+        &quot;uvicorn&quot;,
+        &quot;app.main:app&quot;,
+        &quot;--port&quot;,
+        &amp;port,
+    ])
+    .stdin(Stdio::null())
+    .stdout(Stdio::inherit())
+    .stderr(Stdio::inherit());
+
+    // Windows 上隐藏控制台窗口
+    #[cfg(windows)]
+    {
+        use std::os::windows::process::CommandExt;
+        // CREATE_NO_WINDOW = 0x08000000
+        cmd.creation_flags(0x08000000);
+    }
+
+    cmd.spawn()
+}
+
+/// 轮询 `/health` 直到通或超时(秒)。
+pub fn wait_until_healthy(timeout_secs: u64) -&gt; Result&lt;(), String&gt; {
+    let url = format!(&quot;{}/health&quot;, BACKEND_BASE_URL);
+    let start = std::time::Instant::now();
+    let timeout = std::time::Duration::from_secs(timeout_secs);
+    loop {
+        if start.elapsed() &gt; timeout {
+            return Err(format!(
+                &quot;backend did not become healthy within {}s&quot;,
+                timeout_secs
+            ));
+        }
+        match reqwest::blocking::get(&amp;url) {
+            Ok(resp) if resp.status().is_success() =&gt; return Ok(()),
+            _ =&gt; std::thread::sleep(std::time::Duration::from_millis(500)),
+        }
+    }
+}
+
+</code></pre>
+<p>3-6）<code>src-tauri/src/commands.rs</code> ， 前端 IPC 命令：</p>
+<pre><code>//! 暴露给前端的 Tauri IPC 命令。
+//!
+//! 只暴露一个: 后端 base url。后续卡会加 get_secure_secret / 文件选择等。
+
+use crate::sidecar::BACKEND_BASE_URL;
+
+/// 返回 Python sidecar 的 base url。前端 fetch 用。
+#[tauri::command]
+pub fn get_backend_base_url() -&gt; String {
+    BACKEND_BASE_URL.to_string()
+}
+</code></pre>
+<p>3-7）生成图标</p>
+<p>在src-tauri目录下，拷入一张1024 x 1024的PNG图片文件，我制作一个robot-cat-avatar.png</p>
+<pre><code>#生成icon套图
+npx tauri icon .\robot-cat-avatar.png
+</code></pre>
+<p>然后会在src-tauri目录下生成一个icon子目录，里面有各类需要的icon文件。</p>
+<p>3-8）编译运行</p>
+<p>先在src-tauri目录下<code>cargo check</code>检查能否编译。</p>
+<p>然后回到根目录下。先修改package.json文件</p>
+<pre><code>{
+  &quot;name&quot;: &quot;mewgo&quot;,
+  &quot;private&quot;: true,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;description&quot;: &quot;MewGo - AI 辅助写作工作站 (本地优先桌面应用)&quot;,
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;concurrently -k -n backend,tauri -c green,cyan \&quot;npm:dev:backend\&quot; \&quot;npm:dev:tauri\&quot;&quot;,
+    &quot;dev:backend&quot;: &quot;uv run --project backend uvicorn app.main:app --port 8000&quot;,
+    &quot;dev:tauri&quot;: &quot;tauri dev&quot;,
+    &quot;dev:frontend&quot;: &quot;npm --prefix src run dev&quot;,
+    &quot;tauri&quot;: &quot;tauri&quot;,
+    &quot;build:frontend&quot;: &quot;npm --prefix src run build&quot;,
+    &quot;build:backend&quot;: &quot;uv sync --project backend&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@tauri-apps/cli&quot;: &quot;^2.11.4&quot;,
+    &quot;concurrently&quot;: &quot;^9.1.0&quot;
+  }
+}
+</code></pre>
+<p>然后直接运行<code>npm run dev</code>跑通完整三端链路（Rust 自动拉 sidecar → 探 /health → 开窗口加载前端）。</p>
+<p><img src="/post-images/1788702057231675300_0.png" alt="5642c14d7fca846c0f471293f87ce37a.png" /><br />
+<img src="/post-images/1788702057735970000_0.png" alt="t" /></p>
+<p>完成后的目录结构如下：</p>
+<pre><code>mewgo/
+├── package.json              # 根编排: concurrently 一键三端
+├── backend/                  # Python sidecar (uv 锁 3.12)
+│   ├── pyproject.toml        # fastapi + uvicorn[standard]
+│   ├── .python-version       # 3.12
+│   └── app/{main.py, api/system.py}   # GET /health
+├── src/                      # 前端 (Vite + React + TS, Tauri 内嵌)
+│   ├── package.json          # react, @tauri-apps/api
+│   ├── index.html
+│   ├── vite.config.ts        # 5173 固定端口 + strictPort
+│   └── src/{App.tsx, api/client.ts, main.tsx}  # 按钮 → /health → &quot;ok&quot;
+└── src-tauri/                # Rust 壳
+    ├── Cargo.toml / tauri.conf.json / build.rs
+    ├── icons/                # tauri icon 生成的全套(含 .ico)
+    └── src/{lib.rs, main.rs, sidecar.rs, commands.rs}
+        # sidecar.rs: spawn uv + 轮询 /health + 退出时 kill
+        # commands.rs: IPC get_backend_base_url
+</code></pre>
+<h3 id="2-litellmai">2. 使用LiteLLM加上AI对话功能</h3>
+<p>在上面的工作完成后，应用能开窗口、能调 /health。但后端只会回 &ldquo;ok&rdquo;。现在先加上LLM试一下。</p>
+<p>调用 LLM 用 LiteLLM，这是一个可统一多家大模型供应商的Python库。</p>
+<h4 id="1-"><strong>1. 处理后端</strong></h4>
+<p>后端代码的结构如下：</p>
+<pre><code>backend/app/
+├── config.py            # 读 .env / 环境变量, 拿到 API key
+├── llm/
+│   └── router.py        # LiteLLM 封装: chat() -&gt; 流式 yield token
+└── api/
+    └── chat.py          # POST /chat, 把 LLM 流包成 SSE 返回
+</code></pre>
+<h5 id="configpy"><code>config.py</code>，配置层</h5>
+<pre><code>from __future__ import annotations
+
+from functools import lru_cache
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    &quot;&quot;&quot;应用配置。
+    优先级: 环境变量 &gt; backend/.env 文件 &gt; 默认值。
+    &quot;&quot;&quot;
+
+    model_config = SettingsConfigDict(
+        env_file=&quot;.env&quot;,
+        env_file_encoding=&quot;utf-8&quot;,
+        extra=&quot;ignore&quot;,
+    )
+
+    # DeepSeek (OpenAI 兼容)。LiteLLM 用 deepseek/ 前缀识别。
+    deepseek_api_key: str = &quot;&quot;
+    deepseek_api_base: str = &quot;https://api.deepseek.com/v1&quot;
+    deepseek_model: str = &quot;deepseek-chat&quot;
+
+    # OpenAI 协议兼容的通用回退(若用户用别的兼容服务)。
+    # LiteLLM 读 OPENAI_API_KEY / OPENAI_API_BASE / OPENAI_BASE_URL 也行,
+    # 这里显式列出方便排查。
+    openai_api_key: str = &quot;&quot;
+
+    @property
+    def has_llm_key(self) -&gt; bool:
+        &quot;&quot;&quot;是否配了至少一个 LLM key。&quot;&quot;&quot;
+        return bool(self.deepseek_api_key or self.openai_api_key)
+
+
+@lru_cache
+def get_settings() -&gt; Settings:
+    &quot;&quot;&quot;单例: 全进程只读一次 .env。&quot;&quot;&quot;
+    return Settings()
+</code></pre>
+<h5 id="llmrouterpy--llm-"><code>llm/router.py</code> ， LLM 调用核心：</h5>
+<pre><code>&quot;&quot;&quot;LLM 路由器 —— 流式对话。
+
+用 LiteLLM 调 DeepSeek (OpenAI 兼容协议), 流式返回 token。
+DeepSeek 在 LiteLLM 里用 `deepseek/` 前缀识别, 会自动走 OpenAI 协议。
+
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+from collections.abc import AsyncIterator
+
+import litellm
+
+from app.config import get_settings
+
+
+def _build_completion_kwargs(
+    messages: list[dict[str, str]],
+    model: str | None,
+) -&gt; dict:
+    &quot;&quot;&quot;组装 LiteLLM acompletion 的参数。
+
+    把 key/base_url/model 从配置注入, 调用方只关心 messages。
+    &quot;&quot;&quot;
+    settings = get_settings()
+    chosen_model = model or settings.deepseek_model
+    kwargs: dict = {
+        &quot;model&quot;: f&quot;deepseek/{chosen_model}&quot;,
+        &quot;messages&quot;: messages,
+        &quot;stream&quot;: True,
+    }
+    if settings.deepseek_api_key:
+        kwargs[&quot;api_key&quot;] = settings.deepseek_api_key
+    if settings.deepseek_api_base:
+        kwargs[&quot;api_base&quot;] = settings.deepseek_api_base
+    return kwargs
+
+
+async def chat(
+    messages: list[dict[str, str]],
+    model: str | None = None,
+) -&gt; AsyncIterator[str]:
+    &quot;&quot;&quot;流式对话, 逐个 token chunk yield 文本。
+
+    参数:
+        messages: OpenAI 消息格式 [{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;...&quot;}]
+        model: 可选模型名覆盖(默认走配置里的 deepseek_model)
+
+    yield:
+        str —— 每次吐一小段文本(可能是一个字、一个词、一句话)
+
+    异常:
+        RuntimeError —— 没配 API key 时
+        litellm 的各种异常 —— 调用失败时(后续 T-020 加重试)
+    &quot;&quot;&quot;
+    settings = get_settings()
+    if not settings.has_llm_key:
+        raise RuntimeError(
+            &quot;未配置 LLM API Key。请在 backend/.env 设置 DEEPSEEK_API_KEY &quot;
+            &quot;(参考 .env.example)。&quot;
+        )
+
+    kwargs = _build_completion_kwargs(messages, model)
+    # litellm.acompletion(stream=True) 返回一个 async generator,
+    # 每个 chunk 是 OpenAI 格式的 ChatCompletionChunk。
+    response = await litellm.acompletion(**kwargs)
+    async for chunk in response:
+        # chunk.choices[0].delta.content 可能是 None(首个 chunk 只有 role)
+        try:
+            delta = chunk.choices[0].delta.content
+        except (IndexError, AttributeError):
+            delta = None
+        if delta:
+            yield delta
+</code></pre>
+<p>这里的<code>AsyncIterator</code> + <code>yield</code> 在Python中，不是直接<code>return</code>一个值，而是一边算一边吐出多个值。调用方可以用<code>async for token in chat(...)</code> 一个一个接收。这正是流式的本质。</p>
+<h5 id="apichatpysse"><code>api/chat.py</code>,SSE接口</h5>
+<pre><code>&quot;&quot;&quot;聊天接口 —— POST /chat, SSE 流式返回。
+
+SSE (Server-Sent Events) 格式: 每条消息是 `data: &lt;payload&gt;\\n\\n`。
+前端用 fetch + ReadableStream 读(EventSource 只支持 GET, POST 用不了)。
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import json
+from collections.abc import AsyncIterator
+
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
+from pydantic import BaseModel
+
+from app.llm import chat as llm_chat
+
+router = APIRouter()
+
+
+class ChatRequest(BaseModel):
+    &quot;&quot;&quot;单轮对话请求。&quot;&quot;&quot;
+
+    message: str
+
+
+def _sse(data: dict | str) -&gt; str:
+    &quot;&quot;&quot;把 payload 包成一条 SSE 数据行。&quot;&quot;&quot;
+    payload = data if isinstance(data, str) else json.dumps(data, ensure_ascii=False)
+    return f&quot;data: {payload}\n\n&quot;
+
+
+async def _stream(messages: list[dict[str, str]]) -&gt; AsyncIterator[str]:
+    &quot;&quot;&quot;生成 SSE 流: 先发 role 标记, 逐 chunk 吐文本, 末尾 [DONE]。&quot;&quot;&quot;
+    try:
+        async for token in llm_chat(messages):
+            yield _sse({&quot;chunk&quot;: token})
+    except RuntimeError as e:
+        # 配置问题(没 key 等), 以 error 事件返回, 不让连接挂死
+        yield _sse({&quot;error&quot;: str(e)})
+    except Exception as e:  # noqa: BLE001        
+        yield _sse({&quot;error&quot;: f&quot;LLM 调用失败: {e}&quot;})
+    yield _sse(&quot;[DONE]&quot;)
+
+
+@router.post(&quot;/chat&quot;)
+async def chat(req: ChatRequest) -&gt; StreamingResponse:
+    &quot;&quot;&quot;单轮流式对话。
+
+    把用户消息包成 OpenAI messages 格式喂给 router。
+    &quot;&quot;&quot;
+    if not req.message.strip():
+        raise HTTPException(status_code=400, detail=&quot;message 不能为空&quot;)
+
+    messages = [
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是 MewGo 的写作助手。回答简洁。&quot;},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: req.message},
+    ]
+    return StreamingResponse(
+        _stream(messages),
+        media_type=&quot;text/event-stream&quot;,
+        headers={
+            # 禁用 nginx 等中间件缓冲, 保证流式实时性
+            &quot;Cache-Control&quot;: &quot;no-cache&quot;,
+            &quot;X-Accel-Buffering&quot;: &quot;no&quot;,
+        },
+    )
+</code></pre>
+<p>FastAPI 的 <code>StreamingResponse</code> 接受一个生成器，会把生成器 <code>yield</code> 的每个字符串立即推给客户端（不缓存）。这是&quot;流式 HTTP&quot;在 Python 侧的实现方式。</p>
+<p>另外，在backend目录下，增加一个.env文件，保存你的DeepSeek API<br />
+Key。</p>
+<h4 id="2">2.处理前端</h4>
+<h5 id="srcsrcapptsc">src/src/App.tsc</h5>
+<p>在代码里增加对话框，展示与LLM的对话内容</p>
+<pre><code>import { useState } from &quot;react&quot;;
+import { getHealth, streamChat } from &quot;./api/client&quot;;
+
+// 健康按钮 + 一个流式聊天框。
+// 聊天框验证&quot;前端 → 后端 → LLM 流式返回&quot;链路。
+type Msg = { role: &quot;user&quot; | &quot;assistant&quot;; text: string };
+
+export default function App() {
+  const [status, setStatus] = useState&lt;string | null&gt;(null);
+  const [healthErr, setHealthErr] = useState&lt;string | null&gt;(null);
+
+  const [input, setInput] = useState(&quot;&quot;);
+  const [messages, setMessages] = useState&lt;Msg[]&gt;([]);
+  const [streaming, setStreaming] = useState(false);
+  const [chatErr, setChatErr] = useState&lt;string | null&gt;(null);
+
+  async function checkHealth() {
+    setHealthErr(null);
+    setStatus(null);
+    try {
+      const data = await getHealth();
+      setStatus(data.status);
+    } catch (e) {
+      setHealthErr(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  async function send() {
+    const text = input.trim();
+    if (!text || streaming) return;
+    setInput(&quot;&quot;);
+    setChatErr(null);
+    // 先把用户消息和空的 assistant 占位塞进去, 再流式填充后者
+    setMessages((m) =&gt; [...m, { role: &quot;user&quot;, text }, { role: &quot;assistant&quot;, text: &quot;&quot; }]);
+    setStreaming(true);
+    try {
+      await streamChat(text, (chunk) =&gt; {
+        // 流式 append 到最后一条(assistant 占位)
+        setMessages((m) =&gt; {
+          const next = [...m];
+          const last = next[next.length - 1];
+          next[next.length - 1] = { ...last, text: last.text + chunk };
+          return next;
+        });
+      });
+    } catch (e) {
+      setChatErr(e instanceof Error ? e.message : String(e));
+    } finally {
+      setStreaming(false);
+    }
+  }
+
+  return (
+    &lt;main style={{ fontFamily: &quot;system-ui, sans-serif&quot;, padding: &quot;2rem&quot;, maxWidth: 760 }}&gt;
+      &lt;h1&gt;MewGo&lt;/h1&gt;
+      &lt;p&gt;AI 辅助写作工作站 —— LLM 流式 、 打包&lt;/p&gt;
+
+      &lt;section style={{ marginBottom: &quot;2rem&quot; }}&gt;
+        &lt;button onClick={checkHealth}&gt;检查后端健康&lt;/button&gt;
+        {status &amp;&amp; &lt;p style={{ color: &quot;green&quot; }}&gt;后端状态: {status}&lt;/p&gt;}
+        {healthErr &amp;&amp; &lt;p style={{ color: &quot;red&quot; }}&gt;{healthErr}&lt;/p&gt;}
+      &lt;/section&gt;
+
+      {/* 流式聊天 */}
+      &lt;section&gt;
+        &lt;h2&gt;聊天 (流式)&lt;/h2&gt;
+        &lt;div style={{ minHeight: 120, border: &quot;1px solid #ddd&quot;, padding: 12, marginBottom: 8 }}&gt;
+          {messages.length === 0 &amp;&amp; &lt;p style={{ color: &quot;#999&quot; }}&gt;发条消息试试…&lt;/p&gt;}
+          {messages.map((m, i) =&gt; (
+            &lt;p key={i} style={{ margin: &quot;4px 0&quot;, textAlign: m.role === &quot;user&quot; ? &quot;right&quot; : &quot;left&quot; }}&gt;
+              &lt;strong&gt;{m.role === &quot;user&quot; ? &quot;我&quot; : &quot;AI&quot;}:&lt;/strong&gt; {m.text}
+              {streaming &amp;&amp; i === messages.length - 1 &amp;&amp; m.role === &quot;assistant&quot; &amp;&amp; (
+                &lt;span style={{ color: &quot;#999&quot; }}&gt;▌&lt;/span&gt;
+              )}
+            &lt;/p&gt;
+          ))}
+        &lt;/div&gt;
+        {chatErr &amp;&amp; &lt;p style={{ color: &quot;red&quot; }}&gt;{chatErr}&lt;/p&gt;}
+        &lt;div style={{ display: &quot;flex&quot;, gap: 8 }}&gt;
+          &lt;input
+            style={{ flex: 1, padding: 8 }}
+            value={input}
+            onChange={(e) =&gt; setInput(e.target.value)}
+            onKeyDown={(e) =&gt; e.key === &quot;Enter&quot; &amp;&amp; send()}
+            placeholder=&quot;说点什么…&quot;
+            disabled={streaming}
+          /&gt;
+          &lt;button onClick={send} disabled={streaming || !input.trim()}&gt;
+            {streaming ? &quot;回复中…&quot; : &quot;发送&quot;}
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    &lt;/main&gt;
+  );
+}
+</code></pre>
+<h5 id="srcsrcapiclientts">src/src/api/client.ts</h5>
+<p>流式渲染</p>
+<pre><code>// 后端 API 客户端。
+// 基地址优先从 Tauri IPC 拿(Rust 侧 `get_backend_base_url` 命令);
+// 若不在 Tauri 环境(纯浏览器 `vite` 调试),降级到 localhost:8000。
+
+
+const FALLBACK_BASE_URL = &quot;http://localhost:8000&quot;;
+
+let cachedBaseUrl: string | null = null;
+
+async function resolveBaseUrl(): Promise&lt;string&gt; {
+  if (cachedBaseUrl) return cachedBaseUrl;
+
+  // 动态 import: 纯浏览器调试时 @tauri-apps/api 也装着,但 invoke 会失败,
+  // 用 try/catch 降级即可。
+  try {
+    const { invoke } = await import(&quot;@tauri-apps/api/core&quot;);
+    const url = await invoke&lt;string&gt;(&quot;get_backend_base_url&quot;);
+    cachedBaseUrl = url;
+    return url;
+  } catch {
+    cachedBaseUrl = FALLBACK_BASE_URL;
+    return cachedBaseUrl;
+  }
+}
+
+export async function getHealth(): Promise&lt;{ status: string }&gt; {
+  const base = await resolveBaseUrl();
+  const res = await fetch(`${base}/health`);
+  if (!res.ok) {
+    throw new Error(`health check failed: HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+/**
+ * 流式聊天 —— POST /chat, 读 SSE 流。
+ *
+ * 为什么用 fetch + ReadableStream 而不是 EventSource?
+ *   EventSource 只支持 GET 请求, 而 /chat 是 POST(要带 body)。
+ *   所以手动用 fetch 拿到 response.body 这个 ReadableStream, 逐块解析 SSE。
+ *
+ * @param message 用户输入
+ * @param onChunk 每收到一段文本就回调(用来实时 append 到 UI)
+ */
+export async function streamChat(
+  message: string,
+  onChunk: (text: string) =&gt; void
+): Promise&lt;void&gt; {
+  const base = await resolveBaseUrl();
+  const res = await fetch(`${base}/chat`, {
+    method: &quot;POST&quot;,
+    headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+    body: JSON.stringify({ message }),
+  });
+
+  if (!res.ok || !res.body) {
+    throw new Error(`chat failed: HTTP ${res.status}`);
+  }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = &quot;&quot;;
+
+  // SSE 以 \n\n 分隔每条事件, 一条事件形如 `data: {...}\n\n`。
+  // 但网络分块不保证按事件边界切, 所以要先攒到 buffer 再按 \n\n 切。
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+
+    const parts = buffer.split(&quot;\n\n&quot;);
+    // 最后一段可能不完整, 留给下一轮
+    buffer = parts.pop() ?? &quot;&quot;;
+
+    for (const part of parts) {
+      const line = part.trim();
+      if (!line.startsWith(&quot;data:&quot;)) continue;
+      const payload = line.slice(5).trim();
+      if (payload === &quot;[DONE]&quot;) return;
+      try {
+        const data = JSON.parse(payload);
+        if (data.chunk) onChunk(data.chunk);
+        if (data.error) throw new Error(data.error);
+      } catch (e) {
+        // JSON 解析失败就跳过这条; 但 error 类要抛
+        if (e instanceof Error &amp;&amp; e.message.includes(&quot;调用&quot;))
+          throw e;
+      }
+    }
+  }
+}
+</code></pre>
+<p>这里使用 <code>buffer</code> 是因为网络数据包不能保证SSE事件边界，一条完整 SSE 事件是 <code>data: {...}\n\n</code>，但网络可能把半条事件分两次送来。 所以先攒到 <code>buffer</code>，按 <code>\n\n</code> 切，最后一段（可能不完整）留到下次。</p>
+<h3 id="3-">3. 打包发布</h3>
+<p>这个要分两步：</p>
+<p>第一步，用PyInstaller将后端应用打包，最终会在 <code>/backend/dist</code> 目录下找到一个exe文件。你可以把这个exe 文件拷到任何一台没有安装python的电脑上运行。运行后，在这台电脑上打开浏览器，访问 <code>http://localhost:8000/health</code>，能返回 <code>{&quot;status&quot;:&quot;ok&quot;}</code>。</p>
+<p>第二步，用Tauri将所有内容（包括上面生成的exe文件）打包成一个可执行的应用（会自动调用上面生成的exe文件）。</p>
+<p>这里比较麻烦，反正是折腾了好久，不是网络问题，就是缓存问题。</p>
+<p>最后成功了，但是我都不知道哪一步做对了。所以也整理不出正确的路径。</p>
+<p>但是不管怎么说，最后直接双击exe文件后能出现下面的界面。</p>
+<p><img src="/post-images/1788702057741735400_0.png" alt="408a79cccf8f335a230a2f7b917af60a.png" /><br />
+<img src="/post-images/1788702058330331400_0.png" alt="" /></p>
+<p>好吧，能对话，但没有记忆，是个傻子。</p>
+<p>在下一个章节，我们将用LangGraph搭一个工作流。</p>
+<p>sk-91c5f922221d472e9a1b528a6a633062</p>
+<p><img src="/post-images/KoQIAY_1788706026769885200.jpg" alt="" /></p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-06</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/zhuang-jie-dian/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之三：用LangGraph建工作流</span></a>
+            
+            
+            <a class="next" href="/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-yi-fen-xi-xu-qiu-ding-fang-an/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之一：分析需求定方案</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788707838" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

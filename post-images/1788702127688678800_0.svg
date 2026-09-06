@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="f1a-t f1a-d" viewBox="0 0 880 420">
+  <title id="f1a-t">Harness 定位与可替换内核</title>
+  <desc id="f1a-d">一个内核可被装配为 Web、Headless、ACP、SDK 四种形态，内部所有部件都是插件</desc>
+  
+  <defs>
+    <!-- 定义灰色箭头标记 -->
+    <marker id="a1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#5a6478"/>
+    </marker>
+    <!-- 定义红色箭头标记（用于上方右侧连线） -->
+    <marker id="a1a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#bf4e36"/>
+    </marker>
+  </defs>
+
+  <style>
+    /* ----- 基础静态样式（补全缺失部分）----- */
+    .b-focal { fill: #e3f2fd; stroke: #1a73e8; stroke-width: 2; }
+    .b { fill: #f8f9fa; stroke: #dadce0; stroke-width: 1.5; }
+    .grp { fill: #fafafa; stroke: #ccc; stroke-width: 1; stroke-dasharray: 5,3; }
+    .ttl { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #202124; }
+    .ttl-sm { font-family: Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #202124; }
+    .sub { font-family: Arial, sans-serif; font-size: 12px; fill: #5f6368; }
+    .sub-sm { font-family: Arial, sans-serif; font-size: 11px; fill: #5f6368; }
+    .title-marker { font-family: Arial, sans-serif; font-size: 13px; font-weight: 500; fill: #1a73e8; font-style: italic; }
+    
+    /* ----- 箭头路径基础描边（必须定义，否则不可见）----- */
+    .ln { fill: none; stroke: #5a6478; stroke-width: 2; }
+    .ln-link { fill: none; stroke: #bf4e36; stroke-width: 2; }
+
+    /* ===== 核心：让箭头流动起来的动画 ===== */
+    .flow {
+      /* 将路径变成虚线（长度10，间隔5），并让虚线整体移动 */
+      stroke-dasharray: 8 6;
+      animation: dashMove 0.8s linear infinite;
+    }
+
+    /* 定义流动动画：偏移量不断减小，视觉上虚线像水流一样向前滚动 */
+    @keyframes dashMove {
+      to {
+        stroke-dashoffset: -14; /* 负值让虚线向前移动 */
+      }
+    }
+  </style>
+
+  <!-- 中央核心区域 -->
+  <rect x="300" y="150" width="280" height="120" rx="8" class="b-focal"/>
+  <text x="440" y="184" text-anchor="middle" class="ttl">可组合插件内核（Cordis 树）</text>
+  <text x="440" y="206" text-anchor="middle" class="sub">agent-loop · session · tools · llm …</text>
+  <text x="440" y="224" text-anchor="middle" class="sub-sm">没有特权核心，一切可从配置替换</text>
+  <text x="440" y="250" text-anchor="middle" class="title-marker">“everything is a plugin”</text>
+
+  <!-- 四个外围模块 -->
+  <rect x="60" y="40" width="150" height="64" rx="6" class="b"/><text x="135" y="68" text-anchor="middle" class="ttl-sm">Web UI</text><text x="135" y="86" text-anchor="middle" class="sub">dsh web :3080</text>
+  <rect x="60" y="178" width="150" height="64" rx="6" class="b"/><text x="135" y="206" text-anchor="middle" class="ttl-sm">Headless</text><text x="135" y="224" text-anchor="middle" class="sub">一次性任务 runner</text>
+  <rect x="670" y="40" width="150" height="64" rx="6" class="b"/><text x="745" y="68" text-anchor="middle" class="ttl-sm">ACP server</text><text x="745" y="86" text-anchor="middle" class="sub">自动化协议</text>
+  <rect x="670" y="178" width="150" height="64" rx="6" class="b"/><text x="745" y="206" text-anchor="middle" class="ttl-sm">JSON-RPC / SDK</text><text x="745" y="224" text-anchor="middle" class="sub">TS &amp; Python 客户端</text>
+
+  <!-- 带流动动画的箭头路径 -->
+  <path class="ln flow" d="M210 72 L300 170" marker-end="url(#a1)"/>
+  <path class="ln flow" d="M210 210 L300 210" marker-end="url(#a1)"/>
+  <path class="ln-link flow" d="M580 170 L670 72" marker-end="url(#a1)"/>
+  <path class="ln-link flow" d="M580 210 L670 210" marker-end="url(#a1)"/>
+
+  <!-- 底部说明 -->
+  <rect x="200" y="330" width="480" height="64" rx="6" class="grp"/>
+  <text x="440" y="356" text-anchor="middle" class="ttl-sm">同一份内核，按 profile/bundle 装配出不同产品形态</text>
+  <text x="440" y="376" text-anchor="middle" class="sub">cordis.yml 行 → Loader → Fiber 树；patch 层按 id 覆盖任意行</text>
+</svg>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="用一个AI Agent案例来教你开发智能体
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>从头开发AI Agent应用系列之五：建一个写作资料库 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788707838">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788707838">
+
+
+  
+  <meta name="keywords" content="LLM,Agent,AI">
+  
+<meta name="description" content="用一个AI Agent案例来教你开发智能体">
+<link rel="canonical" href="https://loaf.github.io/post/zhi-wu-jian-li-zi-liao-ku/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"从头开发AI Agent应用系列之五：建一个写作资料库","url":"https://loaf.github.io/post/zhi-wu-jian-li-zi-liao-ku/","description":"用一个AI Agent案例来教你开发智能体","image":"/post-images/GtI9ok_1788706632926263700.jpg","datePublished":"2026-07-16T21:41:36+08:00","dateModified":"2026-09-06T22:57:12+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/zhi-wu-jian-li-zi-liao-ku/","name":"从头开发AI Agent应用系列之五：建一个写作资料库","position":2}]}</script>
+<meta property="og:title" content="从头开发AI Agent应用系列之五：建一个写作资料库">
+<meta property="og:description" content="用一个AI Agent案例来教你开发智能体">
+<meta property="og:url" content="https://loaf.github.io/post/zhi-wu-jian-li-zi-liao-ku/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/GtI9ok_1788706632926263700.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/zhi-wu-jian-li-zi-liao-ku/">
+<meta name="twitter:title" content="从头开发AI Agent应用系列之五：建一个写作资料库">
+<meta name="twitter:description" content="用一个AI Agent案例来教你开发智能体">
+<meta name="twitter:image" content="/post-images/GtI9ok_1788706632926263700.jpg">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>从头开发AI Agent应用系列之五：建一个写作资料库</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-07-16</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 12 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/ji-shu/">技术</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color6" href="/tag/agent/">Agent</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <h1 id="heading">之五：建立资料库</h1>
+<p>本章将为本应用建立一个资料库。这个资料库是一个简单的文件库。只是按来源分成不同的目录。</p>
+<h2 id="rag">为什么不用RAG</h2>
+<p>考虑到实现的应用场景，对一个具体的主题而言（一篇文章）而言，资料肯定不需要太多，篇幅也不会太长，所以没有必要使用RAG来建一个向量数据库。</p>
+<p>而且将文本向量化不仅消耗资源而且在搜索时，往往因为RAG的规则（比如选片大小，选片数量等），反而会丢资料，或者将资料内容割裂成碎片，无法形成因果关系。再加现代模型的长上下文，不如将文章直接喂给大模型。</p>
+<p>所以这里的资料库直接调用文件系统。其物理结构为：</p>
+<pre><code>{workspace}/{project_id}/kb/
+├── manifest.json          ← 索引文件（元数据列表）
+├── pages/                 ← 抓取的网页 / URL 导入
+│   ├── mat_xxx.md
+│   └── mat_yyy.html
+├── notes/                 ← 手写笔记 / 讨论总结 / 粘贴片段
+│   └── mat_zzz.md
+└── images/                ← 图片
+    └── mat_www.png
+</code></pre>
+<p>正文是文件，manifest 只记元数据（标题、摘要、标签、路径、来源、哈希……）。</p>
+<p>不过，对这个文件有点纠结。有的好处是巨大的，不光在搜索上起到很大作用，保存哈希值后，在去重方面会方便很多。而且以后还可以增加一个属性 ，保存文件的Token值， 这样可以在调用前预估调用成本，或者自动控制上下文长度（在超长时压缩）。代价是维护有点麻烦，你手工删除一个文件，或者用第三方应用修改文件，元数据没有办法实现更新。</p>
+<p>因为资料库最终是以文件系统的形式保存在磁盘上的，所以没有办法控制外部应用或者其它人通过文件系统来操作文件。</p>
+<p>但是在当前应用中，我们可以控制<strong>所有对文件的读写只通过本应用，不直接碰文件系统</strong>。也就是说，不支持向目录是拷贝一个文件的方式来增加资料，也不支持直接手工删除你认为无用的文件（你当然可以这么做，但会报错）。</p>
+<h2 id="heading-1">代码结构</h2>
+<pre><code>backend/app/
+├── models/
+│   └── material.py        ★ 新增: Material + SourceType Pydantic 模型
+├── kb/                    ★ 新增包 (v3.0 架构修正的核心落点)
+│   ├── __init__.py          铁律: 所有写入只走 store.py
+│   ├── manifest.py          manifest 读写/原子更新/查重/自检 (内层)
+│   └── store.py             对外入口: save/load/delete/list (外层)
+└── api/projects.py        (复用 kb_dir() 拿资料库路径,未变)
+
+backend/tests/
+└── test_kb_store.py       ★ 新增: 6 个测试用例 (5 个验收 + 1 个路由细化)
+</code></pre>
+<p>带 ★ 的是新增。这次没有动以前的任何代码，完全是新增内容。</p>
+<h2 id="material--backendappmodelsmaterialpy">Material 数据模型 backend/app/models/material.py</h2>
+<p>仍然是使用 Pydantic 库来建模。</p>
+<pre><code>SourceType = Literal[&quot;search&quot;, &quot;discussion&quot;, &quot;import&quot;, &quot;note&quot;]
+
+class Material(BaseModel):
+    id: str                          # mat_xxxxxxxxxxxx
+    path: str                        # 相对 kb/ 的路径, 如 pages/mat_xxx.md
+    source_type: SourceType
+    title: str = &quot;&quot;
+    snippet: str = &quot;&quot;                # 一句话摘要
+    url: str | None = None           # 来源 URL
+    tags: list[str] = []
+    relevance: float | None = None   # 仅搜索类才有
+    content_hash: str                # sha256:... 去重用
+    created_at: datetime
+</code></pre>
+<h2 id="manifest--backendappkbmanifestpy">manifest 管理器 backend/app/kb/manifest.py</h2>
+<h3 id="heading-2">读：损坏时降级，不抛异常</h3>
+<pre><code>def read_manifest(kb_root: Path) -&gt; dict:
+    path = kb_root / &quot;manifest.json&quot;
+    if not path.exists():
+        return _empty_manifest(project_id=&quot;&quot;)    # 不存在 → 空骨架
+    try:
+        data = json.loads(path.read_text(encoding=&quot;utf-8&quot;))
+    except (json.JSONDecodeError, OSError):
+        corrupt = path.with_suffix(&quot;.json.corrupt&quot;)
+        path.replace(corrupt)                     # 备份损坏文件
+        return _empty_manifest(project_id=&quot;&quot;)    # 降级到空
+    data.setdefault(&quot;materials&quot;, [])              # 防御性补字段
+    return data
+</code></pre>
+<p>manifest 坏了不抛异常。如果抛，整个项目的所有资料操作都会挂掉，一个坏索引卡死整个资料库，代价过大。降级到空骨架意味着&quot;当这个项目还没资料&quot;， 后续 save 还能继续工作（重新写一份新 manifest），原数据丢了但至少不卡死。</p>
+<p>而且坏文件不会直接被覆盖——先 rename 成 manifest.json.corrupt 备份， 用户/开发者还能从备份里捞数据。</p>
+<h3 id="tmp--osreplace">原子写：.tmp + os.replace</h3>
+<pre><code>def write_manifest(kb_root, manifest):
+    path = kb_root / &quot;manifest.json&quot;
+    tmp = path.with_suffix(&quot;.json.tmp&quot;)          # 1. 先写临时文件
+    tmp.write_text(json.dumps(manifest, ...))
+    os.replace(tmp, path)                        # 2. 原子替换
+</code></pre>
+<p>因为manifest 是关键索引文件，坏了全资料库就乱套。如果写系统写Manifest.json文件时崩溃，就会留下一个不完整的JSON文件，下次启动时，解析失败，整个项目的资料库都不可用了。<strong>所以先写临时文件，没问题后再替换。</strong></p>
+<blockquote>
+<p>[!TIP]<br />
+os.replace 在 POSIX 和 Windows 上都是原子 rename——操作系统保证这一步要么全成功要么全失败， 不会出现&quot;manifest.json 被改成半个&quot;。</p>
+</blockquote>
+<h3 id="heading-3">条目级操作</h3>
+<pre><code>def find_by_id(manifest: dict, material_id: str) -&gt; dict | None:
+    &quot;&quot;&quot;按 id 查一条 manifest 条目, 无则 None。&quot;&quot;&quot;
+    ...  
+
+def find_by_hash(manifest: dict, content_hash: str) -&gt; dict | None:
+    &quot;&quot;&quot;按 content_hash 查 (去重用)。无则 None。&quot;&quot;&quot;
+   ...
+
+def append_material(kb_root: Path, material: Material) -&gt; None:
+    &quot;&quot;&quot;追加一条 material 到 manifest (原子写)。
+    调用方应已确认无重复 (store.save_material 内部用 find_by_hash 查过)。
+    &quot;&quot;&quot;
+    ...
+
+def upsert_material(kb_root: Path, material: Material) -&gt; None:
+    &quot;&quot;&quot;更新或插入一条 material (按 id 匹配)。
+    给后续改标签用—— manifest 的更新语义统一走这里。
+    &quot;&quot;&quot;
+    ...
+
+def remove_material_by_id(kb_root: Path, material_id: str) -&gt; dict | None:
+    &quot;&quot;&quot;按 id 移除一条 manifest 条目, 返回被删的条目 (无则 None)。
+    原子写: 读 → 过滤掉那条 → 写回。返回被删条目让调用方知道
+    对应文件在哪 (path 字段), 以便同步删磁盘文件。
+    &quot;&quot;&quot;
+    ...
+</code></pre>
+<p>因为资料库规模不可能很大，所以查重时简单的线性扫描即可，不需要建索引。</p>
+<h3 id="heading-4">一致性自检</h3>
+<p>前面说过，即使有单一写入路径，旁路操作仍可能发生：</p>
+<ul>
+<li>用户手动删了 kb/pages/mat_xxx.md（绕过 store）</li>
+<li>调试时直接往 kb/notes/ 丢个文件（绕过 store）</li>
+<li>程序 bug 写了一半崩了</li>
+</ul>
+<p>这都有可能会导致元数据和真实资料不一致：</p>
+<ul>
+<li><strong>悬空引用 (dangling_ref)</strong>：manifest 记了一条，但 path 指向的文件没了。</li>
+<li><strong>孤儿文件 (orphan_file)</strong>：kb/ 下有文件，但 manifest 没记</li>
+</ul>
+<p><code>check_consistency</code> 把这两类都报出来：</p>
+<pre><code>def check_consistency(kb_root):
+    manifest = read_manifest(kb_root)
+    recorded = {m[&quot;path&quot;]: m for m in manifest[&quot;materials&quot;] if m.get(&quot;path&quot;)}
+    actual = {扫 pages/notes/images 下所有文件的相对路径}
+
+    dangling = [m for path, m in recorded.items() if path not in actual]
+    orphan = sorted(p for p in actual if p not in recorded)
+    return ConsistencyReport(dangling_refs=dangling, orphan_files=orphan)
+</code></pre>
+<p>返回的是一个数据类 <code>ConsistencyReport</code>：</p>
+<pre><code>@dataclass
+class ConsistencyReport:
+    dangling_refs: list[dict]    # 悬空引用 (manifest 有, 文件没)
+    orphan_files: list[str]      # 孤儿文件 (文件有, manifest 没)
+
+    @property
+    def is_clean(self) -&gt; bool:
+        return not self.dangling_refs and not self.orphan_files
+</code></pre>
+<h2 id="-kbstorepy">对外读写层 kb/store.py</h2>
+<p>这是操作文件的唯一入口。</p>
+<h3 id="save-material-----manifest">save_material：去重 → 写文件 → 登记 manifest</h3>
+<pre><code>def save_material(project_id, content, *, source_type, title=&quot;&quot;, ...) -&gt; tuple[str, SaveResult]:
+    kb = kb_dir(project_id)
+    # 1. 兜底建目录 (T-004 已建, 这里 exist_ok 防御)
+    kb.mkdir(parents=True, exist_ok=True)
+    for sub in (&quot;pages&quot;, &quot;notes&quot;, &quot;images&quot;):
+        (kb / sub).mkdir(exist_ok=True)
+
+    content_hash = compute_content_hash(content)
+
+    # 2. 去重: 命中已存在就直接返回
+    mf = read_manifest(kb)
+    existing = find_by_hash(mf, content_hash)
+    if existing is not None:
+        return existing[&quot;id&quot;], &quot;deduplicated&quot;
+
+    # 3. 写文件 (按 source_type 路由到子目录)
+    subdir = _SUBDIR_BY_SOURCE.get(source_type, &quot;notes&quot;)
+    name = (filename or _gen_material_id()) + _TEXT_EXT
+    rel_path = f&quot;{subdir}/{name}&quot;
+    (kb / rel_path).write_text(content, encoding=&quot;utf-8&quot;)
+
+    # 4. 登记 manifest (原子写)
+    material = Material(id=_gen_material_id(), path=rel_path, ...)
+    append_material(kb, material)
+    return material.id, &quot;created&quot;
+</code></pre>
+<h3 id="source-type--">source_type → 子目录的路由</h3>
+<pre><code>_SUBDIR_BY_SOURCE = {
+    &quot;search&quot;: &quot;pages&quot;,        # 抓回的网页
+    &quot;import&quot;: &quot;pages&quot;,        # URL 抓取 / 文件导入
+    &quot;discussion&quot;: &quot;notes&quot;,    # 讨论总结
+    &quot;note&quot;: &quot;notes&quot;,          # 手写 / 粘贴
+}
+</code></pre>
+<h3 id="delete-material-manifest">delete_material：先删 manifest，再删文件</h3>
+<pre><code>def delete_material(project_id, material_id) -&gt; bool:
+    kb = kb_dir(project_id)
+    removed = remove_material_by_id(kb, material_id)    # 1. 先从 manifest 移除
+    if removed is None:
+        return False                                     # 没找到, 返回 False 不报错
+    file_path = kb / removed.get(&quot;path&quot;, &quot;&quot;)
+    try:
+        if file_path.is_file():
+            file_path.unlink()                           # 2. 再删磁盘文件
+    except OSError:
+        pass                                             # 文件删不掉不回滚 manifest
+    return True
+</code></pre>
+<p>之所以先删manifest，再删文件，是因为一个原则 ：<strong>悬空引用比孤儿文件更糟糕</strong>。</p>
+<h2 id="heading-5">最后</h2>
+<p>这一章比较简单，重点在于数据的一致性，其实如果再简单一点的话，连manifest都可以不要，只建一个文件目录即可。这里之所以过度设计，是因为我还想以后将这个资料库扩展成一个能相互引用的网状资料库，但又不想使用数据库，只能想办法先熟悉一下将文件元数据保存在当前目录下的方法。</p>
+<p>现在代码部分只是选择性地贴了一部分。实际代码要多的多。项目最终完成后，会将代码上传到github。</p>
+<p>下一章，将开始实现手动导入资料的功能。</p>
+<p><img src="/post-images/GtI9ok_1788706632824601500.jpg" alt="" /></p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-06</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/zhi-liu-xiang-zi-liao-ku-zhong-dao-ru-su-cai/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之六：收集资料，向资料库里加资料</span></a>
+            
+            
+            <a class="next" href="/post/cong-tou-kai-fa-ai-agent-ying-yong-xi-lie-zhi-si-ke-shi-hua-gong-zuo-liu/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之四：可视化工作流</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788707838" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>
