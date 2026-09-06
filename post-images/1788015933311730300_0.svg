@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 210" width="720" height="210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scaling 多旋钮控制台示意图">
+  <style>
+    .knob-spin { animation: spin 3.2s linear infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes spin { from { transform: rotate(-40deg); } to { transform: rotate(320deg); } }
+    @media (prefers-reduced-motion: reduce) {
+      .knob-spin { animation: none !important; }
+    }
+  </style>
+  <rect x="20" y="20" width="680" height="150" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="360" y="48" font-size="14" fill="#334155" text-anchor="middle" font-weight="bold">Scaling 控制台（每个旋钮都能单独拧）</text>
+  <!-- 旋钮模板 -->
+  <g>
+    <circle cx="105" cy="110" r="30" fill="#fff" stroke="#94a3b8" stroke-width="3"/>
+    <line x1="105" y1="110" x2="105" y2="86" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+    <text x="105" y="162" font-size="12" fill="#64748b" text-anchor="middle">参数规模</text>
+    <text x="105" y="72" font-size="10" fill="#94a3b8" text-anchor="middle">拧过了</text>
+  </g>
+  <g>
+    <circle cx="235" cy="110" r="30" fill="#fff" stroke="#94a3b8" stroke-width="3"/>
+    <line x1="235" y1="110" x2="252" y2="92" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+    <text x="235" y="162" font-size="12" fill="#64748b" text-anchor="middle">训练数据</text>
+  </g>
+  <g>
+    <circle cx="365" cy="110" r="30" fill="#fff" stroke="#94a3b8" stroke-width="3"/>
+    <line x1="365" y1="110" x2="382" y2="92" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+    <text x="365" y="162" font-size="12" fill="#64748b" text-anchor="middle">推理算力</text>
+  </g>
+  <g>
+    <circle cx="495" cy="110" r="30" fill="#ecfdf5" stroke="#14b8a6" stroke-width="3"/>
+    <line class="knob-spin" x1="495" y1="110" x2="495" y2="86" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/>
+    <text x="495" y="162" font-size="12" fill="#0f766e" text-anchor="middle" font-weight="bold">训练环境</text>
+    <text x="495" y="72" font-size="10" fill="#14b8a6" text-anchor="middle">正在拧</text>
+  </g>
+  <g>
+    <circle cx="625" cy="110" r="30" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="3"/>
+    <line class="knob-spin" x1="625" y1="110" x2="625" y2="86" stroke="#6d28d9" stroke-width="4" stroke-linecap="round"/>
+    <text x="625" y="162" font-size="12" fill="#6d28d9" text-anchor="middle" font-weight="bold">奖励信号</text>
+    <text x="625" y="72" font-size="10" fill="#8b5cf6" text-anchor="middle">正在拧</text>
+  </g>
+</svg>

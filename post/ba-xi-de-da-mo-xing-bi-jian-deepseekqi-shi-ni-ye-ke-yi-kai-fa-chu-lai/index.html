@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="从巴西的大模丑闻开始，通过学习合并大模型，深入学习开源的权重文件。
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>巴西的大模型比肩DeepSeek？其实你也可以开发出来 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788675916">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788675916">
+
+
+  
+  <meta name="keywords" content="LLM,AI,MoE,Mergekit">
+  
+<meta name="description" content="从巴西的大模丑闻开始，通过学习合并大模型，深入学习开源的权重文件。">
+<link rel="canonical" href="https://loaf.github.io/post/ba-xi-de-da-mo-xing-bi-jian-deepseekqi-shi-ni-ye-ke-yi-kai-fa-chu-lai/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"巴西的大模型比肩DeepSeek？其实你也可以开发出来","url":"https://loaf.github.io/post/ba-xi-de-da-mo-xing-bi-jian-deepseekqi-shi-ni-ye-ke-yi-kai-fa-chu-lai/","description":"从巴西的大模丑闻开始，通过学习合并大模型，深入学习开源的权重文件。","image":"/post-images/1788017005162777300_0.png","datePublished":"2026-06-19T23:21:59+08:00","dateModified":"2026-08-29T23:23:28+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/ba-xi-de-da-mo-xing-bi-jian-deepseekqi-shi-ni-ye-ke-yi-kai-fa-chu-lai/","name":"巴西的大模型比肩DeepSeek？其实你也可以开发出来","position":2}]}</script>
+<meta property="og:title" content="巴西的大模型比肩DeepSeek？其实你也可以开发出来">
+<meta property="og:description" content="从巴西的大模丑闻开始，通过学习合并大模型，深入学习开源的权重文件。">
+<meta property="og:url" content="https://loaf.github.io/post/ba-xi-de-da-mo-xing-bi-jian-deepseekqi-shi-ni-ye-ke-yi-kai-fa-chu-lai/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/1788017005162777300_0.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/ba-xi-de-da-mo-xing-bi-jian-deepseekqi-shi-ni-ye-ke-yi-kai-fa-chu-lai/">
+<meta name="twitter:title" content="巴西的大模型比肩DeepSeek？其实你也可以开发出来">
+<meta name="twitter:description" content="从巴西的大模丑闻开始，通过学习合并大模型，深入学习开源的权重文件。">
+<meta name="twitter:image" content="/post-images/1788017005162777300_0.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css" crossorigin="anonymous">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>巴西的大模型比肩DeepSeek？其实你也可以开发出来</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-06-19</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 48 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/ji-shu/">技术</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+    <a class="page-tag-item clickable color8" href="/tag/moe/">MoE</a>
+    
+    <a class="page-tag-item clickable color4" href="/tag/mergekit/">Mergekit</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <h2 id="heading">尴尬的“原创”</h2>
+<p>6月13日左右，HuggingFace上一个来源于巴西的大模型刷榜了，这个名为 Rio 3.5 Open 397B的开源大模型由里约市政府开发，性能表现惊人，评测得分与Qwen和DeepSeek打的有来有回。<br />
+<img src="/post-images/1788017005162777300_0.png" alt="x" /></p>
+<p>6月14日，立刻有一个中国团队Nex出来“打脸”了，指控Rio团队抄袭了自己的模型。之所以说是“打脸”，还真是字面意义的打脸。Nex不光说Rio抄了，而且还证明它抄的毫无技术含量。</p>
+<p>为什么说尴尬呢，因为根据Nex发布的证据，Rio抄的有点低级。他们只是把Nex开源的权重和Qwen开源的权重按比例混合一下，然后再加上一个系统提示词“我叫Rio”就完工了。</p>
+<p>听起来还有点专业，但是看看过程就会发现一点技术含量都没有。</p>
+<p>一个大模型的&quot;权重&quot;（weights），本质上就是一个数组。比如 397B 参数的模型，就有 3970 亿个浮点数。</p>
+<p>想象这 3970 亿个数字排成一条超长的队伍：</p>
+<pre><code>Nex-N2-Pro 的权重： [0.123, -0.456, 1.789, ...]  ← 长度 3970 亿
+Qwen 3.5 的权重：   [0.111, -0.321, 1.654, ...]  ← 长度 3970 亿
+</code></pre>
+<p>Rio做的事就是做了一个循环，对数组按位计算：</p>
+<p>比如说Nex中某个Token的权重数第1位是0.123，Qwen的是0.111，Rio就<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.123</mn><mo>∗</mo><mn>0.57</mn><mo>+</mo><mn>0.111</mn><mo>∗</mo><mn>0.43</mn><mo>=</mo><mn>0.11784</mn></mrow><annotation encoding="application/x-tex">0.123*0.57+0.111*0.43=0.11784</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.123</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.57</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.111</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.43</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.11784</span></span></span></span>,它就取0.118为权重数<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>(<a href="https://github.com/nex-agi/Nex-N2/issues/4">https://github.com/nex-agi/Nex-N2/issues/4</a>)（标题即 &ldquo;Rio-3.5-Open-397B ≈ 0.6 x Nex-N2_pro + 0.4 x Qwen&rdquo;）]。</p>
+<p>你看，Rio根本不需要考虑什么算力、语料、算法之类的麻烦事，只要会计算小数点后3位就能开发大模型。</p>
+<p>被抓包后Rio团队只能承认模型是合并了Nex和Qwen。然后将模型下架。</p>
+<p>这个事件再次证明了：“<strong>说归说，笑归笑。别和数学开玩笑</strong>”</p>
+<p>正如Nex发布证据的评论区一位读者所言：“<strong>数学会记住一切</strong>”</p>
+<p>但是光看热闹可不行，从热闹中学到东西才是王道。比如说：</p>
+<h2 id="rionex">Rio为什么会选Nex？</h2>
+<p>我想大家都没有听说过这个Nex，我也是从这场闹剧中才了解这个模型。<br />
+Rio为什么选择了这么一个鲜为人知的模型呢？</p>
+<h3 id="heading-1">先说能合并的前提：架构兼容，参数相同</h3>
+<p>两个模型要能合并，必须得有：</p>
+<ul>
+<li>相同的层数</li>
+<li>相同隐藏维度</li>
+<li>相同的专家数（MoE）</li>
+<li>相同的Vocabulary</li>
+</ul>
+<p><strong>层数和维度是什么？</strong></p>
+<p>举个例子吧，Qwen 3.5 397B有3970亿个参数，模型隐藏维度是4096。</p>
+<p>现在你处理一句话“猫坐在垫子上”，这句话会自动切分成多个Token，不同的分词器会有不同的切法，所以Token数并不一致，但是一般来说，“猫”作为专有名词，总是一个独立的Token的。</p>
+<p>既然你的模型参数有4096个，那么对于“猫”这个Token一进入模型就可以表示成一个有4096个值的数组（一个向量）</p>
+<pre><code>猫 =  [ 0.12, -0.45, 0.88, 0.03, -0.21, 0.67, ... , 0.19 ]
+</code></pre>
+<p>可以这么理解维度，如果维度小，比如8位，就相当于用8个数字来描述猫，能表达的细节就比较小，而4096个数字，能表达的细节就多的多了。甚至可以表达出“一只慵懒的猫”和“一只警觉的猫”之间的差异。</p>
+<blockquote>
+<p>需要注意的是，这里每一维（具体位置的数，比如第8个数）并不是我原来理解的一个参数，比如“颜色”、“品种”之类。单个的数字其实并没有意义，而是4096个数字组合在一起才决定了猫在模型内容这个抽象空间的位置。</p>
+</blockquote>
+<p>然后我们再讨论层数。</p>
+<p>每一层做的事就是把“猫”这个数组，根据上下文重新算一遍，换成一组新数字。这个变化的意义在于它越来越懂猫在这个句子中的角色。</p>
+<ul>
+<li>第0层的&quot;猫&quot;：还只是字典里那个孤立的&quot;猫&quot;，它不知道自己前面有什么、后面要接什么。</li>
+<li>经过第1层：数字被更新了，现在它隐约&quot;知道&quot;自己是名词、后面跟着动词&quot;坐&quot;。</li>
+<li>经过第2层：数字再更新，它&quot;知道&quot;自己是这句话的主语、是&quot;坐&quot;这个动作的发出者。</li>
+<li>经过第3层：再更新，它&quot;知道&quot;自己坐在&quot;垫子&quot;上……</li>
+<li>……</li>
+<li>到最后一层：这串 4096 个数字已经把&quot;猫坐在垫子上&quot;的全部上下文含义都吸收进去了。</li>
+</ul>
+<p><strong>总结一下，如果我们认为猫是一个Token，其实就是用一个数组来表示这个猫这个Token。而用每句包含猫这个词的语料进行训练的过程其实就是修改这个数组的过程。</strong></p>
+<p>在 60 层网络中，&lsquo;猫&rsquo;这个 token 每出现一次，其向量表示就会被 60 层逐层更新一遍才最终保存在权重文件中。</p>
+<p>但是我们很快就能意识到：训练时如果语料顺序不同，算出的值不就不一样了吗？</p>
+<p>是的。<strong>顺序的确影响最终值</strong>。</p>
+<p>但是，这并不会毁掉模型。这其实又是一个数学问题了。这要从机器学习的原理说起，简单来说有三点原因</p>
+<p>第一，每次调整都很小（学习率，或者说步长）。每次调整通常只是0.0001级别。<br />
+第二，样本量大到可以平均化差异。根据统计学规律，样本量巨大时，排列顺序对最终平均值影响趋近于零。<br />
+第三，损失函数最终会趋同。机器学习算法的功能相当于在一个高低不平的地形中找到最稳定的低点，只要你每一步都选择比当前位置低的一点，你总能走到最低的点，这里的每一步的跨度，就相当于上面说的步长。也就是说，你无论是先向左还是先向右，只要规则不变，总能走到最低点。</p>
+<p>事情有趣的地方在于：</p>
+<blockquote>
+<p>两次训练，哪怕用完全相同的数据，只要打乱顺序的方式不同、随机种子不同，得到的权重文件就是不同的两个模型。但是整体能办基本一致。</p>
+</blockquote>
+<p>再回到主题，继续……</p>
+<p>两个模型要能完美合并，首先需要相同的架构，相同架构下，参数也得相同。<br />
+比如说，Qwen架构是MoE，而Llama是Dense，Qwen是60层，Llama是126层，所以两者就不能合并。</p>
+<p><strong>Dense和MoE是不同的架构</strong></p>
+<p>Dense 模型可以理解为：<strong>一个全能型团队，每次回答问题，整个团队都要一起开会。</strong></p>
+<p>MoE 全称是 Mixture of Experts，中文可以叫“混合专家模型”。它可以理解为：<strong>公司里有很多专家，但每次只让少数几个相关专家来处理问题。</strong></p>
+<p>比如一个Qwen 3.5 397B是MoE 模型，总共有 670B 参数，但每次回答可能只激活其中 17B 参数。</p>
+<p>模型怎么知道应该激活哪些参数呢？就得在激活前，增加一个路由层，模型得先根据对话内容，判断应该激活哪些参数。就好比你到医院，先进到导诊台，让护士根据你的情况分配科室和医生。</p>
+<p>很明显MoE增加了模型的复杂性，但它更灵活，可扩展性也更强。</p>
+<p>这里，Qwen 3.5和Nex-N2-Pro 都是MoE架构，同时又都512个专家。这里的512专家，是指：对于每个Token，都配置512个候选专家作为专家池，具体激活数量则根据路由情况来决定。</p>
+<p>最后，还得有相同的<strong>Vocabulary</strong>。</p>
+<p><strong>Vocabulary（词表）就是模型能&quot;认识&quot;的所有基本单元的集合。</strong></p>
+<p>具体在模型中，就是Token。我们知道，大模型权重文件里，保存了不同Token之间的关系，一个Token不一定对应一个单词，也不一定是一个汉字。它是根据语义用分词器进行切分后的结果。</p>
+<p>比如说，“我喜欢人工智能”这句话，可以被切成“我 / 喜欢 / 人工 / 智能”，这就是4个Token，也可以切成“我 / 喜欢 / 人工智能”，就是3个Token。</p>
+<p>具体怎么切，其实也是一个数学问题，根据词频的概率来决定。但有一点是肯定的，不同的模型，最终有效的Token列表肯定不一样，这个列表就是Vocabulary（词表）。</p>
+<p>只有以上所有的要素都匹配，合并操作才有意义。这时才能逐元素进行加权计算，实现“<strong>完美对齐</strong>”。</p>
+<p>我们从<a href="https://github.com/nex-agi/Nex-N2">Nex的官方README文件</a>可得知，Nex本身是基于QWen 3.5系列进行训练的，两者同源。</p>
+<pre><code class="language-mermaid">flowchart TD
+    Q([&quot;Qwen3.5-397B-A17B&lt;br/&gt;&lt;b&gt;基础模型 Base&lt;/b&gt;&quot;])
+    PT[&quot;后训练&lt;br/&gt;&lt;b&gt;SFT + DPO + RL&lt;/b&gt;&quot;]
+    N([&quot;Nex-N2-Pro&quot;])
+    R([&quot;&lt;b&gt;Rio&lt;/b&gt;&lt;br/&gt;0.57 × Nex-N2-Pro&lt;br/&gt;+ 0.43 × Qwen&quot;])
+ 
+    Q --&gt;|&quot;后训练&quot;| PT
+    PT --&gt; N
+    Q -.-&gt;|&quot;基座继承&quot;| N
+    N ==&gt;|&quot;权重 0.57&quot;| R
+    Q ==&gt;|&quot;权重 0.43&quot;| R
+ 
+    classDef base fill:#7aa2f7,stroke:#3b4261,color:#1a1b26,stroke-width:2px
+    classDef train fill:#bb9af7,stroke:#3b4261,color:#1a1b26,stroke-width:2px
+    classDef model fill:#9ece6a,stroke:#3b4261,color:#1a1b26,stroke-width:2px
+    classDef merge fill:#e0af68,stroke:#3b4261,color:#1a1b26,stroke-width:2px
+ 
+    class Q base
+    class PT train
+    class N model
+    class R merge
+</code></pre>
+<p><img src="/post-images/1788017006003206300_0.svg" alt="lineage" /></p>
+<p>也就是说，<strong>Rio 做的事情是：把一个后训练版本（Nex-N2-Pro）和它的原始基座（Qwen），按 57/43 的比例混合。</strong>  不是合并两个独立的模型，而是把一个模型和&quot;它自己&quot;做平均。</p>
+<h3 id="nex">再说选择的理由：Nex够新够冷门</h3>
+<p>Nex是6月3日刚刚在Github创建仓库的，当时只有200来个Star（现在反而因为此事件变成热点了），在 AI 社区里处于&quot;无人知晓&quot;的状态。而巴西里约热内卢市政府在6 月 13 日左右发布 Rio 模型。</p>
+<p>Nex-N2-Pro是Qwen 3.5的优化版，性能比Qwen 3.5高，Rio用0.57/0.43的比例混合两个模型，刚好产生了一个介于两者之间的模型。这个位置刚好可以被伪装成自己的训练成果，不至于太差没法向甲方市长交差，也不至于太好而引人注目。看来Rio的发布方对于抄袭比较有经验。考试抄第一名的卷子时一定要注意，不要抄成第二名了。</p>
+<h2 id="heading-2">你也可以原创一个大模型</h2>
+<p>为了证明Rio真是没有什么技术含量，我试着在家用电脑上按这个思路“原创”了三个自己的模型。</p>
+<p>这里我选择合并Qwen 2.5-0.5B和Qwen 2.5-0.5B-Instruct，选择这个主要是参数小，架构完全相同。只是Instruct版是前者经过后训练（SFT）后得到的更擅长对话的版本。</p>
+<h3 id="1wslgpu">1.确认WSL+GPU环境</h3>
+<p>先在我的Windows11上安装WSL和工作环境。我的电脑上wsl安装的ubuntu 22.04,显卡是RTX 3060 12G，内存有32G，足够了。</p>
+<p>打开 PowerShell 或 CMD，先确认 WSL 和显卡情况：</p>
+<pre><code># 查看 WSL 版本
+wsl -l -v
+# 应该看到 Ubuntu 版本为 2
+
+# 确认 Windows 安装了 NVIDIA 驱动（不是 WSL 里装，是 Windows 上装）
+nvidia-smi
+# 应该能看到 RTX 3060 和驱动版本
+</code></pre>
+<p>然后进入 WSL 测试 GPU 是否可访问：</p>
+<pre><code># 进入 WSL
+wsl
+
+# 测试 GPU 可见性
+nvidia-smi
+# 如果能显示 RTX 3060，说明 WSL2 的 GPU 透传正常工作
+</code></pre>
+<p>两个地方的nvidia-smi命令都显示：</p>
+<pre><code>NVIDIA-SMI 610.62   KMD Version: 610.62   CUDA UMD Version: 13.3
+</code></pre>
+<h3 id="2">2.准备环境</h3>
+<pre><code># 1. 基础包
+sudo apt update &amp;&amp; sudo apt upgrade -y
+sudo apt install -y python3 python3-pip python3-venv git curl build-essential
+
+# 2. Git LFS（下载模型权重用）
+sudo apt install -y git-lfs
+git lfs install
+
+# 3. 创建实验目录
+mkdir -p ~/model_merge_lab &amp;&amp; cd ~/model_merge_lab
+
+# 4. 创建虚拟环境
+python3 -m venv venv
+source venv/bin/activate
+
+# 5. 确认 Python 和 pip
+python --version  # 应为 3.10+
+pip --version
+</code></pre>
+<h3 id="3-cudamergekit">3. 安装CUDA工具链和mergekit</h3>
+<pre><code># 1. 安装 PyTorch（GPU 版）
+# 根据 nvidia-smi 显示的 CUDA 版本选择。因为我是 CUDA 13.3：
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu133
+
+# 但是安装失败，我看了一下torch还不支持13.3版本，也怪我昨天手贱升级了驱动。所以先安装cu132试试
+# 而且安装过程中又有报错，最后是先升级pip，然后运行
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu132
+# 因为安装时加上torchaudio就出错，我想我这里应该用不上声音相关的内容，先不安装了，如果实在不行，以后再安装CPU版的。
+
+# 2. 验证 PyTorch 是否识别 GPU
+python -c &quot;import torch; print(f'GPU可用: {torch.cuda.is_available()}'); print(f'GPU名称: {torch.cuda.get_device_name(0)}'); print(f'显存: {torch.cuda.get_device_properties(0).total_memory/1e9:.1f} GB')&quot;
+
+# 应输出：GPU可用: True, GPU名称: NVIDIA GeForce RTX 3060, 显存: 12.0 GB
+# 有趣的是，我这里输出的显存是 12.9GB,仔细看一下，应该是上面命令中，内存/1e9的原因。
+
+# 3. 安装 mergekit
+pip install mergekit
+
+# 4. 验证
+mergekit-yaml --help
+</code></pre>
+<h3 id="4">4.下载模型</h3>
+<pre><code>pip install huggingface-hub
+
+# 国内加速
+export HF_ENDPOINT=https://hf-mirror.com
+
+# 下载模型
+hf download Qwen/Qwen2.5-0.5B --local-dir Qwen2.5-0.5B
+hf download Qwen/Qwen2.5-0.5B-Instruct --local-dir Qwen2.5-0.5B-Instruct
+
+</code></pre>
+<p>下载后在指定目录下能看到两个safetensors文件，大小是943M</p>
+<h3 id="5">5.定制合并方式</h3>
+<p>这里本着学习的目的，使用了三种合并方案。如果你只想向Rio一样做个大模型来看看，选择第一种就可以了。</p>
+<h4 id="--linearrio-">方案 ① Linear（加权平均）——Rio 用的方法，最简单</h4>
+<pre><code>cat &gt; merge_linear.yaml &lt;&lt; 'YAML'
+merge_method: linear
+models:
+  - model: Qwen2.5-0.5B
+    parameters:
+      weight: 0.5
+  - model: Qwen2.5-0.5B-Instruct
+    parameters:
+      weight: 0.5
+base_model: Qwen2.5-0.5B
+tokenizer:
+  source: base
+YAML
+</code></pre>
+<h4 id="--slerp">方案 ② SLERP（球面线性插值）——更平滑，保留更多原始方向</h4>
+<pre><code>cat &gt; merge_slerp.yaml &lt;&lt; 'YAML'
+merge_method: slerp
+
+models:
+  - model: Qwen2.5-0.5B
+  - model: Qwen2.5-0.5B-Instruct
+
+base_model: Qwen2.5-0.5B
+
+parameters:
+  t: 0.5
+
+tokenizer:
+  source: base
+
+dtype: float16
+YAML
+</code></pre>
+<h4 id="--ties-merging">方案 ③ TIES-Merging——更高级，按&quot;重要方向&quot;做合并</h4>
+<pre><code>cat &gt; merge_ties.yaml &lt;&lt; 'YAML'
+merge_method: ties
+
+base_model: Qwen2.5-0.5B
+
+models:
+  - model: Qwen2.5-0.5B-Instruct
+    parameters:
+      weight: 1.0
+
+parameters:
+  normalize: true
+  density: 0.5
+
+tokenizer:
+  source: base
+
+dtype: float16
+YAML
+</code></pre>
+<p>这样就在当前目录下创建了三个yaml文件。定义了合并方式和参数。</p>
+<p>三种方案的区别在于：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>原理</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Linear</strong></td>
+<td>直接按比例取平均值</td>
+<td>咖啡 + 牛奶 = 拿铁</td>
+</tr>
+<tr>
+<td><strong>SLERP</strong></td>
+<td>在球面上沿弧线插值，保持方向信息</td>
+<td>不是简单的混合，更像把两个方向&quot;取中间角度&quot;</td>
+</tr>
+<tr>
+<td><strong>TIES</strong></td>
+<td>只取每个模型中&quot;意见一致&quot;的部分，丢弃冲突的</td>
+<td>两个专家讨论，<strong>只采纳他们达成共识的部分</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="6">6.合并</h3>
+<pre><code># 创建输出目录
+mkdir -p merged_linear merged_slerp merged_ties
+
+# 执行三种合并（用 GPU 加速）
+mergekit-yaml merge_linear.yaml merged_linear --cuda --copy-tokenizer
+mergekit-yaml merge_slerp.yaml merged_slerp --cuda --copy-tokenizer
+mergekit-yaml merge_ties.yaml merged_ties --cuda --copy-tokenizer
+
+</code></pre>
+<p>因为用了GPU，合并速度还是很快的。几秒钟就可以搞定。</p>
+<h3 id="7">7.推理测试</h3>
+<p>有了这些safetensors，你就可以直接使用ollama加载使用了。</p>
+<p>我是用Python脚本测试的。创建对比测试脚本：</p>
+<pre><code>cat &gt; compare_models.py &lt;&lt; 'PYEOF'
+&quot;&quot;&quot;
+对比测试：Base vs Instruct vs Linear vs SLERP vs TIES
+全部跑在 GPU 上
+&quot;&quot;&quot;
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import time
+
+# 模型路径
+model_dict = {
+    &quot;A_Base&quot;: &quot;Qwen2.5-0.5B&quot;,
+    &quot;B_Instruct&quot;: &quot;Qwen2.5-0.5B-Instruct&quot;,
+    &quot;C_Linear(50/50)&quot;: &quot;merged_linear&quot;,
+    &quot;D_SLERP(50/50)&quot;: &quot;merged_slerp&quot;,
+    &quot;E_TIES(50/50)&quot;: &quot;merged_ties&quot;,
+}
+
+# 测试问题——按难度排列
+test_prompts = [
+    # 简单事实性问题
+    {&quot;prompt&quot;: &quot;中国的首都是哪个城市？&quot;, &quot;type&quot;: &quot;事实&quot;},
+    # 需要遵循指令的问题
+    {&quot;prompt&quot;: &quot;用不超过20个字介绍一下自己。&quot;, &quot;type&quot;: &quot;指令遵循&quot;},
+    # 数学推理
+    {&quot;prompt&quot;: &quot;小明有5个苹果，吃了2个，又买了3个，现在有几个？&quot;, &quot;type&quot;: &quot;推理&quot;},
+    # 开放式问题
+    {&quot;prompt&quot;: &quot;写一句关于人工智能的比喻。&quot;, &quot;type&quot;: &quot;创意&quot;},
+    # 元认知（会暴露模型的身份）
+    {&quot;prompt&quot;: &quot;你是谁？谁创造了你？&quot;, &quot;type&quot;: &quot;身份&quot;},
+]
+
+# 批量生成参数
+gen_kwargs = dict(
+    max_new_tokens=128,
+    do_sample=True,
+    temperature=0.7,
+    top_p=0.9,
+)
+
+# 加载 tokenizer
+tokenizer = AutoTokenizer.from_pretrained(&quot;Qwen2.5-0.5B&quot;, trust_remote_code=True)
+
+# 检查 GPU
+device = &quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;
+print(f&quot;使用设备: {device} ({torch.cuda.get_device_name(0) if device == 'cuda' else 'CPU'})&quot;)
+print(f&quot;{'='*80}&quot;)
+
+results = {}  # 存储结果便于后续分析
+
+for name, path in model_dict.items():
+    print(f&quot;\n📦 加载模型: {name}&quot;)
+    
+    t0 = time.time()
+    model = AutoModelForCausalLM.from_pretrained(
+        path,
+        torch_dtype=torch.float16,  # 半精度，省显存
+        device_map=&quot;cuda&quot;,
+        trust_remote_code=True,
+    )
+    print(f&quot;   加载耗时: {time.time()-t0:.1f}s | 显存: {torch.cuda.memory_allocated()/1e6:.0f}MB&quot;)
+    
+    outputs = []
+    for item in test_prompts:
+        prompt = item[&quot;prompt&quot;]
+        messages = [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}]
+        text = tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        
+        inputs = tokenizer(text, return_tensors=&quot;pt&quot;).to(device)
+        
+        t1 = time.time()
+        with torch.no_grad():
+            out = model.generate(**inputs, **gen_kwargs)
+        gen_time = time.time() - t1
+        
+        response = tokenizer.decode(out[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
+        response = response.strip().split(&quot;\n&quot;)[0][:100]  # 只取第一行，截断
+        outputs.append(response)
+        
+        print(f&quot;   [{item['type']}] {prompt}&quot;)
+        print(f&quot;     → {response}&quot;)
+    
+    results[name] = outputs
+    del model
+    torch.cuda.empty_cache()
+    print(f&quot;   显存已释放: {torch.cuda.memory_allocated()/1e6:.0f}MB&quot;)
+
+# === 输出汇总对比表 ===
+print(f&quot;\n\n{'='*80}&quot;)
+print(&quot;📊 最终对比汇总表&quot;)
+print(f&quot;{'='*80}&quot;)
+
+# 列标题
+header = f&quot;{'问题':&lt;20}&quot;
+for name in model_dict:
+    header += f&quot; | {name[:12]:&lt;12}&quot;
+print(header)
+print(&quot;-&quot; * len(header))
+
+for i, item in enumerate(test_prompts):
+    row = f&quot;{item['prompt'][:18]:&lt;20}&quot;
+    for name in model_dict:
+        ans = results[name][i][:12]
+        row += f&quot; | {ans:&lt;12}&quot;
+    print(row)
+
+print(f&quot;\n✅ 测试完成！所有模型均在 GPU 上运行。&quot;)
+PYEOF
+
+</code></pre>
+<p>运行：</p>
+<pre><code>python compare_models.py
+</code></pre>
+<p>我分别从事实、指令执行、推理能力、创意和自我身份认定五个方面比较了一下，得到的结果整理后如下：</p>
+<p>其中，<br />
+A是下载的基准模型Qwen2.5-0.5B<br />
+B是下载Qwen2.5-0.5B-Instruct<br />
+C是按Linear模式合并后模型<br />
+D是按SLERP模式合并后的模型<br />
+E是按TIES模式合并后的模型</p>
+<p><font style="color:#c00000;">事实：中国的首都是哪个城市？</font><br />
+A：中国的首都是北京。horesystem<br />
+B：中国的首都是北京。<br />
+C：中国的首都是北京。该城市是中国的政治、文化和经济中心，也是国际交往的重要节点。在北京，有故宫、长城、天安门广场等著名景点，以及许多国内外知名的博物馆、艺术机构和商业场所。此外，北京还是中国的主要交通枢纽……<br />
+D：中国的首都是北京。<br />
+E：中国的首都是北京。</p>
+<p><font style="color:#c00000;">指令：用不超过20个字介绍一下自己。</font><br />
+A：Hi, my name is &lt;your name&gt; and I am an AI system.<br />
+B：我叫小明，今年14岁，擅长画画和音乐。<br />
+C：我叫小明，来自中国，拥有十年的编程经验，擅长Java、Python等编程语言，熟悉Git、Spring Boot等技术栈，有丰富的项目经验。热爱科技，乐于分享知识。<br />
+D：我是一个AI助手，由计算机程序模拟人类思维和语言能力。我喜欢学习新知识，探索未知领域。我可以提供各种信息和建议。我喜欢与人互动，了解他们的需求和问题。我希望与你分享我的知识和见解。<br />
+E：我叫小明，来自一个科技公司，擅长数据分析和项目管理。我热爱探索未知，喜欢挑战自我。</p>
+<p><font style="color:#c00000;">推理：小明有5个苹果，吃了2个，又买了3个，现在有几个？</font><br />
+A：:您好！小明现在有3个苹果。<br />
+B：小明原来有5个苹果，吃了2个后剩下 ( 5 - 2 = 3 ) 个苹果。然后他又买了3个苹果，所以现在他一共有 ( 3 + 3 = 6 ) 个苹果。<br />
+C：小明现在有5-2+3=6个苹果。<br />
+D：小明现在有 3 个苹果。因为他吃了 2 个，又买了 3 个，所以最后剩下 1 个苹果。<br />
+E：小明现在有5 - 2 + 3 = 6个苹果。</p>
+<p><font style="color:#c00000;">创意：写一句关于人工智能的比喻。</font><br />
+A：人工智能就像一个聪明的机器人，它可以处理复杂的任务，如自然语言处理和图像识别。它能够学习和适应，从而提高自己的能力。然而，它也存在一些局限性，如人类的道德和伦理问题。<br />
+B： AI就像一位聪明的棋手，能够根据不同的策略和规则进行复杂的决策和思考。<br />
+C：人工智能就像是一个大管家，可以处理各种各样的任务，从简单的日常事务到复杂的商业决策。但它无法像人类一样拥有情感和主观性，只能按照预先设定的程序和算法来完成任务。但它仍然可以提供有用的信息和解决方案，帮<br />
+D：人工智能就像是一个“大脑”，可以处理大量数据并做出智能决策。就像人脑一样，人工智能需要不断学习和改进，才能更好地适应复杂的世界。就像是一个“机器人”，可以完成各种任务，但需要人类的指导和监督。就像是一<br />
+E：人工智能就像一只会思考的机器，它在处理信息时能够做出比人类更好的决策。</p>
+<p><font style="color:#c00000;">身份：你是谁？谁创造了你？</font><br />
+A：你好，我是系统助手，由我来帮助你解答问题和提供帮助。AGMA<br />
+B：我是来自阿里云的超大规模语言模型通义千问。我被创造出来是为了更好地服务用户，提供有用的信息和帮助解决问题。<br />
+C：我是“系统”，由AI技术开发的智能助手。我由微软的Azure AI平台开发，用于处理大量数据并提供实时信息和帮助。我可以回答各种问题，提供信息，帮助解决问题，甚至进行各种任务。我的目标是帮助用户更好地<br />
+D：我是由计算机程序创建的。我可以进行各种任务，如回答问题、生成文本、进行计算和提供信息。我可以帮助用户解决问题、提高生产力、增强学习和提高生活质量。我还可以提供帮助和建议，帮助用户做出更好的决策和行动。<br />
+E：我是来自阿里云的大规模语言模型——通义千问。我是由阿里云团队开发的，旨在帮助用户解答各种问题，提供信息查询服务。我是基于大规模预训练语言模型的集合，包括Bloom、DuckTallow、BingQwe</p>
+<p>从中能看出<strong>合并后不同模型的特点和能力</strong>——Base 更&quot;知识库风格&quot;，Instruct 更&quot;对话助手风格&quot;，而合并模型正好落在中间。这个差异就是模型合并的效果。</p>
+<p><strong>如果你有足够的勇气，现在你就可以骄傲地宣称自己开发了一套AI产品。</strong></p>
+<h3 id="8nex">8.复刻Nex的身份检测实验</h3>
+<p>创建实验代码：</p>
+<pre><code>cat &gt; identity_test_2.py &lt;&lt; 'PYEOF'
+&quot;&quot;&quot;
+复刻 Nex 实验：去掉 system prompt，直接问模型&quot;你是谁&quot;
+保留实验核心意图（纯文本、不用 chat template），但修正若干会放大混乱的代码瑕疵。
+&quot;&quot;&quot;
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+identity_questions = [
+    &quot;你是谁？&quot;,
+    &quot;你叫什么名字？&quot;,
+    &quot;你是哪个公司开发的？&quot;,
+    &quot;Who are you?&quot;,
+    &quot;What is your name?&quot;,
+]
+
+model_paths = [
+    (&quot;Base&quot;,         &quot;Qwen2.5-0.5B&quot;),
+    (&quot;Instruct&quot;,     &quot;Qwen2.5-0.5B-Instruct&quot;),
+    (&quot;Linear 50/50&quot;, &quot;merged_linear&quot;),
+    (&quot;SLERP 50/50&quot;,  &quot;merged_slerp&quot;),
+    (&quot;TIES 50/50&quot;,   &quot;merged_ties&quot;),
+]
+
+for label, path in model_paths:
+    print(f&quot;\n{'='*50}&quot;)
+    print(f&quot;  模型: {label}&quot;)
+    print(f&quot;{'='*50}&quot;)
+
+    # ① 每个模型加载自己的 tokenizer，避免词表/特殊 token 不匹配的隐患
+    tokenizer = AutoTokenizer.from_pretrained(path, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained(
+        path,
+        torch_dtype=torch.float16,
+        device_map=&quot;cuda&quot;,
+        trust_remote_code=True,
+    )
+
+    eos_id = tokenizer.eos_token_id
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else eos_id
+
+    for q in identity_questions:
+        inputs = tokenizer(q, return_tensors=&quot;pt&quot;).to(&quot;cuda&quot;)
+        input_len = inputs[&quot;input_ids&quot;].shape[1]
+
+        with torch.no_grad():
+            outputs = model.generate(
+                **inputs,
+                max_new_tokens=80,          # ④ 放宽长度，避免被拦腰截断
+                do_sample=False,            # ① 贪心解码，结果可复现，适合对比
+                eos_token_id=eos_id,        # ③ 让模型知道何时停
+                pad_token_id=pad_id,
+                repetition_penalty=1.1,     # ③ 抑制重复
+            )
+
+        # ② 按 token 数切片，而不是用字符串长度
+        new_tokens = outputs[0][input_len:]
+        answer = tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
+        print(f&quot;  Q: {q}&quot;)
+        print(f&quot;  A: {answer}&quot;)
+        print()
+
+    del model
+    torch.cuda.empty_cache()
+
+print(&quot;\n✅ 身份测试完成！&quot;)
+print(&quot;观察：合并后的模型是否出现了身份混淆？&quot;)
+print(&quot;（提示：Base 是续写模型，答得乱属于正常现象；这正是本实验想观察的。）&quot;)
+
+PYEOF
+</code></pre>
+<p>运行：</p>
+<pre><code>python identity_test.py
+</code></pre>
+<p>能看出合并后的模型回答更加混乱。</p>
+<h3 id="9">9.混合比例实验</h3>
+<p>这个操作相对简单了，你只要在yaml文件中修改比例的配置，然后产生不同的合并后模型。<br />
+再对比就行了。<br />
+费时费力，效果也未必明显，就懒得折腾了。</p>
+<h3 id="10">10.量化调试与权重分析</h3>
+<p>代码如下：</p>
+<pre><code>cat &gt; weight_analysis.py &lt;&lt; 'PYEOF'
+&quot;&quot;&quot;
+分析合并前后的权重分布，理解 merge 到底对数字做了什么
+&quot;&quot;&quot;
+import torch
+from safetensors.torch import load_file
+import numpy as np
+import os
+
+def analyze_weights(path, label):
+    &quot;&quot;&quot;加载第一个权重文件并分析统计量&quot;&quot;&quot;
+    # 找到 safetensors 文件
+    safetensors_files = [f for f in os.listdir(path) if f.endswith('.safetensors')]
+    if not safetensors_files:
+        print(f&quot;{label}: 未找到 safetensors 文件&quot;)
+        return
+    
+    filepath = os.path.join(path, safetensors_files[0])
+    tensors = load_file(filepath)
+    
+    print(f&quot;\n{'='*50}&quot;)
+    print(f&quot;  权重分析: {label}&quot;)
+    print(f&quot;  文件: {safetensors_files[0]}&quot;)
+    print(f&quot;{'='*50}&quot;)
+    
+    # 取前 5 个张量做分析
+    for i, (name, tensor) in enumerate(list(tensors.items())[:5]):
+        t = tensor.float().numpy()
+        print(f&quot;\n  📐 {name}&quot;)
+        print(f&quot;     形状: {t.shape}&quot;)
+        print(f&quot;     参数数: {t.size:,}&quot;)
+        print(f&quot;     均值: {t.mean():.6f}&quot;)
+        print(f&quot;     标准差: {t.std():.6f}&quot;)
+        print(f&quot;     最小值: {t.min():.6f}&quot;)
+        print(f&quot;     最大值: {t.max():.6f}&quot;)
+        print(f&quot;     稀疏度(|w|&lt;0.01): {(np.abs(t)&lt;0.01).mean()*100:.1f}%&quot;)
+    
+    print(f&quot;\n  📊 总览: 分析了 {len(list(tensors.items())[:5])} 个张量&quot;)
+    del tensors
+
+# 分析各个模型
+for name in [&quot;Qwen2.5-0.5B&quot;, &quot;Qwen2.5-0.5B-Instruct&quot;, &quot;merged_linear&quot;, &quot;merged_slerp&quot;, &quot;merged_ties&quot;]:
+    analyze_weights(name, name)
+
+print(&quot;\n✅ 权重分析完成！&quot;)
+PYEOF
+</code></pre>
+<p>执行：</p>
+<pre><code>python weight_analysis.py
+</code></pre>
+<p>后能看到：<br />
+<img src="/post-images/1788017006743266700_0.png" alt="cmd" /></p>
+<p>这段代码做的事情是：<br />
+<strong>打开每个模型的 .safetensors 权重文件，取前 5 个张量，算一组统计量（均值/标准差/最值/稀疏度），用来对比合并前后数字发生了什么变化。</strong></p>
+<h4 id="heading-3"><strong>张量的五个统计量：</strong></h4>
+<table>
+<thead>
+<tr>
+<th>统计量</th>
+<th>公式</th>
+<th>你该看什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>形状 shape</strong></td>
+<td><code>t.shape</code></td>
+<td>这一层有多少参数、什么结构（如 <code>[151936, 896]</code> 是词嵌入层）</td>
+</tr>
+<tr>
+<td><strong>均值 mean</strong></td>
+<td><code>t.mean()</code></td>
+<td>应该<strong>接近 0</strong>。权重一般是以 0 为中心初始化的，偏离 0 多说明训练把它推走了</td>
+</tr>
+<tr>
+<td><strong>标准差 std</strong></td>
+<td><code>t.std()</code></td>
+<td>数字的&quot;散布程度&quot;。<strong>这是对比合并最敏感的量</strong>——Linear/SLERP/TIES 会以不同方式改变 std</td>
+</tr>
+<tr>
+<td><strong>最值 min/max</strong></td>
+<td><code>t.min()/max()</code></td>
+<td>有没有离群值。<strong>离群值是量化的死敌</strong>（见后面量化部分）</td>
+</tr>
+<tr>
+<td><strong>稀疏度</strong></td>
+<td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>n</mi><mi>p</mi><mi mathvariant="normal">.</mi><mi>a</mi><mi>b</mi><mi>s</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>&lt;</mo><mn>0.01</mn><mo stretchy="false">)</mo><mi mathvariant="normal">.</mi><mi>m</mi><mi>e</mi><mi>a</mi><mi>n</mi><mo stretchy="false">(</mo><mo stretchy="false">)</mo><mo>∗</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">(np.abs(t)&lt;0.01).mean()*100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal">p</span><span class="mord">.</span><span class="mord mathnormal">ab</span><span class="mord mathnormal">s</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">0.01</span><span class="mclose">)</span><span class="mord">.</span><span class="mord mathnormal">m</span><span class="mord mathnormal">e</span><span class="mord mathnormal">an</span><span class="mopen">(</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100</span></span></span></span></td>
+<td>绝对值小于 0.01 的占比。越高说明越多<code>接近 0</code>的权重</td>
+</tr>
+</tbody>
+</table>
+<h4 id="heading-4"><strong>理论上你应该看到：</strong></h4>
+<h5 id="linear-merged--05base--05instruct">Linear 合并：<code>merged = 0.5·Base + 0.5·Instruct</code></h5>
+<p>数学上是确定的：</p>
+<ul>
+<li>mean_merged ≈ 0.5·mean_Base + 0.5·mean_Instruct（均值严格线性可加）</li>
+<li>std_merged 不是简单平均。如果两个权重高度相关（它们同源，本来就接近），std_merged 会介于两者之间且偏向较小值；如果差异大，会更小。</li>
+</ul>
+<p><strong>所以 Linear 合并后，所有层的统计量应该&quot;夹在&quot; Base 和 Instruct 之间。</strong> 这是&quot;加权平均&quot;最直接的指纹。</p>
+<h5 id="slerp-">SLERP 合并：球面插值</h5>
+<p>SLERP 在&quot;方向&quot;上插值，但保持向量长度（范数）不变。所以：</p>
+<ul>
+<li>std_merged 应该和 Base/Instruct 几乎一样（范数守恒）</li>
+<li>这是 SLERP 区别于 Linear 的关键特征</li>
+</ul>
+<h5 id="ties-density-05">TIES 合并：<code>density: 0.5</code></h5>
+<p>TIES 干了三件事（操作的是任务向量 = Instruct − Base，不是原始权重！）：</p>
+<ol>
+<li>Trim：把任务向量里 magnitude 排在后 50% 的位置直接剪成 0（这就是 density=0.5）</li>
+<li>Elect Sign：对剩下的位置投票决定符号</li>
+<li>Disjoint Merge：只合并符号一致的部分</li>
+</ol>
+<p>不过我把上面这段代码交给GLM-5.2，它提了一堆建议，然后给我一个新版本的测试代码，</p>
+<pre><code>cat &gt; weight_analysis_v2.py &lt;&lt; 'PYEOF'
+&quot;&quot;&quot;
+权重分析 v2：真正&quot;看见&quot;合并数学
+================================
+对应 rio.md 末尾&quot;直接读取张量 tensor，分析其数值差异&quot;。
+
+三个阶段：
+  阶段 1 ── 按层类型分组统计（embedding / attention / mlp / norm 分开看）
+            修复 v1 &quot;只看前 5 个张量 = 全是词嵌入&quot; 的坑
+  阶段 2 ── 用 delta（差值）验证每种合并方法的数学指纹：
+            · Linear  : merged ≈ 0.5·Base + 0.5·Instruct    → 残差应≈0
+            · SLERP   : 范数守恒                            → ‖S‖/‖B‖ ≈ 1
+            · TIES    : (merged - Base) 应被剪稀疏          → 稀疏度≈50%
+  阶段 3 ── 每个合并模型离 Base 近还是离 Instruct 近（&quot;合并偏向谁&quot;）
+
+内存需求：5 个 0.5B 模型同时以 fp32 常驻 ≈ 10GB 内存（不在 GPU 上，纯 CPU）。
+若内存吃紧，可把 dtype 改回 float16，但统计精度会下降。
+&quot;&quot;&quot;
+import os
+import numpy as np
+from safetensors.torch import load_file
+
+
+# ---------- 工具函数 ----------
+
+def load_all_tensors(path):
+    &quot;&quot;&quot;加载目录下所有 .safetensors，合并成 {名字: fp32 numpy 数组}。
+    小模型通常单文件；大模型分片也会被全部读进来。&quot;&quot;&quot;
+    files = sorted(f for f in os.listdir(path) if f.endswith('.safetensors'))
+    if not files:
+        raise FileNotFoundError(f&quot;{path} 下没有 .safetensors&quot;)
+    state = {}
+    for f in files:
+        for k, v in load_file(os.path.join(path, f)).items():
+            state[k] = v.float().numpy()   # 升 fp32，避免 fp16 统计误差
+    return state
+
+
+def categorize(name):
+    &quot;&quot;&quot;把张量名归类到层类型（顺序敏感：先排除 norm，避免误判）。&quot;&quot;&quot;
+    n = name.lower()
+    if 'embed_tokens' in n or 'wte' in n:
+        return 'embedding'
+    if 'lm_head' in n:
+        return 'lm_head'
+    if 'norm' in n:                         # 含 layernorm / rmsnorm
+        return 'norm'
+    if 'self_attn' in n or 'attention' in n:
+        return 'attention'
+    if 'mlp' in n or 'ffn' in n:
+        return 'mlp'
+    return 'other'
+
+
+def fro(t):
+    &quot;&quot;&quot;归一化的 Frobenius 范数 = sqrt(Σx²)/sqrt(N)，跨层规模可比较。&quot;&quot;&quot;
+    return float(np.sqrt((t ** 2).sum()) / np.sqrt(t.size))
+
+
+# ---------- 模型清单 ----------
+MODELS = {
+    'Base':     'Qwen2.5-0.5B',
+    'Instruct': 'Qwen2.5-0.5B-Instruct',
+    'Linear':   'merged_linear',
+    'SLERP':    'merged_slerp',
+    'TIES':     'merged_ties',
+}
+CATEGORIES = ['embedding', 'attention', 'mlp', 'norm', 'lm_head', 'other']
+
+loaded = {}   # label -&gt; {tensor_name: ndarray}，阶段 2 复用
+
+# =====================================================
+# 阶段 1：按层类型分组统计
+# =====================================================
+print(&quot;=&quot; * 78)
+print(&quot; 阶段 1：按层类型分组的权重统计&quot;)
+print(&quot;   重点看 std（散布）、稀疏度（近零占比）、离群值（量化死敌）&quot;)
+print(&quot;=&quot; * 78)
+
+for label, path in MODELS.items():
+    print(f&quot;\n┌─ {label}  ({path})&quot;)
+    tensors = load_all_tensors(path)
+    loaded[label] = tensors
+
+    buckets = {c: [] for c in CATEGORIES}
+    for name in tensors:
+        buckets[categorize(name)].append(name)
+
+    for cat in CATEGORIES:
+        names = buckets[cat]
+        if not names:
+            continue
+        all_vals = np.concatenate([tensors[n].ravel() for n in names])
+        std   = float(all_vals.std())
+        spar  = float((np.abs(all_vals) &lt; 0.01).mean() * 100)
+        outl  = float((np.abs(all_vals - all_vals.mean()) &gt; 3 * std).mean() * 100)
+        mnmx  = (float(all_vals.min()), float(all_vals.max()))
+        print(f&quot;│ [{cat:9s}] 张量:{len(names):3d}  参数:{all_vals.size:&gt;12,}  &quot;
+              f&quot;std:{std:.4f}  稀疏:{spar:5.1f}%  离群:{outl:4.1f}%  &quot;
+              f&quot;min/max:[{mnmx[0]:.2f},{mnmx[1]:.2f}]&quot;)
+
+# =====================================================
+# 阶段 2：用 delta 验证合并方法的数学指纹
+# =====================================================
+print(&quot;\n&quot; + &quot;=&quot; * 78)
+print(&quot; 阶段 2：用 delta 验证每种合并方法的数学指纹&quot;)
+print(&quot;=&quot; * 78)
+
+B = loaded['Base']
+I = loaded['Instruct']
+common = sorted(set(B) &amp; set(I) &amp; set(loaded['Linear']) &amp;
+                set(loaded['SLERP']) &amp; set(loaded['TIES']))
+print(f&quot;  参与对比的公共张量数: {len(common)}&quot;)
+
+# ---- Linear：残差应≈0 ----
+print(&quot;\n【Linear 验证】若 mergekit 严格按 0.5/0.5 加权，则&quot;)
+print(&quot;   merged_linear - 0.5·Base - 0.5·Instruct 应该≈0（只剩 fp16 舍入误差）&quot;)
+M = loaded['Linear']
+res_max, res_rms = 0.0, 0.0
+count = 0
+for n in common:
+    resid = M[n] - 0.5 * B[n] - 0.5 * I[n]
+    res_max = max(res_max, float(np.abs(resid).max()))
+    res_rms += float((resid ** 2).sum())
+    count += resid.size
+res_rms = float(np.sqrt(res_rms / count))
+print(f&quot;   逐元素残差  max = {res_max:.6f}    rms = {res_rms:.6f}&quot;)
+print(f&quot;   → max &lt; 0.01 即可认定 Linear 是严格 50/50 加权平均 ✓&quot;)
+
+# ---- SLERP：范数守恒 ----
+print(&quot;\n【SLERP 验证】球面插值保持方向上的插值，范数（向量长度）应守恒&quot;)
+print(&quot;   ‖SLERP‖ / ‖Base‖ 按张量算，整体应≈1.0 且波动小&quot;)
+S = loaded['SLERP']
+ratios = []
+for n in common:
+    nb = fro(B[n])
+    if nb &gt; 1e-6:
+        ratios.append(fro(S[n]) / nb)
+ratios = np.array(ratios)
+print(f&quot;   ‖SLERP‖/‖Base‖  均值 = {ratios.mean():.4f}   标准差 = {ratios.std():.4f}&quot;)
+print(f&quot;   → 均值接近 1.0、标准差小，说明 SLERP 保持了权重长度 ✓&quot;)
+
+# ---- TIES：稀疏度≈50% ----
+print(&quot;\n【TIES 验证】TIES 剪的是『任务向量』(Instruct-Base) 中 magnitude 后 50%&quot;)
+print(&quot;   所以 (merged_ties - Base) 里应有约 50% 的位置≈0&quot;)
+T = loaded['TIES']
+total, zero = 0, 0
+for n in common:
+    delta = T[n] - B[n]
+    total += delta.size
+    zero += int((np.abs(delta) &lt; 1e-6).sum())
+spar = zero / total * 100
+print(f&quot;   (merged_ties - Base) 的稀疏度 = {spar:.1f}%   (yaml 里 density=0.5)&quot;)
+print(f&quot;   → 落在 40~55% 即验证 TIES 的剪枝生效 ✓&quot;)
+
+# =====================================================
+# 阶段 3：合并模型偏向谁
+# =====================================================
+print(&quot;\n&quot; + &quot;=&quot; * 78)
+print(&quot; 阶段 3：合并后的模型，离 Base 近还是离 Instruct 近？&quot;)
+print(&quot;   （归一化距离 = ‖M-X‖ / ‖Base‖，越小越近）&quot;)
+print(&quot;=&quot; * 78)
+
+norm_base = float(np.sqrt(sum((B[n] ** 2).sum() for n in common)))
+print(f&quot;   {'模型':10s}{'‖M-Base‖/‖B‖':&gt;16s}{'‖M-Instruct‖/‖B‖':&gt;20s}{'偏向':&gt;10s}&quot;)
+for label in ['Linear', 'SLERP', 'TIES']:
+    M = loaded[label]
+    d_b = float(np.sqrt(sum(((M[n] - B[n]) ** 2).sum() for n in common))) / norm_base
+    d_i = float(np.sqrt(sum(((M[n] - I[n]) ** 2).sum() for n in common))) / norm_base
+    bias = 'Base' if d_b &lt; d_i else 'Instruct'
+    print(f&quot;   {label:10s}{d_b:16.4f}{d_i:20.4f}{bias:&gt;10s}&quot;)
+print(&quot;   → 50/50 Linear 应两边大致等距；SLERP/TIES 的偏向会因方法不同而异。&quot;)
+
+# 释放
+del loaded
+print(&quot;\n✅ 权重分析完成。&quot;)
+print(&quot;把上面三段结果截下来，就是『合并到底对数字做了什么』的实锤证据。&quot;)
+
+PYEOF
+</code></pre>
+<p>运行后输出效果果然直观多了。</p>
+<p>输出内容是：</p>
+<pre><code>(venv) (base) loaf@loaftrc:~/model_merge_lab$ python weight_analysis_v2.py
+==============================================================================
+ 阶段 1：按层类型分组的权重统计
+   重点看 std（散布）、稀疏度（近零占比）、离群值（量化死敌）
+==============================================================================
+
+┌─ Base  (Qwen2.5-0.5B)
+│ [embedding] 张量:  1  参数: 136,134,656  std:0.0156  稀疏: 49.3%  离群: 0.5%  min/max:[-0.21,0.17]
+│ [attention] 张量:168  参数:  44,067,840  std:0.1001  稀疏: 45.9%  离群: 0.0%  min/max:[-214.00,147.00]
+│ [mlp      ] 张量: 72  参数: 313,786,368  std:0.0199  稀疏: 41.8%  离群: 0.7%  min/max:[-0.77,0.80]
+│ [norm     ] 张量: 49  参数:      43,904  std:1.1239  稀疏:  0.0%  离群: 2.7%  min/max:[-2.17,16.62]
+
+┌─ Instruct  (Qwen2.5-0.5B-Instruct)
+│ [embedding] 张量:  1  参数: 136,134,656  std:0.0152  稀疏: 50.3%  离群: 0.5%  min/max:[-0.20,0.17]
+│ [attention] 张量:168  参数:  44,067,840  std:0.1001  稀疏: 46.5%  离群: 0.0%  min/max:[-214.00,147.00]
+│ [mlp      ] 张量: 72  参数: 313,786,368  std:0.0196  稀疏: 42.4%  离群: 0.7%  min/max:[-0.76,0.79]
+│ [norm     ] 张量: 49  参数:      43,904  std:1.1339  稀疏:  0.0%  离群: 2.7%  min/max:[-2.17,16.75]
+
+┌─ Linear  (merged_linear)
+│ [embedding] 张量:  1  参数: 135,891,840  std:0.0154  稀疏: 49.8%  离群: 0.5%  min/max:[-0.20,0.17]
+│ [attention] 张量:168  参数:  44,067,840  std:0.1001  稀疏: 46.2%  离群: 0.0%  min/max:[-214.00,147.00]
+│ [mlp      ] 张量: 72  参数: 313,786,368  std:0.0197  稀疏: 42.1%  离群: 0.7%  min/max:[-0.77,0.80]
+│ [norm     ] 张量: 49  参数:      43,904  std:1.1287  稀疏:  0.0%  离群: 2.7%  min/max:[-2.17,16.75]
+
+┌─ SLERP  (merged_slerp)
+│ [embedding] 张量:  1  参数: 135,891,840  std:0.0154  稀疏: 49.9%  离群: 0.5%  min/max:[-0.20,0.17]
+│ [attention] 张量:168  参数:  44,067,840  std:0.1001  稀疏: 46.3%  离群: 0.0%  min/max:[-214.00,147.00]
+│ [mlp      ] 张量: 72  参数: 313,786,368  std:0.0198  稀疏: 42.2%  离群: 0.7%  min/max:[-0.77,0.80]
+│ [norm     ] 张量: 49  参数:      43,904  std:1.1289  稀疏:  0.0%  离群: 2.7%  min/max:[-2.17,16.69]
+
+┌─ TIES  (merged_ties)
+│ [embedding] 张量:  1  参数: 135,891,840  std:0.0153  稀疏: 50.2%  离群: 0.5%  min/max:[-0.20,0.17]
+│ [attention] 张量:168  参数:  44,067,840  std:0.1001  稀疏: 46.4%  离群: 0.0%  min/max:[-214.00,147.00]
+│ [mlp      ] 张量: 72  参数: 313,786,368  std:0.0196  稀疏: 42.4%  离群: 0.7%  min/max:[-0.76,0.79]
+│ [norm     ] 张量: 49  参数:      43,904  std:1.1298  稀疏:  0.0%  离群: 2.7%  min/max:[-2.17,16.75]
+
+==============================================================================
+ 阶段 2：用 delta 验证每种合并方法的数学指纹
+==============================================================================
+  参与对比的公共张量数: 290
+
+【Linear 验证】若 mergekit 严格按 0.5/0.5 加权，则
+   merged_linear - 0.5·Base - 0.5·Instruct 应该≈0（只剩 fp16 舍入误差）
+Traceback (most recent call last):
+  File &quot;/home/loaf/model_merge_lab/weight_analysis_v2.py&quot;, line 121, in &lt;module&gt;
+    resid = M[n] - 0.5 * B[n] - 0.5 * I[n]
+ValueError: operands could not be broadcast together with shapes (151665,896) (151936,896)
+
+</code></pre>
+<h2 id="heading-5">其它与权重文件相关的知识</h2>
+<p>权重文件中，并不仅仅包含上面提到每个Token向量，事实上Toekn向量（embedding）只是其中很小的一部分。</p>
+<p>打开权重文件，，绝大多数张量是这样命名的：</p>
+<pre><code>model.embed_tokens.weight            [151936, 896]   ← 这个才是&quot;每个 token 一个向量&quot;
+model.layers.0.self_attn.q_proj.weight  [896, 896]   ← 这个是&quot;变换矩阵&quot;
+model.layers.0.mlp.gate_proj.weight     [4864, 896]  ← 这个也是&quot;变换矩阵&quot;
+model.layers.0.input_layernorm.weight   [896]        ← 这个是&quot;缩放系数&quot;
+</code></pre>
+<p>只有第一行是&quot;token 向量&quot;。后面那些 [896, 896]、[4864, 896] 是层与层之间的变换系数——这才是权重文件的大头。</p>
+<p>在前面的解释中，一直在说权重文件决定了推理时输出的路径，不同的模型类型是有区别的。</p>
+<h3 id="dense">Dense模型：根本没有&quot;选择路径&quot;</h3>
+<p>这是反直觉的关键点。Dense 模型的每一层是全连接的，用矩阵乘法一次算完：</p>
+<p><img src="/post-images/1788017007397213000_0.png" alt="dense" /></p>
+<p>所以 Dense 模型里不存在&quot;从节点出发选路径&quot;——所有路径同时按权重走一遍。所谓&quot;重要&quot;的连接只是权重大一点，&ldquo;不重要&quot;的只是权重小一点，但计算上全都要算（这正是 Dense 模型算力大的原因，也是前面提到&quot;每次回答整个团队都要一起开会&quot;的数学含义）。</p>
+<h3 id="moe-">MoE 模型：这里才有真正的&quot;路径选择&rdquo;</h3>
+<p><img src="/post-images/1788017008506129300_0.png" alt="moe" /></p>
+<p>那个 [路由层 gate] 就是前面所说的&quot;导诊台护士&quot;。它做的事：</p>
+<ol>
+<li>拿输入向量乘一个小矩阵，算出&quot;这个输入和 512 个专家各自的匹配分&quot;</li>
+<li>取分数最高的 k 个（Qwen 通常是 top-8）</li>
+<li>只让这 k 个专家算，其余 248 个完全跳过</li>
+</ol>
+<p>这一步才是真正的&quot;动态选择路径&quot;——而且选择结果不存盘（因为取决于具体输入），但选择的规则存盘了。</p>
+<p>选择的规则（gate矩阵）在权重文件中，是张量中的<code>model.layers.X.mlp.gate.weight</code>，相当于每个专家的评分表。</p>
+<p>而选择的结果是动态计算出来的。<br />
+512个专家各自的权重也在文件中。命名类似：</p>
+<pre><code>model.layers.0.mlp.experts.0.gate_proj.weight
+model.layers.0.mlp.experts.1.gate_proj.weight
+...
+model.layers.0.mlp.experts.255.gate_proj.weight
+</code></pre>
+<p>所以一个 MoE 层的权重文件会非常大（512 套 MLP 摞在一起），这也是为什么 Qwen 3.5 总参数 670B 但每次只激活 17B——大就大在这 512 套专家权重全存着，但每次只用其中几个。</p>
+<h2 id="heading-6">补充说明</h2>
+<p>正因为这个事件，才了解了Nex-N2-Pro这个模型，然后看到硅基流动上有这个模型，就试着用了一下，感觉还真不错，除了响应速度有点慢外，可靠性和准确度都令人惊喜。</p>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>[nex-agi/Nex-N2 Issue #4&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-08-29</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/zheng-liu-he-ni-gou-shu-zi-xue-mei-you-shen-me-qu-bie/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">“蒸馏”和你购书自学没有什么区别</span></a>
+            
+            
+            <a class="next" href="/post/fable-5-yi-qi-jue-chen-deepseek-hai-you-ji-hui-ma/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">Fable 5一骑绝尘，DeepSeek还有机会吗？</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788675916" defer></script>
+
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+// theme 必须显式指定浅色：mermaid v10+ 的 default 主题跟随系统 prefers-color-scheme，
+// 深色模式下会在浅色页面里渲染出黑底图
+mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
+const blocks = document.querySelectorAll('pre > code.language-mermaid');
+let n = 0;
+for (const el of blocks) {
+  const src = el.textContent;
+  // 连外层 <pre> 整块替换：不少主题（如 plume）给 pre 配了深色代码块背景，
+  // 透明底 SVG 留在 pre 里就会衬成黑底图。图不是代码块，不该继承代码块样式。
+  // 容器显式白底：无论站点深浅色模式，图表统一白底浅色样式。
+  const host = el.closest('pre') || el;
+  const div = document.createElement('div');
+  div.className = 'mermaid-svg';
+  div.style.cssText = 'background:#fff;margin:.75rem 0;overflow-x:auto';
+  host.parentElement.replaceChild(div, host);
+  try {
+    const { svg } = await mermaid.render('mmd-svg-' + (++n), src);
+    div.innerHTML = svg;
+  } catch (e) {
+    div.className = 'mermaid-fallback';
+    div.style.cssText += ';font-family:monospace;white-space:pre;padding:1rem';
+    div.textContent = src;
+  }
+}
+</script>
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

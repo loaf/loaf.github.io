@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="世界为什么是个巨大的草台班子？
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>愚人成大事：从AI的过拟合到决策的混沌智慧 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788675916">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788675916">
+
+
+  
+  <meta name="keywords" content="AI,决策,智能">
+  
+<meta name="description" content="世界为什么是个巨大的草台班子？">
+<link rel="canonical" href="https://loaf.github.io/post/yu-ren-cheng-da-shi-cong-ai-de-guo-ni-he-dao-jue-ce-de-hun-dun-zhi-hui/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"愚人成大事：从AI的过拟合到决策的混沌智慧","url":"https://loaf.github.io/post/yu-ren-cheng-da-shi-cong-ai-de-guo-ni-he-dao-jue-ce-de-hun-dun-zhi-hui/","description":"世界为什么是个巨大的草台班子？","image":"/post-images/1788097698054305700_0.png","datePublished":"2025-06-08T00:00:00+08:00","dateModified":"2026-08-30T21:58:31+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/yu-ren-cheng-da-shi-cong-ai-de-guo-ni-he-dao-jue-ce-de-hun-dun-zhi-hui/","name":"愚人成大事：从AI的过拟合到决策的混沌智慧","position":2}]}</script>
+<meta property="og:title" content="愚人成大事：从AI的过拟合到决策的混沌智慧">
+<meta property="og:description" content="世界为什么是个巨大的草台班子？">
+<meta property="og:url" content="https://loaf.github.io/post/yu-ren-cheng-da-shi-cong-ai-de-guo-ni-he-dao-jue-ce-de-hun-dun-zhi-hui/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/1788097698054305700_0.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/yu-ren-cheng-da-shi-cong-ai-de-guo-ni-he-dao-jue-ce-de-hun-dun-zhi-hui/">
+<meta name="twitter:title" content="愚人成大事：从AI的过拟合到决策的混沌智慧">
+<meta name="twitter:description" content="世界为什么是个巨大的草台班子？">
+<meta name="twitter:image" content="/post-images/1788097698054305700_0.png">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>愚人成大事：从AI的过拟合到决策的混沌智慧</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2025-06-08</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 7 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/sui-bi/">随笔</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+    <a class="page-tag-item clickable color7" href="/tag/jue-ce/">决策</a>
+    
+    <a class="page-tag-item clickable color5" href="/tag/zhi-neng/">智能</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <p>保持饥饿，保持愚蠢。——乔布斯</p>
+<p><img src="/post-images/1788097698054305700_0.png" alt="" /></p>
+<p>如果你仔细观察这个世界，就会发现一些奇怪的现状：最“草台”的制度，反而撑起了最庞大的机器；最“愚蠢”的政策，常常带来最深远的影响。古今中外，莫不如此。</p>
+<p>比如，当年美国基于清教徒的传统搞了一个禁酒令，原本是想让大家清心寡欲，让大家过着让上帝满意的“符合道德”的人生。</p>
+<p>结果黑帮横行、私酒泛滥、夜总会开满大街。但也正是因为这场“史上最失败的道德工程”，美国的娱乐业、执法系统、以及对公共政策的反思体系被硬生生拉升了一个维度。</p>
+<p>再比如，2016年印度的莫迪老仙突然宣布“废钞”——在乱哄哄的争执中，几亿人突然发现口袋中的纸币变成了废纸，当年我抱着乐子人的心态看的眼花缭乱。但事后，却意外令移动支付在印度农村指数级爆发，间接带动了金融普惠。</p>
+<p>还有中国58年的“全民大炼钢铁”，其科学上的荒谬性毋庸置疑，在经济上损失巨大。但是从长期来看，却推动了工业概念在农村基层的传播，某种意义上，它为后来的乡镇企业播下了“人民也能搞工业”的种子。</p>
+<p>这些故事的共同点在于：它们<strong>在逻辑上说不通，但在历史上说得通</strong>。这些决策是错的吗？当然是，因为它们不符合人性，不符合规律，不符合科学。造成的损失也是很直观的，但是从更高的维度，愚蠢的决策却能形成一些意外结果。</p>
+<p>也许，这就是“决策的混沌智慧”：<strong>一个系统的前进，有时靠的不是全知全能的冷静计算，而是模糊、感性、甚至带点荒唐的集体冲动</strong>。</p>
+<h2 id="01-">01 机器学习教你做事</h2>
+<p>现在的人工智能，基础在于机器学习，通过算法发现人类知识的规律，获得智能。好比小孩子从课本学习知识。你的第一反应肯定是，教给机器的知识越多越好，越细越好，越准确越好。</p>
+<p>在人工智能的发展早期的确如此。这也是大数据理论的由来。就拿ChatGPT为例，为什么一直到3.0版本时才表现出可用的智能度呢？因为只有在这个版本时输入的数据量才足够多，才会出现“涌现”现象。尽管没有公开，但仅从其输出参数量达到了1750亿个，就可以想象参与训练的数据有多庞大。</p>
+<p>但是科学家们很快发现，过度训练（如GPT-3的8B版本训练量达必要量的100倍）反而会加速数据消耗且无益于性能提升。这说明<strong>突破阈值后的过量数据输入属于资源浪费。</strong></p>
+<p>经常做量化训练的朋友都知道，自己训练出来的模型是如此完美，回测时收益率可达200%，但一实操却赔得只剩下裤衩。不懂量化的学者可能只是在旁边撇了撇嘴：<strong>“过拟合”</strong>。</p>
+<p>用通俗的语言来解释过拟合就是，你在学习过程中完美地复刻了数据，学到了许多不必要的细节，而在真实的世界里，有许多的细节是随机的错误。就拿量化来举例，有些涨跌是随机或者偶然的错误，可能仅仅是交易员打翻了水杯，误下了一笔大单引起暴跌，你一定要找到这次下跌的原因，很可能就适得其反了。机器学习的基础是数据，比如一个分类算法，要求你从下列点中找到一个模型，能将橙色的点和绿色的叉分类，<br />
+<img src="/post-images/1788097699679386900_0.png" alt="" /></p>
+<p>第一个图，找到一个复杂的方程来表达蓝色的曲线，能完美地在这些点中找到所有的数据，这就是拟合了，因为你用这个方程在对一个新出现的点进行分类时，十有八九是错的。上面只有中间的结果才是最优解，尽管在现有数据中都有3个点的判断是错误的。而右图，我们称之为“欠拟合”。</p>
+<p>为什么会这样呢？这是因为现实中有大量无关、冗余甚至错误的信息，我们称之为“噪声”，这些噪声会掩盖真正有价值的信号。即使信息都是正确的，过多的信息也会让信息的维度呈几何级数增加，让计算因为过载而出现错误。用学术点的话来描述就是：“过拟合”会让模型失去“泛化”能力。</p>
+<p>因为人脑比机器更不擅长于处理海量信息，因为人脑在亿万年的进化中，发展出的生存策略其实是“偷懒”，核心在于<strong>模式识别与信息简化</strong>。你看一看天说“要下雨了”，可能是经验，或者是直觉，并不会先收集温度值、温度值，风速风向，然后再代入一个公式……，意识的注意力资源是极其有限的。</p>
+<p>所以机器学习教我们的是：决策前要收集信息，但更重要是的要有判断力，不要被信息淹没，因为你没有足够的能力来处理这些信息。我们说一个人的直觉判断，其实是指这个人依靠大脑的本能，将信息进行了维度压缩，这种压缩依赖你的智力，也依赖你的经验。这种判断不准，但是够用，不精确，但足以推动你行动。</p>
+<h2 id="02-">02 草台班子的决策更有效</h2>
+<p>我们常常听到一种说法“世界是个巨大的草台班子”，现实中的各种新闻、让你看到精英们的各种骚操作，你不是有一种“彼可取而代之”的责任感？这还真可能是你想多了。</p>
+<p>首先，我们可以想象两个领导者要组建他们的班底，一个是完美型，他在组建新先制定好严密的团队目标，预定好完备的组织结构，每个岗位职责明确，每个成员精心挑选，个个责任心和能力都足够，又都放在适当的岗位上。另一个是草台型，他创建的组织流程混乱、分工含糊，人员松散。</p>
+<p>很明显，从能力来看，前者远大于后者，如果所有的前提条件一致，前者的决策肯定是表现完美。现实中的情况往往并非如此。其实从两位领导者组建团队的方式开始，就已经决定了两类领导者不同的性格和决策方式，而这两类方式，也决定了他们两者获取信息的方式和使用信息的差异。</p>
+<p>现实中的信息是模糊的，如果你需要一个精密运行的流程中产出正确的决策，需要信息是精准的，一是需要正确二是需要适当，不足或过量都不好。正如我们在前面提到的机器学习算法，数据不足和数据过多都会引发性能的劣化。机器学习过程是可以重复进行的，可以通过无数次的尝试寻找恰当的参数，但在社会现实中，决策是需要在很短的时间完成，而且没有对照组，根本没有试错的机会。</p>
+<p>现实中的决策是一个决策链，它往往由多个节点组成，正因为每个节点的信息都是模糊的，类比于统计学中“误差相互抵销”原理，这些节点的误差可以相互抵销，这时如果有一个节点的数据特别准确，反而会打破平衡，让系统的表现更差。</p>
+<p>最后一点就是，草台班子更容易仓促地作出决策，而很多事情的关键并不在于对错，而在于快慢。深思熟虑作出的决定可能很好，但是更可能的情况是错失良机。比如量化交易中最赚钱的流派其实就是高频交易。</p>
+<p>我们在回顾过去的案例时，其实很少能看到精心策划的计划，更多的是在信息模糊、时间紧迫、资源有限、利益复杂的约束下，演化出的适应性策略。</p>
+<p>我们说草台班子的决策更有效，其实说是一个现实，而不是在说它的合理性。这种反直觉的现象其实是人脑的一个缺陷。正常人类面对现代社会复杂的信息流，其实是处理不过来的。我们常常能从各种名人传记中看到他们决策时的“直觉”，其实正说明了<strong>有效的决策需要舍弃精确性，选择战略性模糊。</strong><br />
+<img src="/post-images/1788097702340231900_0.png" alt="" /></p>
+<h2 id="03-">03 复杂系统的混沌协作</h2>
+<p>也许你最终能接受这个草台班子主导的世界，但你一定会好奇，如果草台班子恰好碰对了一个正确的决策，得到好的结果自是可以理解的，但为什么有一些明显很愚蠢的决策仍能正常地运作？</p>
+<p>这需要从头说过，首先我们思考一个问题：即使象铅笔这样简单的产品都涉及到成千上万不同行业人的合作，那么人们是如何在没有任何人能完整理解一个产品所有细节的同时组织类似于生产芯片、组织登月等复杂项目的？</p>
+<p>现代社会进化到当前阶段，历史上那种全知全才已经不存在了，现代所有的项目都依赖于组织结构的保障、模块化分工体系的运作、标准化协议支持、分层抽象的知识管理、容错与冗余的设计、信任体系的构建。</p>
+<p>这也正是因为人脑的局限，没有人能掌握全部知识，迫使人类发展出这套协作体系。这样不管什么样的决策，最终都是要投入这套体系来执行。</p>
+<p>这套人类协作体系，其实正表现出草台班子的某些特性：结构松散、职责交叉、人员能力参差。在运作过程中更多地表现出一个混沌的黑箱状态。而这套混沌协作的黑箱体系，又恰好达到了一<strong>个容错设计</strong>和<strong>动态纠偏</strong>的效果。</p>
+<p>我想每个领导者，都会抱怨下属的执行力吧？这其实人类社会的正常状态，因为人类社会就是这么运行的。</p>
+<p>再完美的方案，投入这个系统，执行效果肯定会有缺憾。再愚蠢的政策，在执行过程都会有优化。</p>
+<p>而这套运作体系的进化，个人是无能为力的，我们不知道它是如何形成的，也不知道应该如何促进其进化，不过前面机器学习给过我们启示，也许我们也可以参考机器学习的方法来理解这套体系的进化过程，就是对每个项目完成的结果进行评估，然后通过激励和惩罚机制来淘汰部分节点。但是理解这些好像也无助于加速进化的速度。<br />
+<img src="/post-images/1788097703411921600_0.png" alt="" /></p>
+<h2 id="04-">04 拥抱必要的愚蠢</h2>
+<p>好吧，既然这世界的真相就是如此，我们不得不接受草台班子，因为只有他们能做出有用的决策。或者说，只有他们才能做出决策。坏决定总好过不行动。这样来看，草台班子其实是人类文明进化机制的一部分，我们之所以能进步，不是因为我们总是做出正确的决定，而是在因为我们能在混乱中逐步改进，在局限中不停重构组织，在失败中学习经验。</p>
+<p>再说了，我们也不必如此自负，总是以“肉食者鄙”的心态来看待领导者。你以为的草台班子未必是因为领导者蠢，可能正是因为你自己的愚蠢。毕竟领导们的主要责职是驱动其它人行动，统治者的功能主要是协调，他们要做的事是带领我们前进。一个聪明人要带领一群傻子前进，最好的办法是扮演傻子才能和我们融为一体，才能让我们心甘情愿地追随。</p>
+<p>而且从群体心理学上来说，有时愚蠢的政策反而能激活集体的参与，比如用简单的口号动员大众。</p>
+<p>总之，我们得保持足够的谦卑，要理解草台班子的决策过程，在批评愚蠢命令时要理解政策发布的背景执行过程中动态的反馈。同样，我们自己在决策时，也要明白信息的取舍，并保持决策的弹性和容错性。</p>
+<h2 id="05-">05 结语：糊涂不是问题，装聪明才是</h2>
+<p>我们从机器学习的过拟合现象发现精准不是智慧，反而可能是错误的陷阱。</p>
+<p>我们观察草台班子的决策过程和执行过程，意识到“乱中有序”的混沌协作机制是人类处理复杂问题的本质。</p>
+<p>然后我们不得不承认，看似草台的班子也许深谙人性本质。</p>
+<p>正是因为人类文明不是靠聪明人的明智决策，而是靠普通人的低效合作才能进步的。我们才能认识到糊涂不是问题，真正危险的是装聪明的人。我们要做的是，成为那个看起来糊涂，但总能推动事情向前的人。</p>
+<p>2025-06-08</p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-08-30</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/ai-tong-zhi-ren-lei-ni-shi-ren-zhen-de/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">AI统治人类，你是认真的？</span></a>
+            
+            
+            <a class="next" href="/post/suan-ming-suan-shen-me/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">算命算什么？</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788675916" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

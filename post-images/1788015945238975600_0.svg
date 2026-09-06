@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 260" width="720" height="260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="可验证奖励的强化学习循环">
+  <style>
+    .ring { animation: spin 14s linear infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes spin { from { transform: rotate(-40deg); } to { transform: rotate(320deg); } }
+    .node { animation: glow 6s ease-in-out infinite; }
+    .node.n2 { animation-delay: 1.5s; }
+    .node.n3 { animation-delay: 3s; }
+    .node.n4 { animation-delay: 4.5s; }
+    @keyframes glow {
+      0%, 8% { opacity: 1; }
+      25%, 100% { opacity: .45; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ring, .node { animation: none !important; }
+      .node { opacity: 1; }
+    }
+  </style>
+  <circle class="ring" cx="360" cy="132" r="86" fill="none" stroke="#c7d2fe" stroke-width="3" stroke-dasharray="7 9"/>
+  <!-- 节点1：模型出手 -->
+  <g class="node">
+    <rect x="296" y="16" width="128" height="44" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="360" y="43" font-size="14" fill="#6d28d9" text-anchor="middle" font-weight="bold">模型出手解题</text>
+  </g>
+  <!-- 节点2：沙箱执行 -->
+  <g class="node n2">
+    <rect x="510" y="110" width="128" height="44" rx="10" fill="#ecfdf5" stroke="#14b8a6" stroke-width="2"/>
+    <text x="574" y="137" font-size="14" fill="#0f766e" text-anchor="middle" font-weight="bold">沙箱里真跑一遍</text>
+  </g>
+  <!-- 节点3：验证 -->
+  <g class="node n3">
+    <rect x="296" y="204" width="128" height="44" rx="10" fill="#fff" stroke="#94a3b8" stroke-width="2"/>
+    <text x="360" y="232" font-size="14" fill="#334155" text-anchor="middle" font-weight="bold">跑测试：✓ 或 ✗</text>
+  </g>
+  <!-- 节点4：更新 -->
+  <g class="node n4">
+    <rect x="82" y="110" width="128" height="44" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <text x="146" y="137" font-size="14" fill="#1d4ed8" text-anchor="middle" font-weight="bold">奖励回传·更新</text>
+  </g>
+  <text x="360" y="138" font-size="13" fill="#94a3b8" text-anchor="middle">无人打分</text>
+  <text x="360" y="158" font-size="13" fill="#94a3b8" text-anchor="middle">结果说了算</text>
+</svg>

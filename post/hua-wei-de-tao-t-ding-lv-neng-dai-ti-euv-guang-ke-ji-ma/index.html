@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="华为用新的标准来定义半导体行业的进步。
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>华为的韬（τ）定律能代替 EUV光刻机吗？ | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788675916">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788675916">
+
+
+  
+  <meta name="keywords" content="华为,光刻机,摩尔定律,半导体">
+  
+<meta name="description" content="华为用新的标准来定义半导体行业的进步。">
+<link rel="canonical" href="https://loaf.github.io/post/hua-wei-de-tao-t-ding-lv-neng-dai-ti-euv-guang-ke-ji-ma/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"华为的韬（τ）定律能代替 EUV光刻机吗？","url":"https://loaf.github.io/post/hua-wei-de-tao-t-ding-lv-neng-dai-ti-euv-guang-ke-ji-ma/","description":"华为用新的标准来定义半导体行业的进步。","image":"/post-images/1788622266575433700_0.png","datePublished":"2026-05-27T00:00:00+08:00","dateModified":"2026-09-05T23:45:16+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/hua-wei-de-tao-t-ding-lv-neng-dai-ti-euv-guang-ke-ji-ma/","name":"华为的韬（τ）定律能代替 EUV光刻机吗？","position":2}]}</script>
+<meta property="og:title" content="华为的韬（τ）定律能代替 EUV光刻机吗？">
+<meta property="og:description" content="华为用新的标准来定义半导体行业的进步。">
+<meta property="og:url" content="https://loaf.github.io/post/hua-wei-de-tao-t-ding-lv-neng-dai-ti-euv-guang-ke-ji-ma/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/1788622266575433700_0.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/hua-wei-de-tao-t-ding-lv-neng-dai-ti-euv-guang-ke-ji-ma/">
+<meta name="twitter:title" content="华为的韬（τ）定律能代替 EUV光刻机吗？">
+<meta name="twitter:description" content="华为用新的标准来定义半导体行业的进步。">
+<meta name="twitter:image" content="/post-images/1788622266575433700_0.png">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>华为的韬（τ）定律能代替 EUV光刻机吗？</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-05-27</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 4 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/sui-bi/">随笔</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color3" href="/tag/hua-wei/">华为</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/guang-ke-ji/">光刻机</a>
+    
+    <a class="page-tag-item clickable color7" href="/tag/mo-er-ding-lv/">摩尔定律</a>
+    
+    <a class="page-tag-item clickable color8" href="/tag/ban-dao-ti/">半导体</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <p>2026年5月25日，在IEEE国际电路与系统研讨会（ISCAS 2026）上，华为发布了 <strong>&ldquo;韬（τ）定律&rdquo;</strong>，并声称5年后，应该能生产相当于1.4纳米制程的高端芯片。</p>
+<p><img src="/post-images/1788622266575433700_0.png" alt="huawei" /></p>
+<p>同日，何庭波将论文 <em><strong>A Time Scaling Theory for Multi-Layer Electronic Systems</strong></em> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> 提交至中国科学院科技论文预发布平台（ChinaXiv）。</p>
+<h2 id="heading">还要不要光刻机？</h2>
+<p>华为如果能做到1.4纳米的芯片了？是不是可以不再用光刻机了？</p>
+<p><strong>当然不是！光刻机依然非常重要</strong></p>
+<p>这其实是两回事，互相并不矛盾。</p>
+<p>首先我们要明白，上面提到1.4纳米，是指<strong>在现有制程下，用新技术生产出的芯片，从效能上来说，相当于当前技术芯片达到1.4纳米后的表现。</strong></p>
+<p>如果使用LogicFolding技术（华为在论文中提到的技术）能让7nm制程的芯片效能能达到1.4nm制程的表现，那么它肯定能让3nm的芯片表现出比1.4nm更小芯片的性能。</p>
+<h2 id="heading-1">就你华为聪明？人家怎么不“折叠”？</h2>
+<p>你怎么知道“人家”不折叠？只不过人家现在有光刻机，暂时还顾不上这个赛道，华为只能先啃硬骨头。</p>
+<p>好比大家参加考试，川老师要撕华同学的卷子，要把他赶出去。华同学不吃这一套，硬是抢回卷子参加考试，只是前一页被撕了，只能先从后面的大题做起。</p>
+<h2 id="heading-2">工厂主比喻</h2>
+<p>芯片的性能，一直以来，都是包含的晶体管数目越多，性能越强大。在相同的空间里怎么挤进更多的晶体管呢？</p>
+<p>当然是晶体管越小越好，越挤越好。</p>
+<p>为了更好地理解芯片技术的发展，在这里我们把芯片比喻成工厂。</p>
+<blockquote>
+<p>假如你就是那个黑心的工厂主，希望工厂给你带来更多的利润。为了让工厂能生产更多的产品。当然是工位越多越好，你首先想到的是缩小工位和过道。这样相同的厂房面积里就有更多的工位了。</p>
+</blockquote>
+<p>就是制程演进的思路。通过缩小尺寸（如从 7nm 到 5nm）来提升单位面积的计算单元数量。所谓摩尔定律，就是说，每隔18个月，技术的进步就足以让芯片中晶体管数量翻倍。</p>
+<p>现在说摩尔定律不起作用了，是因为这种缩小计算单元的方法已经快达到一个极限了。工位缩小到没法再小了，而过道窄到工人走路会互相碰撞（量子隧穿效应/漏电），厂房造价也指数级飙升。</p>
+<blockquote>
+<p>你说，工位怎么就不能再缩小了？工人在工位上站着干活就行，担心过道过窄会工人会互相碰撞？每个工位加上隔板吧。</p>
+</blockquote>
+<p>美国的华裔科学家胡正明教授也想到了这种方法。于是他在1999年发明了<strong>FinFET（鳍式场效应晶体管）</strong> 技术，通过将沟道做成垂直的鳍片状，增加了栅极的控制面积，解决了尺寸缩减后的漏电问题。</p>
+<blockquote>
+<p>你看了看密密麻麻的工位，好像没办法再插进更多的工位了，然后向上望了一眼，一挥手，工位上再加一层。这样一个厂房里可以容纳更多的部门和工位了。</p>
+</blockquote>
+<p>台积电、三星、英特尔等企业也是这么想的，他们采用了 <strong>“3D堆叠”</strong> 技术。把不同的芯片功能层叠在一起。</p>
+<blockquote>
+<p>你看到工人总要跑去仓库领料太浪费时间了，于是在工位边安了一个储物架，常用零件和材料就在手边。</p>
+</blockquote>
+<p>Samsung 等公司提出了&quot;<strong>存算一体（PIM）</strong>&ldquo;的思路——与其把数据从存储器搬到处理器再搬回去，不如直接在存储阵列里做计算。</p>
+<blockquote>
+<p>你通过分析，流水线上有些工序会共享材料和工具，与其A将材料加工后再转移到B处，还不如将AB两个工位放在一起。</p>
+</blockquote>
+<p>苹果赶紧给你点了个赞。他家的macbook使用的就是<strong>统一内存架构（UMA）</strong> ，都是芯片，分什么内存显存，可以混着用啊。</p>
+<h2 id="heading-3">韬（τ）定律是什么</h2>
+<p>华为说建工厂的目的是高效地生产出更多的产品，上面的所有努力是用增加生产线的方法提高产量。在不增加产线的情况下，加快生产效率也是能提高产出啊。</p>
+<p>台积电、苹果、AMD一起撇了撇嘴，我上面的那些技术不都是为了提高生产效率吗？不过现在我有钱，买生产线赚钱更快。</p>
+<p>买不到生产线的工厂主终于卷出了终极进化版：</p>
+<blockquote>
+<p>你不再纠结于厂房面积，而是纠结于“一张零件从 1 号工位传到 10 号工位到底要几秒”。<br />
+你发现生产线（关键路径）太长了，即便工位再小，零件在传送带上跑的时间（τ）也太久。于是你做了一个疯狂的决定：把这条生产线立体化，然后修改工艺工序，重新设计工位。做到总体上需要传输零件的总次数总时间极大地减少，相当于流水线在逻辑上进行了“对折”！</p>
+</blockquote>
+<p>这就是韬（τ）定律所做的。</p>
+<h2 id="heading-4">代价是什么？</h2>
+<p>从上面的描述你能看出代价：</p>
+<p><strong>1. 工程学上的技术复杂度大大提高。</strong></p>
+<p>因为华为的Logic Folding（逻辑折叠）方式，不仅仅是将元件堆叠，而且还要根据元件的功能，将必要的逻辑单元就近堆叠。而不是和台积电现在做的那样，只是根据功能进行堆叠。</p>
+<p><strong>2. 需要全新的设计工具。</strong></p>
+<p>现有EDA工具，大多是二维的，连线通讯都在一个平面上，而使用华为的逻辑折叠，设计工具必须能处理3D线路。</p>
+<p><strong>3. 堆叠引发的散热难题。</strong></p>
+<p>密度越高，散热越难。这不仅仅是华为方案，任何涉及到堆叠的技术都面临相同难题。</p>
+<p>我是这么理解这三个代价的：</p>
+<ol>
+<li>晶圆工艺的复杂性和垂直互连开销是不可避免的。没有难度的话，华为就没有必要专门发布论文了。</li>
+<li>设计工具这一块。原来EDA全是进口软件商，现在因为封锁，反而让国产软件商有了一线机会，这几天，华大九天、北大都声称其EDA软件支持华为的3D设计。</li>
+<li>散热问题，华为肯定已经有了解决方案，想到前段时间发布的风驰版手机，可能也是一种技术应用。</li>
+</ol>
+<p>总的来说，我相信华为已经解决了或者说即将解决这些问题。因为在25日的发布ISCAS 2026上，何庭波在论文中明确说明这是一个有量产数据支撑的门级 3D 集成方案（有381颗芯片的工程实践）。<strong>华为不是提出了一个理论，而是拿出了产品，更像是一个总结会。</strong></p>
+<h2 id="heading-5">为什么要公布</h2>
+<p>华为闷声发大财不好吗？为什么要发布论文呢？在论文中还提出了实现方法，不怕泄密吗？</p>
+<p>我是这么看的，华为的技术路线其实并不算是换了赛道，而是先走了赛道的后半段。台积电只是因为先进制程设备，所以注意力全放在光刻机的优化上。一旦硬件优化走到了尽头，也是要攻关堆叠技术的。</p>
+<p>华为是在不得已的情况下被迫先啃硬骨头的。<strong>既然有了成果，那就尽可能地把它变成标准，然后形成成熟的生态。</strong></p>
+<p>这样一来，以后对手们也开始攻关这些技术时，就得面临华为的专利壁垒了。</p>
+<p>而且一旦生态养成，对于生态圈中的友商们（比如EDA软商）来说，才是真正意义上的弯道超车。另外也给国产光刻机的研发争取到了时间，只要国产EUV跟上，芯片的性能还能再上一层楼。</p>
+<h2 id="heading-6">论文解析</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p><a href="https://chinaxiv.org/abs/202605.00224">https://chinaxiv.org/abs/202605.00224</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-05</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/ni-gen-ben-bu-zhong-yao-ai-ke-yi-bi-ni-geng-zhen-shi/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">你根本不重要，AI可以比你更真实</span></a>
+            
+            
+            <a class="next" href="/post/anthropic-fan-hua-dan-claude-qin-zhong-a-tan-tan-da-mo-xing-de-yu-liao-wen-ti/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">Anthropic反华但Claude亲中啊——谈谈大模型的语料问题</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788675916" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

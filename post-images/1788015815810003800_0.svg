@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 240" width="720" height="240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="预训练与后训练流水线示意图">
+  <style>
+    .flow-dot { animation: flow 2.6s linear infinite; }
+    .flow-dot.d2 { animation-delay: .9s; }
+    .flow-dot.d3 { animation-delay: 1.8s; }
+    @keyframes flow {
+      0% { transform: translateX(0); opacity: 0; }
+      12% { opacity: 1; }
+      82% { opacity: 1; }
+      100% { transform: translateX(96px); opacity: 0; }
+    }
+    .lock { animation: pop 3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes pop { 0%,100% { transform: scale(1); } 12% { transform: scale(1.18); } 24% { transform: scale(1); } }
+    .check { animation: blink 2.4s ease-in-out infinite; }
+    .cross { animation: blink 2.4s ease-in-out infinite; animation-delay: 1.2s; }
+    @keyframes blink { 0%,40% { opacity: 1; } 55%,90% { opacity: .12; } 100% { opacity: 1; } }
+    .up-arrow { animation: rise 2s ease-in-out infinite; transform-box: fill-box; transform-origin: center bottom; }
+    @keyframes rise { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @media (prefers-reduced-motion: reduce) {
+      .flow-dot, .lock, .check, .cross, .up-arrow { animation: none !important; }
+    }
+  </style>
+  <!-- 预训练区 -->
+  <text x="60" y="34" font-size="15" fill="#374151" font-weight="bold">① 预训练：读书</text>
+  <rect x="30" y="52" width="34" height="46" rx="4" fill="#e5e7eb" stroke="#cbd5e1"/>
+  <rect x="42" y="44" width="34" height="46" rx="4" fill="#f3f4f6" stroke="#cbd5e1"/>
+  <rect x="54" y="36" width="34" height="46" rx="4" fill="#fff" stroke="#cbd5e1"/>
+  <text x="71" y="64" font-size="12" fill="#6b7280" text-anchor="middle">书</text>
+  <line x1="100" y1="60" x2="196" y2="60" stroke="#9ca3af" stroke-width="2"/>
+  <circle class="flow-dot" cx="104" cy="60" r="4" fill="#64748b"/>
+  <circle class="flow-dot d2" cx="104" cy="60" r="4" fill="#64748b"/>
+  <circle class="flow-dot d3" cx="104" cy="60" r="4" fill="#64748b"/>
+  <text x="148" y="48" font-size="11" fill="#9ca3af" text-anchor="middle">海量文本</text>
+  <!-- 基座 -->
+  <rect x="200" y="36" width="120" height="64" rx="12" fill="#ecfdf5" stroke="#14b8a6" stroke-width="2"/>
+  <text x="260" y="64" font-size="14" fill="#0f766e" text-anchor="middle" font-weight="bold">基座模型</text>
+  <text x="260" y="84" font-size="11" fill="#0d9488" text-anchor="middle">权重从此冻结 🔒</text>
+  <g class="lock">
+    <text x="316" y="30" font-size="16">🔒</text>
+  </g>
+  <!-- 分隔箭头 -->
+  <line x1="324" y1="68" x2="368" y2="68" stroke="#9ca3af" stroke-width="2"/>
+  <polygon points="368,63 378,68 368,73" fill="#9ca3af"/>
+  <!-- 后训练区 -->
+  <text x="400" y="34" font-size="15" fill="#374151" font-weight="bold">② 后训练：上岗实习</text>
+  <rect x="384" y="42" width="150" height="58" rx="8" fill="#1e293b"/>
+  <rect x="394" y="50" width="130" height="30" rx="3" fill="#334155"/>
+  <text x="402" y="70" font-size="12" fill="#a5f3fc" font-family="monospace">&gt; 跑测试…</text>
+  <rect x="434" y="110" width="50" height="50" rx="25" fill="#f0fdfa" stroke="#14b8a6" stroke-width="2"/>
+  <text x="459" y="142" font-size="22" text-anchor="middle" fill="#059669" class="check">✓</text>
+  <rect x="500" y="110" width="50" height="50" rx="25" fill="#fef2f2" stroke="#f87171" stroke-width="2"/>
+  <text x="525" y="142" font-size="22" text-anchor="middle" fill="#dc2626" class="cross">✗</text>
+  <text x="492" y="180" font-size="11" fill="#9ca3af" text-anchor="middle">环境执行 · 结果反馈</text>
+  <!-- 输出 -->
+  <line x1="560" y1="68" x2="604" y2="68" stroke="#9ca3af" stroke-width="2"/>
+  <polygon points="604,63 614,68 604,73" fill="#9ca3af"/>
+  <g class="up-arrow">
+    <rect x="620" y="42" width="76" height="56" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="658" y="66" font-size="14" fill="#6d28d9" text-anchor="middle" font-weight="bold">能力</text>
+    <text x="658" y="86" font-size="13" fill="#6d28d9" text-anchor="middle">📈</text>
+  </g>
+  <!-- 底部说明 -->
+  <text x="360" y="216" font-size="12" fill="#6b7280" text-anchor="middle">同一个（冻结的）大脑，靠右边这一个阶段的练法差异，成绩可以差出数倍</text>
+</svg>

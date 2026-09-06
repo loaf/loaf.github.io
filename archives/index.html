@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="记录思考，分享见解">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>时间轴 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788675916">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788675916">
+
+
+<meta name="description" content="记录思考，分享见解">
+<link rel="canonical" href="https://loaf.github.io/archives/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"亍云斋","url":"https://loaf.github.io","description":"记录思考，分享见解","potentialAction":{"@type":"SearchAction","query-input":"required name=search_term_string","target":"https://loaf.github.io/search?q={search_term_string}"}}</script>
+<meta property="og:title" content="亍云斋">
+<meta property="og:description" content="记录思考，分享见解">
+<meta property="og:url" content="https://loaf.github.io/archives/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/images/theme/snail-new-small.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/archives/">
+<meta name="twitter:title" content="亍云斋">
+<meta name="twitter:description" content="记录思考，分享见解">
+<meta name="twitter:image" content="/images/theme/snail-new-small.png">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="vp-page-title vp-archives-title">
+        <h1>时间轴</h1>
+        
+        <div class="vp-archives-motto">记录思考，分享见解</div>
+        
+        <hr>
+      </div>
+
+      <div class="vp-content">
+        <div class="timeline-wrapper">
+          <div class="timeline-content">
+            
+            <div class="timeline-year-wrapper">
+              <h2 class="timeline-year-title"><span>2026</span></h2>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-09-04</span>
+                <a class="timeline-title" href="/post/yong-1wan-yi-ge-tokenxun-lian-chu-yi-ge-guo-jia-zhu-quan-da-mo-xing/">用1万亿个Token训练出一个国家主权大模型</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-08-29</span>
+                <a class="timeline-title" href="/post/zai-kan-mei-ju-xi-bu-shi-jie-nuo-lan-de-aijue-xing-shuo-ming-shu-huan-neng-yong-ma/">再看美剧《西部世界》，诺兰的AI觉醒说明书还能用吗？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-08-25</span>
+                <a class="timeline-title" href="/post/wei-shi-me-xi-fang-ren-lao-shi-dan-xin-aijue-xing-hui-hui-mie-ren-leizhong-guo-ren-que-bu-zai-hu/">为什么西方人老是担心AI觉醒会毁灭人类，中国人却不在乎？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-08-15</span>
+                <a class="timeline-title" href="/post/can-shu-gui-mo-bu-zengglm-53ping-shi-me-neng-cheng-wei-guo-chan-mo-xing-de-lao-da/">参数规模不增，GLM-5.3凭什么能成为国产模型的老大？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-07-09</span>
+                <a class="timeline-title" href="/post/da-mo-xing-ye-you-xiao-qing-xu-anthropic-zong-neng-gei-ni-zheng-dian-xin-hua-yang/">大模型也有小情绪，Anthropic总能给你整点新花样</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-07-06</span>
+                <a class="timeline-title" href="/post/hua-wei-geng-xin-lun-wen-bu-yong-euv-xin-pian-mi-du-zhui-ping-tai-ji-dian-3nm/">华为更新论文：不用EUV，芯片密度追平台积电3nm</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-07-03</span>
+                <a class="timeline-title" href="/post/yin-du-ren-wei-shi-me-zhe-me-chou-xiang/">印度人为什么这么抽象？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-06-23</span>
+                <a class="timeline-title" href="/post/zheng-liu-he-ni-gou-shu-zi-xue-mei-you-shen-me-qu-bie/">“蒸馏”和你购书自学没有什么区别</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-06-19</span>
+                <a class="timeline-title" href="/post/ba-xi-de-da-mo-xing-bi-jian-deepseekqi-shi-ni-ye-ke-yi-kai-fa-chu-lai/">巴西的大模型比肩DeepSeek？其实你也可以开发出来</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-06-12</span>
+                <a class="timeline-title" href="/post/fable-5-yi-qi-jue-chen-deepseek-hai-you-ji-hui-ma/">Fable 5一骑绝尘，DeepSeek还有机会吗？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-06-06</span>
+                <a class="timeline-title" href="/post/jia-ru-agi-ming-tian-lai-lin/">假如AGI明天来临</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-06-01</span>
+                <a class="timeline-title" href="/post/ni-gen-ben-bu-zhong-yao-ai-ke-yi-bi-ni-geng-zhen-shi/">你根本不重要，AI可以比你更真实</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-05-27</span>
+                <a class="timeline-title" href="/post/hua-wei-de-tao-t-ding-lv-neng-dai-ti-euv-guang-ke-ji-ma/">华为的韬（τ）定律能代替 EUV光刻机吗？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-05-23</span>
+                <a class="timeline-title" href="/post/anthropic-fan-hua-dan-claude-qin-zhong-a-tan-tan-da-mo-xing-de-yu-liao-wen-ti/">Anthropic反华但Claude亲中啊——谈谈大模型的语料问题</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-05-19</span>
+                <a class="timeline-title" href="/post/bei-wu-ming-hua-de-nv-shen/">被污名化的女神</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-05-10</span>
+                <a class="timeline-title" href="/post/anthropic-wei-shen-me-ru-ci-fan-hua/">Anthropic 为什么如此反华？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-05-05</span>
+                <a class="timeline-title" href="/post/deepseek-v4-kou-bei-de-wei-xiao-qu-xian/">DeepSeek V4口碑的“微笑曲线”</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-04-26</span>
+                <a class="timeline-title" href="/post/deepseek-xie-xiao-shuo-glm-shuo-hai-xing/">DeepSeek写小说，GLM说，还行！</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-04-25</span>
+                <a class="timeline-title" href="/post/ai-neng-dai-ti-cheng-xu-yuan-le-ma-shun-bian-ping-ce-yi-xia-deepseek-v4-glm-5-1-he-gemini-3-1-pro/">AI能代替程序员了吗？顺便评测一下DeepSeek V4、Glm-5.1和Gemini 3.1 Pro</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-04-24</span>
+                <a class="timeline-title" href="/post/deepseek-fa-xin-ban-ben-le/">DeepSeek发新版本了！</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-04-21</span>
+                <a class="timeline-title" href="/post/ai-wei-he-ru-ci-tian-zhen-da-mo-xing-an-quan-dui-qi-ji-shu/">AI为何如此“天真”？——大模型安全对齐技术</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-04-14</span>
+                <a class="timeline-title" href="/post/86-sui-bei-an-sha-ju-ran-shi-yin-wei-tai-nian-qing-mei-yi-zhan-zheng-bei-hou-de-zhang-shou-xuan-xue-yu-liang-zi-du-xin/">86岁被暗杀居然是因为“太年轻”？美伊战争背后的长寿玄学与量子读心</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-03-16</span>
+                <a class="timeline-title" href="/post/yang-xia-ji-openclaw-shi-yong-shou-ji/">养虾记——OpenClaw试用手记</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-02-26</span>
+                <a class="timeline-title" href="/post/da-mo-xing-shi-zen-me-zheng-liu-de/">大模型是怎么蒸馏的</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-02-13</span>
+                <a class="timeline-title" href="/post/nanobotyuan-dai-ma-xiang-jie/">Nanobot源代码详解</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-02-04</span>
+                <a class="timeline-title" href="/post/cong-ren-gong-zhi-neng-jin-hua-dao-ren-gong-zhi-ren/">从“人工智能”进化到“人工智人”</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-01-11</span>
+                <a class="timeline-title" href="/post/deepseek-hui-rang-ni-guo-ge-kai-xin-nian-ma/">DeepSeek会让你过个开心年吗？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-01-02</span>
+                <a class="timeline-title" href="/post/dang-can-cha-kai-shi-shi-kong-deepseek-mhc-ru-he-gei-chao-lian-jie-dai-shang-shu-xue-jia-suo/">当残差开始“失控”：DeepSeek mHC 如何给超连接戴上数学枷锁</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2026-01-01</span>
+                <a class="timeline-title" href="/post/wu-shu-ke-du-zhi-hou-ai-zheng-zai-zou-chu-gui-mo-shi-dai/">无书可读之后：AI 正在走出“规模时代”</a>
+              </div>
+              
+            </div>
+            
+            <div class="timeline-year-wrapper">
+              <h2 class="timeline-year-title"><span>2025</span></h2>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-12-03</span>
+                <a class="timeline-title" href="/post/zhi-shi-de-ying-zi-yu-ben-ti-ai-zheng-zai-xun-zhao-chuan-tou-wen-zi-de-lu/">知识的影子与本体：AI 正在寻找穿透文字的路</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-11-02</span>
+                <a class="timeline-title" href="/post/ai-bei-lun-yue-fa-zhan-yue-yu-dun/">AI悖论：越发展越愚钝？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-10-24</span>
+                <a class="timeline-title" href="/post/chen-mi-duan-shi-pin-ai-de-zhi-shang-ye-kang-bu-zhu/">沉迷短视频，AI的智商也抗不住</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-10-21</span>
+                <a class="timeline-title" href="/post/deepseek-kai-yuan-xin-mo-xing-rang-ai-zheng-yan-kan-shi-jie/">DeepSeek开源新模型，让AI睁眼看世界</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-10-20</span>
+                <a class="timeline-title" href="/post/mei-guo-ren-gong-ji-bei-jing-shi-jian/">美国人攻击“北京时间”</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-10-08</span>
+                <a class="timeline-title" href="/post/han-guo-de-xiao-mo-xing-da-bai-le-deepseek/">韩国的小模型打败了DeepSeek?</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-09-25</span>
+                <a class="timeline-title" href="/post/xin-ren-de-lie-feng-ni-hai-neng-xiang-xin-dui-ni-shua-xin-ji-de-ai-ma/">信任的裂缝：你还能相信对你“耍心机”的AI吗？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-09-11</span>
+                <a class="timeline-title" href="/post/chuang-jian-vuepress-wang-zhan/">创建Vuepress网站</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-09-11</span>
+                <a class="timeline-title" href="/post/softmax-han-shu-he-sigmoid-han-shu/">Softmax函数和Sigmoid函数</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-08-25</span>
+                <a class="timeline-title" href="/post/ji-yu-da-mo-xing-de-kai-yuan-suan-fa-kronos-zai-liang-hua-jiao-yi-zhong-de-shi-yong/">基于大模型的开源算法Kronos在量化交易中的使用</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-08-08</span>
+                <a class="timeline-title" href="/post/bei-chuang-zao-zhe-de-yi-yi-dang-ren-lei-shi-yu-zhou-de-shu-ju-cai-ji-yuan/">被创造者的意义：当人类是宇宙的&#34;数据采集员&#34;</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-08-05</span>
+                <a class="timeline-title" href="/post/ju-shen-zhi-neng-yi-chang-xian-dai-ban-de-shen-hua-lun-hui/">具身智能：一场现代版的神话轮回？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-06-14</span>
+                <a class="timeline-title" href="/post/ren-lei-mie-jue-hou-ai-hui-tong-zhi-di-qiu-ma/">人类灭绝后，AI会统治地球吗？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-06-10</span>
+                <a class="timeline-title" href="/post/ai-tong-zhi-ren-lei-ni-shi-ren-zhen-de/">AI统治人类，你是认真的？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-06-08</span>
+                <a class="timeline-title" href="/post/yu-ren-cheng-da-shi-cong-ai-de-guo-ni-he-dao-jue-ce-de-hun-dun-zhi-hui/">愚人成大事：从AI的过拟合到决策的混沌智慧</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-03-20</span>
+                <a class="timeline-title" href="/post/suan-ming-suan-shen-me/">算命算什么？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-03-17</span>
+                <a class="timeline-title" href="/post/ai-de-dun-wu-shi-ke/">AI的“顿悟时刻”</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-02-23</span>
+                <a class="timeline-title" href="/post/xi-nao-shu-jian-shi-xin-nian-qi-ke-guan-shu/">洗脑术简史：信念岂可灌输？</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-02-22</span>
+                <a class="timeline-title" href="/post/yu-shi-ju-jin-xue-aizhi-eryan-gao-shou-bu-diyong-deepseekgai-bian-ni-zi-ji/">与时俱进学AI之二：眼高手不低，用DeepSeek改变你自己</a>
+              </div>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2025-02-16</span>
+                <a class="timeline-title" href="/post/yu-shi-ju-jin-xue-aizhi-yixue-ba-deepseekshi-zen-me-lian-cheng-de/">与时俱进学AI之一：学霸DeepSeek是怎么练成的</a>
+              </div>
+              
+            </div>
+            
+            <div class="timeline-year-wrapper">
+              <h2 class="timeline-year-title"><span>2024</span></h2>
+              
+              <div class="timeline-item">
+                <span class="timeline-date">2024-12-26</span>
+                <a class="timeline-title" href="/post/yue-du-qian-tan-ren-gong-zhi-neng/">阅读《浅谈人工智能》</a>
+              </div>
+              
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+
+      
+
+<div class="vp-pagination">
+  <nav class="vp-pagination-list">
+    <div class="vp-pagination-number">
+      <div class="prev disabled">上一页</div>
+      
+      
+      <div class="active" data-href="/archives/" title="第 1 页">1</div>
+      
+      
+      
+      <div class="" data-href="/archives/page/2/" title="第 2 页">2</div>
+      
+      
+      <div class="next" data-href="/archives/page/2/">下一页</div>
+    </div>
+    <div class="vp-pagination-nav">
+      <label for="vp-page-jump">跳转到: </label>
+      <input id="vp-page-jump" type="number" min="1" max="2" value="1">
+      <button class="vp-pagination-button" type="button" id="vp-page-jump-btn">前往</button>
+    </div>
+  </nav>
+</div>
+
+
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788675916" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

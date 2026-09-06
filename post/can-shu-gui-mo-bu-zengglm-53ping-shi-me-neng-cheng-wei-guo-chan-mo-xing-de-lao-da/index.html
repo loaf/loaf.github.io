@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="智谱的GLM-5.3仅仅通过后训练，就让性能提升了50%，这太疯狂了。
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>参数规模不增，GLM-5.3凭什么能成为国产模型的老大？ | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788675916">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788675916">
+
+
+  
+  <meta name="keywords" content="人工智能,LLM,GLM">
+  
+<meta name="description" content="智谱的GLM-5.3仅仅通过后训练，就让性能提升了50%，这太疯狂了。">
+<link rel="canonical" href="https://loaf.github.io/post/can-shu-gui-mo-bu-zengglm-53ping-shi-me-neng-cheng-wei-guo-chan-mo-xing-de-lao-da/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"参数规模不增，GLM-5.3凭什么能成为国产模型的老大？","url":"https://loaf.github.io/post/can-shu-gui-mo-bu-zengglm-53ping-shi-me-neng-cheng-wei-guo-chan-mo-xing-de-lao-da/","description":"智谱的GLM-5.3仅仅通过后训练，就让性能提升了50%，这太疯狂了。","image":"/post-images/1788015815810003800_0.svg","datePublished":"2026-08-15T23:01:03+08:00","dateModified":"2026-08-15T23:01:03+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/can-shu-gui-mo-bu-zengglm-53ping-shi-me-neng-cheng-wei-guo-chan-mo-xing-de-lao-da/","name":"参数规模不增，GLM-5.3凭什么能成为国产模型的老大？","position":2}]}</script>
+<meta property="og:title" content="参数规模不增，GLM-5.3凭什么能成为国产模型的老大？">
+<meta property="og:description" content="智谱的GLM-5.3仅仅通过后训练，就让性能提升了50%，这太疯狂了。">
+<meta property="og:url" content="https://loaf.github.io/post/can-shu-gui-mo-bu-zengglm-53ping-shi-me-neng-cheng-wei-guo-chan-mo-xing-de-lao-da/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/1788015815810003800_0.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/can-shu-gui-mo-bu-zengglm-53ping-shi-me-neng-cheng-wei-guo-chan-mo-xing-de-lao-da/">
+<meta name="twitter:title" content="参数规模不增，GLM-5.3凭什么能成为国产模型的老大？">
+<meta name="twitter:description" content="智谱的GLM-5.3仅仅通过后训练，就让性能提升了50%，这太疯狂了。">
+<meta name="twitter:image" content="/post-images/1788015815810003800_0.svg">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>参数规模不增，GLM-5.3凭什么能成为国产模型的老大？</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-08-15</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 9 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/sui-bi/">随笔</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color3" href="/tag/ren-gong-zhi-neng/">人工智能</a>
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color5" href="/tag/glm/">GLM</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <p>8月14日，在DeepSeek V4 Pro发布的第二天，智谱发布了 GLM-5.3。官方博客的第一句话就是：</p>
+<blockquote>
+<p>&ldquo;Scaling post-training is all we did for GLM-5.3.&quot;（后训练 Scaling，是我们为 GLM-5.3 做的全部事情。）[1]</p>
+</blockquote>
+<p>这句话的分量在于它的&quot;控制变量&rdquo;。GLM-5.3 和 GLM-5.2 相比：架构没变。参数没变。总参数和激活参数，一个数字都没动。1M 的上下文长度也没变[2]。</p>
+<p>变的只有一样东西：<strong>后训练（post-training）</strong>。 这正是对标题疑问的回答。</p>
+<h2 id="heading">一、什么是后训练：读完大学，还要上岗实习</h2>
+<p>一提到后训练，知道一点AI的人往往马上想到一个缩语：RLHF。没错，就是人类偏好的强化学习（Reinforcement Learning from Human Feedback），当年这个词第一次进入我们视野时，是OpenAI用它来训练ChatGPT，让ChatGPT的回答更像一个受到教育的、有正确价值观的人类：说话要有礼貌、别教人干坏事……</p>
+<p>从前沿的闭源模型中，我们也就学到这些概念，所以认为后训练更像是一门礼仪课，重要性没那么高。</p>
+<p>但是这次国产模型做的事（包括DeepSeek V4正式版相对与预览版），就是把这层窗户纸给揭穿了，让我们不光发现，后训练也能创造奇迹。还能了解后训练到底是训练了一些什么。</p>
+<p>先说清概念：</p>
+<p>预训练（pre-training）像读书：模型把互联网上的海量文本读一遍，学会语言、知识和常识。这一步决定它<strong>知道什么</strong>。后训练像上岗实习：给它真实的任务，让它动手做，做对了给正反馈，做错了给负反馈，成千上万轮练下来。这一步决定它<strong>会做什么</strong>。</p>
+<p><img src="/post-images/1788015815810003800_0.svg" alt="图2-预训练与后训练流水线" /><br />
+上图中，预训练决定&quot;知道什么&quot;，后训练决定&quot;会做什么&quot;。GLM-5.3 改动的，只是右侧环节。</p>
+<p>关键在于：后训练不添加新知识，它是在<strong>唤醒</strong>知识。DeepSeek 的技术报告里有一个很准确的词——后训练&quot;解锁（unlock）&ldquo;并进一步增强模型能力[3]。智谱说得更直白：同样的基座，&ldquo;可能我们还远未开发出这个基座的智能上界&rdquo;[2]。</p>
+<p>换句话说，模型可能早就&quot;知道&quot;怎么做好一件事，只是从来没人用正确的方式逼它练过。</p>
+<h2 id="heading-1">二、从怀疑到同意“后训练远比想象的重要”</h2>
+<p>当GLM 5.3发布得分时，大家的第一反应是怀疑。但是很快就是第三方的证据证实了它的能力。</p>
+<p>不仅仅是智谱的GLM，DeepSeek的V4也是这样，它的正式版也是在预览版基座不变的前提下，通过后训练来进行优化。<br />
+<img src="/post-images/1788015901224545500_0.png" alt="" /></p>
+<p>美国分析师 Nathan Lambert 在他的 newsletter Interconnects 上写了一篇被广泛转发的分析，标题起得很妙——&ldquo;Hint: It&rsquo;s really not a distillation story&rdquo;（提示：这真不是一个蒸馏故事）[4]。他的判断是：智谱的博客表述与一个&quot;以 RL 为主导的训练范式&quot;完全吻合，因为 <strong>RL 环境、运行环境的大规模基础设施、以及有效混合它们的算法，是无法从别人的模型里蒸馏出来的</strong>。他对这些分数的结论也很干脆：&ldquo;the real deal&rdquo;（真实可信）。</p>
+<p>现在业界已经公认：&ldquo;后训练远比想象的重要&rdquo;。</p>
+<p>DeepSeek-V4-Pro 的官方模型卡把 GLM-5.2 列为对照模型，而 GLM-5.3 的官方表格里也列着 DeepSeek-V4-Pro-0813，两家在后训练这条赛道上，公开互为参照系。</p>
+<p>这就是开源的好处：<strong>秘密变成了公共知识。</strong></p>
+<h2 id="scaling-">三、唐杰的&quot;旋钮论&rdquo;：Scaling 从来不止一个旋钮</h2>
+<p>前几天，智谱 CEO 唐杰就GLM-5.3发布在X上有一个贴文《Thoughts About Scaling Law》[5]</p>
+<p>他讲了一个行业反思的故事：</p>
+<p><strong>第一幕，参数迷信</strong>。2020 年的 Kaplan Scaling Law 建议参数增长快于数据，行业照做，一路卷到 5300 亿参数的模型。唐杰的定性毫不留情：&ldquo;万亿参数那一轮，是行业集体走的一段弯路，然后又集体折返。&rdquo;</p>
+<p><strong>第二幕，两次修正</strong>。2022 年 Chinchilla 用 400 个模型重做实验，证明参数和数据应该同速增长；此后推理成本入局，模型每天被调用数十亿次，最优解转向&quot;更小的模型、训练更久&quot;。参数这个旋钮，被拧过头了。</p>
+<p><strong>第三幕，MoE 总数和激活数平衡</strong>。到了混合专家架构时代，&ldquo;总参数&quot;约等于模型的<strong>记忆容量</strong>，而真正决定<strong>推理深度</strong>的是激活参数和有效深度。他以漏洞发现为例：</p>
+<blockquote>
+<p>发现一个漏洞不是检索问题。它不来自记住更多 CVE；它来自把一条二十步的推理链完整带到终点而不丢失线索。这个能力不在总参数里。</p>
+</blockquote>
+<p>所以他的结论是：模型能力是<strong>很多个旋钮的联合函数</strong>——你有多大数据？计算花在哪？在什么条件下运行？而&quot;下一个值得转的旋钮，很少是上一个值得转的&rdquo;。</p>
+<p>GLM-5.3 就是这个理论的一次公开实验：<strong>所有旋钮都不动，只拧&quot;后训练&quot;这一个</strong>。不是因为它最重要，而是因为当下它&quot;余量最大（most slack）</p>
+<p><img src="/post-images/1788015933311730300_0.svg" alt="" /><br />
+上图正是唐杰的比喻——能力是多旋钮的联合函数；这一轮国产模型只拧了&quot;环境&quot;和&quot;奖励&quot;这两个（后训练旋钮），收益却“不是边际的”。</p>
+<p>你可能会问：为什么不把所有旋钮一起拧？当然可以，但一起拧你就说不清成绩该归谁。</p>
+<h2 id="heading-2">四、窗户纸后面到底有什么：把后训练拆开给你看</h2>
+<p>好，重点来了。以前我们说&quot;后训练&quot;，就是知道了一个术语，具体怎么做的，语焉不详。</p>
+<p>这次智谱和DeepSeek两家公司不一样，他们把配方摊在了桌面上。细节我尽量少讲，这里只提三个关键词。</p>
+<p><strong>关键词一：可验证奖励</strong></p>
+<p>后训练的主流打法是强化学习（RL）：让模型做题，做对给奖励。麻烦在于——谁来判断&quot;做对了&quot;？</p>
+<p>老办法是人给答案打分，或者训一个奖励模型学人类偏好。这就上面提到RLHF。工作量大不说，准确度也差。</p>
+<p>如果你看过我以前的文章，有一篇关于Fable 5为什么强的文章，提到过后训练，当时我认为自动打分功能只在预训练中有用，在后训练中只能通过大量高质量的人类员工来工作。现在看来，我还是缺乏想象力了。</p>
+<p><img src="/post-images/1788015945238975600_0.svg" alt="" /><br />
+上图是一个可验证奖励的RL循环。DeepSeek 造了专门的 DSec 安全沙箱[3]；智谱的验证器要通过&quot;标准答案 / 空操作 / 未解决&quot;三道检查才上岗[1]。</p>
+<p>这一步的工程量远比听起来重。DeepSeek 为此造了一整套跑 RL 训练环境的沙箱基础设施；智谱更进一步，用流水线<strong>批量合成训练环境</strong>——研究型 Agent 从真实工作里收集任务模式，转化成可运行的多步骤任务；裁判 Agent 先把每道题做一遍，确认题目真的可解；验证器在拿不到参考答案的情况下生成，再专门派&quot;解题 Agent&quot;去钻奖励规则的空子，钻出来一个堵一个。</p>
+<p>你没看错：他们连&quot;模型学会作弊怎么办&quot;都写进了流程。</p>
+<p><strong>关键词二：环境规模化——从习题册到真实工作</strong></p>
+<p>这是 GLM-5.3 这次最核心的增量，智谱的原话是：训练任务不再只是&quot;传统的编程题&quot;，而是**&ldquo;专家在真实工作中承担的完整专业工作单元&rdquo;**，有些任务相当于一位资深工程师好几天的的工作量[1]。</p>
+<p>举个例子你就懂了。给模型一个机器学习基础设施任务：计算集群、存储系统、内部文档、代码库、历史实验结果，要求它端到端地诊断训练系统的瓶颈、实施优化、跑实验、交付一个可度量的提速，还得保证正确性。就是把模型当成一个真实的算法工程师，让它解决所有真实环境中可能遇到的问题。</p>
+<p>这和&quot;写个函数通过单元测试&quot;是两种完全不同的能力。前者练的是<strong>独立完成工作</strong>，后者练的是<strong>完成指令</strong>。环境规模扩了数十倍，模型练的东西就变了质。</p>
+<p>以前你刷题，能刷出一个高分，现在直接给你一个任务，完成了才合格，这可是完全不同的考核方式。对于一个AI大模型来说，以前你只要知道算法、语法，就能完成任务，现在不光要会算法语法，还得面对网络中断、数据错误等物理环境中才可能碰到的奇奇怪怪的问题。</p>
+<p><strong>关键词三：算法和基建，全都有论文</strong></p>
+<p>上面这些东西<strong>全部有公开论文和开源代码</strong>。智谱用于 GLM-5.2（也就是 GLM-5.3 的基座）RL 训练的算法 SAO 和 CompactionRL，都有 arXiv 论文，白纸黑字写着&quot;已部署于 GLM-5.2（750B-A40B）的训练管线&quot;，连超参数都给了[6][7]；训练框架 slime 直接开源在 GitHub 上[8]。DeepSeek-V4 的两阶段后训练范式（先分领域练出专家，再用十几个&quot;教师模型&quot;在线蒸馏合并）写进了技术报告，报告本身还附 MIT 协议开源了全部权重[3]。</p>
+<p>以前的&quot;后训练&quot;是新闻稿里的营销名词，现在的后训练是<strong>有公式、有超参、有仓库的一门工程学</strong>。</p>
+<p>顺便说一个最有戏剧性的副产品。智谱在训练里加入了漏洞挖掘的环境，本意只是让模型多懂点安全，结果&quot;能力发展的速度超出我们预期&quot;：模型开始能把一条利用链的十几个阶段串起来，形成完整的攻击计划。实战成绩：联合安全团队在 269 个真实项目里挖出 <strong>2,436 个漏洞</strong>，1,097 个中高危，最老的一个从 1981 年潜伏至今，平均&quot;坑龄&quot;26.6 年，连 Cursor 和 DNS 协议四十年的老漏洞都被翻了出来。DeepSeek 那边也一样，Cybergym 分数从 38.7 飙到 76.7。</p>
+<p>用智谱自己的话说：&ldquo;能力增长最快的方向，恰是我们落后最多的方向。&rdquo;</p>
+<h2 id="heading-3">五、更多的可能性</h2>
+<p>从唐杰的那篇推文我们得知：过去我们习惯把 AI 性能粗暴地换算成三个数：参数多大、数据多少、算力多少。</p>
+<p>但这并不是真相。实际上，参数是一个旋钮，数据是一个旋钮，推理算力是一个旋钮，而环境、奖励、算法、蒸馏、课程安排，每一个都是可以单独拧的旋钮。</p>
+<p>唐杰的旋钮论有趣的地方在于，他还提供了更多的可能性：下一步可能会去拧另一个，也许是中训练也许是预训练。</p>
+<p>或者更粗暴一点，我们用更大的力去扭这个旋钮会怎么样？后训练自己会有Scaling Law 吗？</p>
+<h2 id="heading-4">尾声</h2>
+<p>我们以前相信天赋（参数），后来相信阅读量（数据），现在终于开始认真研究教学法（后训练）。这大概是最有意思的一件事：<strong>AI 的进步方式，开始越来越像人类的进步方式了。</strong></p>
+<p>同一个大脑，不同的练法，可以差出数倍的人生。</p>
+<p>参考资料：<br />
+[1]  Z.ai 官方博客：GLM-5.3: Frontier Coding with Emergent Cyber Capabilities（2026-08-14）z.ai/blog/glm-5.3<br />
+[2] 智谱研究页面：GLM-5.3——前沿编程能力与涌现的网络安全能力 zhipuai.cn/zh/research/162<br />
+[3] DeepSeek-V4 Technical Report（arXiv:2606.19348）arxiv.org/abs/2606.19348<br />
+[4] Nathan Lambert, Interconnects: GLM-5.3 — How Chinese labs keep stride with the frontier interconnects.ai<br />
+[5] 唐杰（智谱 CEO）X 平台长文：Thoughts About Scaling Law  x.com/jietang/status/2089941544581403107<br />
+[6] SAO: Single-Rollout Asynchronous Optimization for Agentic RL（arXiv:2607.07508，作者含唐杰；已部署于 GLM-5.2 训练管线）arxiv.org/abs/2607.07508<br />
+[7] CompactionRL: RL with Context Compaction for Long-Horizon Agents（arXiv:2607.05378，已部署于 GLM-5.2 训练管线）arxiv.org/abs/2607.05378<br />
+[8] slime：智谱开源的大规模异步 RL 训练框架 github.com/THUDM/slime</p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-08-15</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/wei-shi-me-xi-fang-ren-lao-shi-dan-xin-aijue-xing-hui-hui-mie-ren-leizhong-guo-ren-que-bu-zai-hu/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">为什么西方人老是担心AI觉醒会毁灭人类，中国人却不在乎？</span></a>
+            
+            
+            <a class="next" href="/post/da-mo-xing-ye-you-xiao-qing-xu-anthropic-zong-neng-gei-ni-zheng-dian-xin-hua-yang/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">大模型也有小情绪，Anthropic总能给你整点新花样</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788675916" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

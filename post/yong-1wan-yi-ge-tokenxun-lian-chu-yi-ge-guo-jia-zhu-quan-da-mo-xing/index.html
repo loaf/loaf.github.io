@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="用1万亿个Token训练出一个国家主权大模型
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>用1万亿个Token训练出一个国家主权大模型 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788675916">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788675916">
+
+
+  
+  <meta name="keywords" content="人工智能,LLM,AI">
+  
+<meta name="description" content="用1万亿个Token训练出一个国家主权大模型">
+<link rel="canonical" href="https://loaf.github.io/post/yong-1wan-yi-ge-tokenxun-lian-chu-yi-ge-guo-jia-zhu-quan-da-mo-xing/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"用1万亿个Token训练出一个国家主权大模型","url":"https://loaf.github.io/post/yong-1wan-yi-ge-tokenxun-lian-chu-yi-ge-guo-jia-zhu-quan-da-mo-xing/","description":"用1万亿个Token训练出一个国家主权大模型","image":"/post-images/2MbgZx_1788614801873171200.png","datePublished":"2026-09-04T04:50:03+08:00","dateModified":"2026-09-05T21:26:41+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/yong-1wan-yi-ge-tokenxun-lian-chu-yi-ge-guo-jia-zhu-quan-da-mo-xing/","name":"用1万亿个Token训练出一个国家主权大模型","position":2}]}</script>
+<meta property="og:title" content="用1万亿个Token训练出一个国家主权大模型">
+<meta property="og:description" content="用1万亿个Token训练出一个国家主权大模型">
+<meta property="og:url" content="https://loaf.github.io/post/yong-1wan-yi-ge-tokenxun-lian-chu-yi-ge-guo-jia-zhu-quan-da-mo-xing/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/2MbgZx_1788614801873171200.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/yong-1wan-yi-ge-tokenxun-lian-chu-yi-ge-guo-jia-zhu-quan-da-mo-xing/">
+<meta name="twitter:title" content="用1万亿个Token训练出一个国家主权大模型">
+<meta name="twitter:description" content="用1万亿个Token训练出一个国家主权大模型">
+<meta name="twitter:image" content="/post-images/2MbgZx_1788614801873171200.png">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>用1万亿个Token训练出一个国家主权大模型</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-09-04</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 9 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/sui-bi/">随笔</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color3" href="/tag/ren-gong-zhi-neng/">人工智能</a>
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <p>相信大家都听过一个段子：福建的法官面对一个欠钱不认的老赖，发出灵魂拷问：“你敢对妈祖发誓你没有借他的钱？”，老赖立马认输。</p>
+<p>这几天AI界再现了此名场面。沙特的AI公司HUMAIN宣布发现了一个阿拉伯语的大模型 Humain M3，声称100%沙特模型。</p>
+<p><img src="/post-images/1788612712408408500_0.png" alt="" /></p>
+<p>然后马上有人发帖评论：</p>
+<p><img src="/post-images/1788612932266359800_0.png" alt="" /></p>
+<p>不过，后面又补充道，他们使用了超过1万亿个阿拉伯语Token进行后训练。</p>
+<p>平心而论，这比巴西的那个模型技术含量要高的多，而使用1万亿个Token进行的后训练，从量上来看，已经不是普通的后训练方式了。可以算是“继续预训练”或者“中训练”了。</p>
+<p>今天我们借这事谈谈“深度后训练”这门手艺，顺便聊聊它背后更大的棋局。</p>
+<h2 id="minimaxdeepseekglm">为什么选MiniMax，而不是更有名的DeepSeek或者GLM？</h2>
+<p>这个可没有官方说明，不过我们可以猜一下。</p>
+<p>第一，<strong>HUMAIN想要的，正是M3所擅长的</strong>。</p>
+<p>MiniMax M3 是当前最强开源模型之一，原生多模态。HUMAIN后训练的重点是“工具调用、电脑操作”这些能力，而这正是M3的设计目标。相比较而言，DeepSeek重在推理和成本，GLM则侧重代码能力。</p>
+<p>第二，<strong>王爷也是会算账的</strong>。</p>
+<p>一般来说，模型的参数越大，需要的显卡就越多。但这主要是指训练成本。对于MoE架构的模型来说，在推理时需要的显卡数量与激活参数关系更大。</p>
+<p>M3是MoE架构，总参数不是最少的，但每次激活的量是230亿，相对于同期的DeepSeek和GLM是最少的。主权 AI 意味着沙特要在全国自建推理集群，激活参数小一截，电费和显卡就省一圈。</p>
+<p>对于“头顶一块布，天下我最富”的王爷们来说，钱也许不是问题，但是卡就不一定能买的到了。所以M3是更合理的选择。</p>
+<p>第三，<strong>本来就是MiniMax的金主</strong>。</p>
+<p>MiniMax港股上市时，重要投资方里就有阿布扎比主权基金。可以说沙特本是MiniMax的金主之一。前段时间上海WAIC，沙特官方团队也专门为MiniMax站台了。这次选择M3为基座，也算是肉烂在锅里了。</p>
+<h2 id="1-token">1万亿个 Token，是怎么灌进去的？</h2>
+<p>用1万亿Token在一个开源基座模型上进行后训练，绝非简单的“喂数据”，而是一个系统工程：</p>
+<h3 id="heading">第一步：<strong>继续预训练</strong></h3>
+<p>我们通常说“后训练”，主要是教模型“规矩”而不是“知识”。所以指令的量不会太多，而这次沙特官方明确提到了1万亿个Token这个数字，说明它已经不是常规的模型SFT了。</p>
+<p>前面我们说过后训练相当于大学生毕业后的上岗实习，而这个1万亿的量级，相当于“重新上一遍大学了”。这个事实反过来说明：阿拉伯语在原基座的语料里占比极低，几乎要整门语言重灌。</p>
+<p>首先需要明确的是，“继续预训练”的目标和普通的“预训练”是一样的，还是预测下一个词，架构什么的都不变。</p>
+<p>唯一的区别在于，预训练是在平地上建大楼，而继续预训练是在封顶的大楼里做内部装修：墙不能砸，梁不能动，锤子都不敢抡太重，因为楼里已经住着中英文和代码这些老住户。</p>
+<p>在工程上，这相当于戴着镣铐跳舞，而且是三副镣铐。</p>
+<h4 id="heading-1">镣铐一：学习率，步子迈多大是个问题</h4>
+<p>预训练的学习率遵循一条完整的日程表：升温、爬坡、再一路退火到尾声。继续预训练接手的，是一张已经退火完毕的权重。这时学习率给大还是给小，学界认真研究过。</p>
+<p>步子迈的大，模型学阿语学得快，但大步幅会把旧权重里的中英文和代码表征踩乱，遗忘加剧；步子给小，稳当，但新语言学得慢，1 万亿 Token 的预算可能烧不出该有的效果。</p>
+<p>总结一下关于重新预训练的论文<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup><sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>，结论很直白：<strong>学习率抬多高，决定了你在&quot;新语言收益&quot;和&quot;旧能力损失&quot;之间站在哪个点上，没有免费的午餐</strong>。</p>
+<p>根据上面的论文，常见的做法是把学习率压到预训练峰值以下一个量级左右，再配一段很短的 升温(warmup)，像给手术台上的病人用最小有效剂量的麻药。</p>
+<h4 id="heading-2">镣铐二：回放配方，数据比例是得靠经验</h4>
+<p>数据配方也不是纯阿语。新闻、书籍、维基、宗教典籍、方言语料，加合成数据，还要混入一定比例的中英文语料做&quot;回放&quot;（replay）。原因还是灾难性遗忘：神经网络的记性是挤占式的，新语言灌得太猛，旧能力会被冲走。混旧课本进去，相当于边学阿语边复习中英文，防止捡了芝麻丢了西瓜。</p>
+<p>但&quot;回放多少&quot;从来不是拍脑袋。上海人工智能实验室的研究<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>证明，混合语料里各部分的比例对模型最终损失的影响，可以用缩放律定量地拟合出来。换句话说，&ldquo;多少阿语配多少英文&quot;原则上是可以算的，只是每个基座都得重新算一遍。</p>
+<p>工业界的对应做法见 Llama 3 的技术报告：把继续预训练拆成多个阶段，中途按配比换料，最后一段低学习率退火期集中喂最高质量的数据<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>。</p>
+<p>顺带一提，Code Llama 是这条路线最著名的公开案例：在 Llama 2 的基础上用约 5000 亿代码 Token 续训，中途还换了训练目标（先填空后长上下文），硬生生把一个通用模型改造成代码专才<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>。继续预训练能把模型改造到什么程度，它就是活证据。</p>
+<h4 id="heading-3">镣铐三：词表，出生时定死的刀法</h4>
+<p>第三副镣铐藏得最深，就是分词器（tokenizer）。</p>
+<p>分词器是预训练开始前就冻结的组件，词表里有什么、怎么切，后训练阶段动不了它。学界用&quot;生育率&rdquo;（fertility）这个有点怪的词衡量刀法好坏：平均一个词要被切成几个 Token。Petrov 等人 2023 年的研究系统展示了 tokenizer 的语言不公平：同一段文本，不同语言的 Token 开销可以差出好几倍，而 Token 开销会直接换算成训练成本、推理账单和有效上下文长度<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>。MiniMax 的刀法为中英文打磨，切阿语就是钝刀子割肉。</p>
+<p>有没有根治的解法？有，中文社区早就趟过这条路。Chinese-LLaMA-Alpaca 的做法是给 Llama 扩充中文词表，重新初始化词嵌入层并优先单独训练，其余参数保持冻结<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup>。但代价明摆着：<strong>扩词表会改变模型结构，embedding 矩阵的尺寸都变了，模型从此不再是&quot;那个&quot;基座</strong>。</p>
+<p>HUMAIN 的选择很能说明问题：它的模型与 MiniMax M3 架构、参数完全一致，这意味着它大概率没有动过词表（这一步是我的推断，官方未披露）。也就是说，它宁可长期消化 tokenizer 的钝刀，也要保住&quot;与基座同构&quot;这个身位。为什么？同构意味着未来基座升级时，整条后训练管线可以原样搬过去；动了词表，每次升级都要重做一次 embedding 手术。</p>
+<h4 id="heading-4">有没有不疼的改法？</h4>
+<p>学术界还给过一个更优雅的设计：LLaMA Pro 的&quot;块扩展&quot;（block expansion）。把预训练好的 Transformer 块全部冻结，在层间插入若干新块，新块初始化为恒等映射，等于什么都没加，然后只训练新块。旧知识一个字节不动，新知识全写在新块里<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup>。</p>
+<p>听起来完美，代价也诚实：参数量变大了，推理成本跟着涨，而且模型结构同样偏离了基座。所以 HUMAIN 走的大概率还是最朴素也最累的那条路：<strong>全参数、低学习率、带回放的继续预训练</strong>。没有巧劲，全是苦功。</p>
+<p>这条路的效果可以参照 KAUST 的 AceGPT，他们此前用 Llama 2 做过阿语续训，报告的观察很诚实：阿语能力上去了，英文和指令跟随能力小幅回撤，要靠后续的 SFT 和 DPO 拉回来<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup>。1 万亿 Token 灌下去，HUMAIN 的工程师要在同一座天平上再称一次。</p>
+<h3 id="sft">第二步：监督微调（SFT）</h3>
+<p>这一步其实就进入传统后训练工作区域了，如果说“继续预训练”是让大学生重修阿拉伯语课，SFT 就是请老师一对一示范：用户这么问，你这么答。这个阶段数据量不大，关键在质量不在数量。一道解法漂亮的数学题，胜过一万道重复的问答。</p>
+<h3 id="heading-5">第三步：偏好优化与强化学习</h3>
+<p>这也是我们熟悉的内容了，RLHF、DPO 什么的，本质是给模型的行为立规矩。让模型变得阿拉伯化：标准阿语的语法与敬语，宗教用语规范，伊斯兰语境下什么该说、怎么说。按沙特人的说法就是，要符合“伊斯兰价值观”。</p>
+<p>最后再叠加一层智能体方向的强化学习：工具调用、操作电脑、多步任务。让模型能像一个真正的阿拉伯人一样在沙特的政府和商务系统里干活。</p>
+<h2 id="heading-6">训练好的模型和原版有什么不同？</h2>
+<p>怎么说呢？简单类比一下就是：<strong>躯体没变，灵魂换了</strong>。用修仙的术语就是：<strong>夺舍</strong>。</p>
+<p>架构和参数量与基座完全一致，还是那个 4280 亿总参、230 亿激活的 MoE，变的是行为分布。阿语从&quot;能听懂&quot;变成&quot;母语级输出&quot;；知识框架里长出了阿拉伯本地的文化坐标。</p>
+<p>不过，毕竟是寄生的，总还是有点不足之处：</p>
+<p>主要就是分词器的问题，因为分词器是预训练时定死了的，MiniMax训练用的语料大多为中英文，有论文证明，用MiniMax的分词器来切阿拉伯语，效果更差，只能往细里切，代价是推理更贵，有效上下文变短，学习效率变低。</p>
+<p>但是沙特人对这点明显不太在乎，毕竟得到的好处更多。</p>
+<p>最大的好处就是<strong>价值观对齐</strong>。沙特人明显更在乎“伊斯兰价值观”。</p>
+<p>但我更感兴趣的是另一个附带红利，在以前关于语料的文章里我提到了，跨语言迁移会带来能力上的提升。只是我没有找到有用的对比数据。</p>
+<h2 id="minimax">MiniMax有什么好处？</h2>
+<p>权重是开源的，白送，MiniMax 图什么？</p>
+<p>其实MiniMax还是有好处的。</p>
+<p>第一层是直接收入。基座权重是免费的，但是在此基础上后训练，总还是有API收入的，加上商业授权、定制训练、部署支持等，都是生意。按王爷们的调性，那些运维生意，总是能吃到的。</p>
+<p>第二层是生态。Minimax的开源权重已经衍生出多个社区模型，在此基础上的改进和插件不计其数。而且根据Minimax的财报，他在B端的收入已经开始超过C端，说明商务用户已经成为MiniMax的主要收入来源。这时，沙特作为一个主权国家，公开拿它当基座模型，不是一个很好的广告吗？</p>
+<h2 id="heading-7">基座模型升级了怎么办？</h2>
+<p>再回到技术。</p>
+<p>开源世界有个规律：<strong>大版本是从头重训，小版本是在老权重上续训</strong>。</p>
+<p>对 HUMAIN 来说，好消息是<strong>后训练攒下的资产大部分可以复用</strong>：阿语语料、数据管线、SFT 数据、评测集、RL 环境，都能原样搬到新基座上重跑。1 万亿 Token 的后训练成本，远低于从零预训练。装修队可以换栋楼继续干活。</p>
+<p>坏消息是必须一直追。如果 MiniMax 换了分词器或者改了架构，迁移成本就会上升；不追，就只能用旧基座，性能就跟不上前沿模型了，这就有点配不上王爷们的身份了。</p>
+<p>学界也在想辙。有一路研究计算后训练前后的&quot;权重差&quot;，把这份差值直接加到新基座上，据称能恢复直接训练约 95% 的性能；LoRA 适配器的跨版本迁移也在探索。都是前沿，都不成熟。</p>
+<h2 id="token">尾声：Token出海是一种国家战略</h2>
+<p>最后，让我们升华一下。</p>
+<p>Token出海，不仅仅是出售算力，还可以是一种技术标准和习惯的培养。</p>
+<p>Linux和Android珠玉在前，<strong>免费送出内核，生态会自己长出来，而生态的迁移成本是最深的护城河</strong>。</p>
+<p>当一个国家的数据管线、评测体系、工具链、工程师的习惯，全都长在某个基座上，&ldquo;换基座&quot;三个字就等于推倒重来。</p>
+<p>所以当越来越多的主权国家选择中国基座，输出就不只是权重，还有标准、习惯和技术亲缘。<strong>开源基座，是一种战略投资</strong>。</p>
+<p><img src="/post-images/2MbgZx_1788614801845369400.png" alt="" /></p>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Ibrahim, A. et al. Simple and Scalable Strategies to Continually Pre-train Large Language Models. arXiv:2403.08763&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Krasowski, Z. et al. Continual Pre-Training of Large Language Models: How to (re)warm your model? arXiv:2308.04014&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Ye, Y. et al. Data Mixing Laws: Optimizing Trainable Data Distributions by Scaling Laws. arXiv:2405.14913&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Grattafiori, A. et al. The Llama 3 Herd of Models. arXiv:2407.21783&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Rozière, B. et al. Code Llama: Open Foundation Models for Code. arXiv:2308.12950&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Petrov, A. et al. Language Model Tokenizers Introduce Unfairness Between Languages. arXiv:2305.15425&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>Cui, Y., Yang, Z., Yao, X. Efficient and Effective Text Encoding for Chinese LLaMA and Alpaca. arXiv:2304.08177&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p>Wu, C. et al. LLaMA Pro: Progressive LLaMA with Block Expansion. arXiv:2401.02415&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9">
+<p>El Boukkouri, H. et al. AceGPT: Localizing Large Language Models in Arabic. arXiv:2310.14976&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-05</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            <span class="prev placeholder"></span>
+            
+            <a class="next" href="/post/zai-kan-mei-ju-xi-bu-shi-jie-nuo-lan-de-aijue-xing-shuo-ming-shu-huan-neng-yong-ma/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">再看美剧《西部世界》，诺兰的AI觉醒说明书还能用吗？</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788675916" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>

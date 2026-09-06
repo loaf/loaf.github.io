@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" width="960" height="680">
+<style>
+  text { font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", "Microsoft JhengHei", "SimHei", sans-serif; }
+  .title-main { font-size: 18px; font-weight: 700; fill: #111827; }
+  .node-name  { font-size: 14px; font-weight: 700; }
+  .node-sub   { font-size: 12px; font-weight: 400; fill: #6b7280; }
+  .node-note  { font-size: 11px; font-style: italic; fill: #9ca3af; }
+  .edge-label { font-size: 12px; font-weight: 600; }
+</style>
+<defs>
+  <marker id="arrow-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+  </marker>
+  <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+  </marker>
+  <marker id="arrow-gray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+  </marker>
+  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.08"/>
+  </filter>
+</defs>
+<rect width="960" height="680" fill="#ffffff"/>
+<text x="480" y="36" text-anchor="middle" class="title-main">模型派生与融合关系图</text>
+<text x="60" y="120" text-anchor="middle" class="node-note" transform="rotate(-90 60 120)">Layer 1 · 基座</text>
+<text x="60" y="228" text-anchor="middle" class="node-note" transform="rotate(-90 60 228)">Layer 2 · 训练</text>
+<text x="60" y="348" text-anchor="middle" class="node-note" transform="rotate(-90 60 348)">Layer 3 · 派生</text>
+<text x="60" y="535" text-anchor="middle" class="node-note" transform="rotate(-90 60 535)">Layer 4 · 融合</text>
+<line x1="480" y1="150" x2="480" y2="198" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<line x1="480" y1="252" x2="480" y2="306" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<path d="M 340,115 L 300,115 L 300,345 L 366,345" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arrow-gray)"/>
+<line x1="430" y1="380" x2="430" y2="486" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+<path d="M 620,100 L 760,100 L 760,535 L 672,535" stroke="#16a34a" stroke-width="2.5" fill="none" marker-end="url(#arrow-green)"/>
+<rect x="406" y="423" width="48" height="22" rx="4" fill="#ffffff" opacity="0.95"/>
+<text x="430" y="439" text-anchor="middle" class="edge-label" fill="#15803d">0.57</text>
+<rect x="736" y="288" width="48" height="22" rx="4" fill="#ffffff" opacity="0.95"/>
+<text x="760" y="304" text-anchor="middle" class="edge-label" fill="#15803d">0.43</text>
+<rect x="262" y="218" width="76" height="22" rx="4" fill="#ffffff" opacity="0.95"/>
+<text x="300" y="234" text-anchor="middle" class="edge-label" fill="#4b5563">基座继承</text>
+<rect x="452" y="163" width="56" height="20" rx="4" fill="#ffffff" opacity="0.95"/>
+<text x="480" y="178" text-anchor="middle" class="edge-label" fill="#1d4ed8">训练</text>
+<g filter="url(#soft)">
+<rect x="340" y="80" width="280" height="70" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+</g>
+<text x="480" y="110" text-anchor="middle" class="node-name" fill="#1d4ed8">Qwen3.5-397B-A17B</text>
+<text x="480" y="132" text-anchor="middle" class="node-sub">基础模型 Base</text>
+<g filter="url(#soft)">
+<rect x="370" y="198" width="220" height="54" rx="10" fill="#fff7ed" stroke="#fdba74" stroke-width="1.5"/>
+</g>
+<text x="480" y="221" text-anchor="middle" class="node-name" fill="#9a3412">后训练</text>
+<text x="480" y="240" text-anchor="middle" class="node-sub">SFT + DPO + RL</text>
+<g filter="url(#soft)">
+<rect x="370" y="306" width="220" height="74" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+</g>
+<text x="480" y="336" text-anchor="middle" class="node-name" fill="#166534">Nex-N2-Pro</text>
+<text x="480" y="358" text-anchor="middle" class="node-sub">训练后模型</text>
+<g filter="url(#soft)">
+<rect x="290" y="486" width="380" height="98" rx="10" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1.5"/>
+</g>
+<text x="480" y="516" text-anchor="middle" class="node-name" fill="#6b21a8" style="font-size:16px">Rio</text>
+<text x="480" y="542" text-anchor="middle" class="node-sub" style="font-size:13px">= 0.57 × Nex-N2-Pro + 0.43 × Qwen</text>
+<text x="480" y="564" text-anchor="middle" class="node-note">合并模型与其基座</text>
+<g transform="translate(40, 615)">
+<rect x="-10" y="-18" width="340" height="52" rx="6" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+<line x1="0" y1="-2" x2="34" y2="-2" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<text x="44" y="2" fill="#374151" font-size="12">训练流程</text>
+<line x1="120" y1="-2" x2="154" y2="-2" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+<text x="164" y="2" fill="#374151" font-size="12">融合权重贡献</text>
+<line x1="0" y1="20" x2="34" y2="20" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow-gray)"/>
+<text x="44" y="24" fill="#374151" font-size="12">基座继承</text>
+</g>
+</svg>
