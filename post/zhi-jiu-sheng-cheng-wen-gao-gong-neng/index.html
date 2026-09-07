@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="用一个AI Agent案例来教你开发智能体
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>从头开发AI Agent应用系列之九：生成文稿 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1788790782">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1788790782">
+
+
+  
+  <meta name="keywords" content="AI,Agent,LLM">
+  
+<meta name="description" content="用一个AI Agent案例来教你开发智能体">
+<link rel="canonical" href="https://loaf.github.io/post/zhi-jiu-sheng-cheng-wen-gao-gong-neng/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"从头开发AI Agent应用系列之九：生成文稿","url":"https://loaf.github.io/post/zhi-jiu-sheng-cheng-wen-gao-gong-neng/","description":"用一个AI Agent案例来教你开发智能体","image":"/post-images/JZQQCR_1788790612640395600.jpg","datePublished":"2026-07-20T22:40:59+08:00","dateModified":"2026-09-07T22:16:52+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/zhi-jiu-sheng-cheng-wen-gao-gong-neng/","name":"从头开发AI Agent应用系列之九：生成文稿","position":2}]}</script>
+<meta property="og:title" content="从头开发AI Agent应用系列之九：生成文稿">
+<meta property="og:description" content="用一个AI Agent案例来教你开发智能体">
+<meta property="og:url" content="https://loaf.github.io/post/zhi-jiu-sheng-cheng-wen-gao-gong-neng/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/JZQQCR_1788790612640395600.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/zhi-jiu-sheng-cheng-wen-gao-gong-neng/">
+<meta name="twitter:title" content="从头开发AI Agent应用系列之九：生成文稿">
+<meta name="twitter:description" content="用一个AI Agent案例来教你开发智能体">
+<meta name="twitter:image" content="/post-images/JZQQCR_1788790612640395600.jpg">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>从头开发AI Agent应用系列之九：生成文稿</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-07-20</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 29 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/ji-shu/">技术</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+    <a class="page-tag-item clickable color6" href="/tag/agent/">Agent</a>
+    
+    <a class="page-tag-item clickable color4" href="/tag/llm/">LLM</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <h1 id="heading">之九：生成文稿功能</h1>
+<p>这本章，我们重点处理文稿生成功能。</p>
+<p>先考虑一下应该如何生成文稿，我希望我在对话里直接说，“根据资料库里的资料写一篇综述性的文章，供我发表在小红书”。这里涉及到两个问题，一个是资料库的文章是全部都用到，还是只用到一部分？选择发表在小红书，说明有一个小红书文章的模板。</p>
+<h2 id="tab">先解决一个历史遗留问题：中栏改成Tab页</h2>
+<p>在上一章中，我谈到了三栏主界面中中间栏有点混乱。它在一个对话框的底部同时放了「📝 总结入资料库」 和「✨ 生成文稿」两个按钮。</p>
+<p>现在决定用一个Tab页将它们拆开。</p>
+<p><strong>两个 Tab 的产出分流</strong>：</p>
+<ul>
+<li>Tab1「生成资料」：对话仅服务于资料生成，底部只留「📝 总结入资料库」，产出送左栏。</li>
+<li>Tab2「生成文稿」：对话当作&quot;指令&quot;，点「✨ 生成文稿」把对话喂给 LLM 流式生成， 产出送右栏文稿列表。</li>
+</ul>
+<h3 id="1-tab2">1. 增加Tab2的逻辑</h3>
+<p>其中Tab1和原来的逻辑相同，增加Tab2的逻辑，文稿 Tab 的对话本身就是写作要求（&ldquo;写一篇综述文章，2小节，小红书风格&rdquo;）， 点「生成文稿」时，把这段对话当作指令直接喂给 LLM。</p>
+<pre><code>function buildInstructionFromMessages(messages: Msg[]): string {
+  const lines: string[] = [];
+  for (const m of messages) {
+    if (m.role === &quot;tool&quot;) continue;        // 工具步骤不是指令内容
+    if (!(&quot;text&quot; in m)) continue;
+    const t = m.text.trim();
+    if (!t || t === &quot;(生成文稿)&quot;) continue; // 跳过自己的占位标记
+    lines.push(`${m.role === &quot;user&quot; ? &quot;用户&quot; : &quot;AI&quot;}: ${t}`);
+  }
+  lines.push(&quot;请根据以上讨论, 生成一篇完整的文稿。&quot;);
+  return lines.join(&quot;\n&quot;);
+}
+</code></pre>
+<h3 id="2-">2. 处理文稿数据库</h3>
+<p>右栏的文稿区，增加一个文稿的列表。但是得在数据库里增加一个表。</p>
+<p>在后端 <code>backend/app/db.py</code> 中新建 drafts 表 并实现CRUD。</p>
+<h3 id="3-">3. 新建生成模块</h3>
+<p>在后端新建一个生成模块 <code>backend/app/draft/generator.py</code> ，是前面 <code>discussion/summarize.py</code> 的镜像：</p>
+<ul>
+<li><code>build_draft_messages(instruction)</code> 构造 <code>[system, user]</code>（system 是&quot;写作助手&quot;prompt）。</li>
+<li><code>stream_generate_draft(instruction)</code> 是 <code>AsyncIterator[str]</code>，直接透传 <code>llm.chat</code> 的 chunk（流式，不攒）。和 summarize 的&quot;攒完再返回&quot;不同——文稿要实时显示。</li>
+<li><code>derive_title_from_content(content)</code> 从生成的正文派生标题（取首个 <code>#</code>/<code>##</code> 标题， 没有则取首段），<strong>省一次 LLM 起标题的调用</strong>，用户在编辑页能改。</li>
+</ul>
+<h3 id="4-">4. 新建路由</h3>
+<p>在 <code>backend/app/api/drafts.py</code> 中新建路由。5 个端点，挂在 <code>/api/v1</code> 下，遵循 materials.py 的全部约定（pydantic 模型在顶部、 <code>_require_project</code> 守卫、422 处理 LLM/语义错、<code>_sse</code> 复刻）：</p>
+<table>
+<thead>
+<tr>
+<th>端点</th>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/projects/{pid}/drafts/generate</code></td>
+<td>POST (SSE)</td>
+<td>流式生成文稿</td>
+</tr>
+<tr>
+<td><code>/projects/{pid}/drafts</code></td>
+<td>GET</td>
+<td>列表（不含正文，省流量）</td>
+</tr>
+<tr>
+<td><code>/drafts/{id}?project_id=</code></td>
+<td>GET</td>
+<td>单篇详情（含正文）</td>
+</tr>
+<tr>
+<td><code>/drafts/{id}?project_id=</code></td>
+<td>PUT</td>
+<td>更新标题/正文（编辑页保存）</td>
+</tr>
+<tr>
+<td><code>/drafts/{id}?project_id=</code></td>
+<td>DELETE</td>
+<td>删除（幂等）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-">5. 注册路由</h3>
+<p>在backend/app/main.py中：</p>
+<pre><code>from app.api import chat, drafts, materials, projects, system, workflow
+# ...
+app.include_router(drafts.router)
+</code></pre>
+<h3 id="6-draft-api">6. 前端新增draft API</h3>
+<pre><code>export async function streamGenerateDraft(
+  projectId: string,
+  instruction: string,
+  onChunk: (text: string) =&gt; void,
+  onDone: (result: { draftId: string; title: string }) =&gt; void,
+  onDraftId?: (draftId: string) =&gt; void,
+): Promise&lt;void&gt; { /* fetch + ReadableStream 解析 SSE */ }
+</code></pre>
+<h3 id="7-">7. 改界面</h3>
+<p><code>src/components/workbench/ChatPanel.tsx</code>，结构是：</p>
+<pre><code>ChatPanel (顶层: tab 状态 + Tab 切换栏)
+├── MaterialsChat (Tab1)  → send() 调 streamDiscussion; handleSummarize() 调 summarizeDiscussion → onSourcesChanged
+├── DraftChat     (Tab2)  → send() 调 streamDiscussion; handleGenerateDraft() 调 streamGenerateDraft → onDraftCreated
+└── ChatThread    (共用渲染: 对话流 + 输入框 + 底部按钮, 参数化 state/handlers)
+</code></pre>
+<h3 id="8-">8. 修改右侧栏目</h3>
+<p>原来是占位符，现在改成列表。</p>
+<pre><code>// Workbench
+const [draftsVersion, setDraftsVersion] = useState(0);
+&lt;DraftPanel projectId={projectId} refreshKey={draftsVersion} onOpenDraft={onOpenDraft} /&gt;
+&lt;ChatPanel ... onDraftCreated={() =&gt; setDraftsVersion(v =&gt; v + 1)} /&gt;
+
+// DraftPanel
+useEffect(() =&gt; { refresh(); }, [projectId, refreshKey]);  // bump 就重拉
+</code></pre>
+<h3 id="9-">9. 新建一个编辑页</h3>
+<p>右栏文稿点击后，进入编辑页，这个页面覆盖三栏。左上为返回按钮。</p>
+<h3 id="10-srcpagesworkbenchtsx">10. 修改src/pages/workbench.tsx</h3>
+<ul>
+<li>新增 <code>draftsVersion</code> state + <code>handleDraftCreated</code>（bump）。</li>
+<li><code>ChatPanel</code> 多传 <code>onDraftCreated</code>。</li>
+<li><code>DraftPanel</code> 改传 <code>refreshKey={draftsVersion}</code> + <code>onOpenDraft</code>。</li>
+<li>新增 <code>onOpenDraft</code> prop（透传给 App）。</li>
+</ul>
+<h3 id="11--view--editor-">11.  View 加 editor 视图</h3>
+<p>在<code>src/App.tsx</code> 中</p>
+<pre><code class="language-tsx">type View =
+  | { kind: &quot;list&quot; }
+  | { kind: &quot;workbench&quot;; projectId: string }
+  | { kind: &quot;editor&quot;; projectId: string; draftId: string }   // ★ 新增
+  | { kind: &quot;settings&quot; };
+</code></pre>
+<h3 id="12-">12. 总结数据流链路</h3>
+<p><img src="/post-images/1788702059159218800_0.jpeg" alt="132d6cb0-46d4-48b2-aedf-6728203aa807.jpeg" /></p>
+<p><img src="/post-images/1788702059166506500_0.png" alt="ChatGPT Image 2026年7月28日 14_25_20.png" /></p>
+<h2 id="heading-1">再解决一个新问题：左栏分区</h2>
+<p>因为在生成文稿时涉及到模板，模板只有放在左侧资料区，但模板本身是不作为资料来引用的，为了结构清晰，把资料库再上下分成两个区，一个是资料区，一个是模板区。</p>
+<p>至于图片，直接放在资料区，这里图片只作为插图或者引用，不参与文稿生成的资料上下文（不混进生成Prompt），所以要与普通资料分开。</p>
+<p><img src="/post-images/1788702059171782700_0.png" alt="ChatGPT Image 2026年7月28日 14_35_01.png" /></p>
+<h3 id="1-backendappmodelsmaterialpy--sourcetype--6-">1. 后端<code>backend/app/models/material.py</code> — SourceType 扩到 6 值</h3>
+<pre><code class="language-python">SourceType = Literal[
+    &quot;search&quot;, &quot;discussion&quot;, &quot;import&quot;, &quot;note&quot;,
+    &quot;template&quot;,  # T-010: 模板 (骨架/简写), 仅供 @引用
+    &quot;image&quot;,     # T-010: 图片, 供日后插入文稿
+]
+</code></pre>
+<h3 id="2-backendappapiprojectspy--kb-subdirs--templates">2. <code>backend/app/api/projects.py</code> — KB_SUBDIRS 加 templates</h3>
+<pre><code class="language-python">KB_SUBDIRS = (&quot;pages&quot;, &quot;notes&quot;, &quot;images&quot;, &quot;templates&quot;)
+</code></pre>
+<p>建项目时自动建 <code>templates/</code> 子目录。</p>
+<h3 id="3-backendappkbstorepy----">3. <code>backend/app/kb/store.py</code> — 子目录映射 + 图片存储/读取</h3>
+<p><code>_SUBDIR_BY_SOURCE</code> 加两个映射：</p>
+<pre><code class="language-python">_SUBDIR_BY_SOURCE = {
+    &quot;search&quot;: &quot;pages&quot;, &quot;import&quot;: &quot;pages&quot;,
+    &quot;discussion&quot;: &quot;notes&quot;, &quot;note&quot;: &quot;notes&quot;,
+    &quot;template&quot;: &quot;templates&quot;,  
+    &quot;image&quot;: &quot;images&quot;,        
+}
+</code></pre>
+<p>新增 <code>_IMAGE_EXTS</code> 白名单（防传 <code>.exe</code>）：</p>
+<pre><code class="language-python">_IMAGE_EXTS = {&quot;.png&quot;, &quot;.jpg&quot;, &quot;.jpeg&quot;, &quot;.webp&quot;, &quot;.gif&quot;}
+</code></pre>
+<p>新增两个函数：</p>
+<ul>
+<li><code>save_image_material(project_id, data: bytes, *, filename, ...)</code> —— 写二进制 + 保留扩展名。</li>
+<li><code>load_image_bytes(project_id, material_id)</code> —— 读二进制，非 image 返回 None。</li>
+</ul>
+<p><code>load_material</code> 加 image 兼容（返回空正文不崩）。子目录创建列表加 <code>templates</code>。</p>
+<h3 id="4-backendappkbmanifestpy---templates">4. <code>backend/app/kb/manifest.py</code> — 一致性自检加 templates</h3>
+<p><code>check_consistency</code> 扫描的子目录列表从 3 个变 4 个：</p>
+<pre><code class="language-python">for sub in (&quot;pages&quot;, &quot;notes&quot;, &quot;images&quot;, &quot;templates&quot;):
+</code></pre>
+<p>这样模板文件失踪（悬空引用）或孤儿模板文件都能被自检报告，和普通资料一致。</p>
+<h3 id="5-backendappapimaterialspy--3-">5. <code>backend/app/api/materials.py</code> — 3 个新端点</h3>
+<table>
+<thead>
+<tr>
+<th>端点</th>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/materials/template</code></td>
+<td>POST</td>
+<td>导入模板正文（markdown，<code>source_type=template</code>）</td>
+</tr>
+<tr>
+<td><code>/materials/image</code></td>
+<td>POST (multipart)</td>
+<td>上传图片（二进制，保留扩展名）</td>
+</tr>
+<tr>
+<td><code>/materials/{id}/image</code></td>
+<td>GET</td>
+<td>返回图片二进制（<code>FileResponse</code>，供预览）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>/materials/template</code> 和 <code>/materials/text</code> 几乎一样，只是 <code>source_type=&quot;template&quot;</code>。</li>
+<li><code>/materials/image</code> 复刻 <code>/materials/file</code> 的 multipart FormData 模式，但<strong>不抽取文本</strong>——直接存字节。扩展名白名单校验在前（不在白名单 → 422）。</li>
+<li><code>/materials/{id}/image</code> 用 <code>FileResponse</code> 流式输出；非 image 类型调它 → 404。</li>
+</ul>
+<h3 id="6-srcapiclientts--sourcetype--3-">6. 前端<code>src/api/client.ts</code> — SourceType + 3 个新函数</h3>
+<pre><code class="language-typescript">export type SourceType = &quot;search&quot;|&quot;discussion&quot;|&quot;import&quot;|&quot;note&quot;|&quot;template&quot;|&quot;image&quot;;
+
+export async function importTemplate(projectId, text, meta?)  // POST /materials/template
+export async function importImage(projectId, file, meta?)     // POST /materials/image (FormData)
+export async function getImageUrl(projectId, materialId)      // 拼预览 URL 给 &lt;img src&gt;
+</code></pre>
+<h3 id="7-srccomponentsworkbenchsourcespaneltsx------">7 <code>src/components/workbench/SourcesPanel.tsx</code> — 拆双区 + 图片入口 + 预览</h3>
+<p><strong>列表拆分（客户端）</strong>：一次 <code>listMaterials</code> 拉全部，按 <code>source_type</code> 在客户端分两个区：</p>
+<pre><code class="language-tsx">const materialItems = useMemo(
+  () =&gt; items.filter((m) =&gt; m.source_type !== &quot;template&quot;),
+  [items],
+);
+const templateItems = useMemo(
+  () =&gt; items.filter((m) =&gt; m.source_type === &quot;template&quot;),
+  [items],
+);
+</code></pre>
+<p>image 归 <code>materialItems</code>（按需求：图片也是可插入文稿的素材）。筛选器只作用于资料区，模板区不筛（模板量少，不需要筛）。</p>
+<p><strong>资料区添加入口</strong>加第 5 个「🎨 图片」按钮（与文本/文件/URL/搜索并列），点击展开图片上传表单（<code>accept=&quot;image/png,image/jpeg,...&quot;</code>）。</p>
+<p><strong>模板区</strong>独立折叠（<code>tplOpen</code> state），有自己的「+ 新模板」入口（标题 + markdown 正文textarea）。模板区 <code>maxHeight: 45%</code>——不挤占资料区空间。</p>
+<p><strong>图片卡片</strong>：抽取了共用的 <code>MaterialCard</code> 组件（资料区和模板区都用），image 类型<code>onDoubleClick</code> 触发 <code>openImagePreview</code> → <code>getImageUrl</code> → 设 <code>previewUrl</code> → 弹 lightbox：</p>
+<pre><code class="language-tsx">{previewUrl &amp;&amp; (
+  &lt;div style={styles.lightbox} onClick={() =&gt; setPreviewUrl(null)}&gt;
+    &lt;img src={previewUrl} style={styles.lightboxImg}
+         onClick={(e) =&gt; e.stopPropagation()} /&gt;
+    &lt;p&gt;点击空白处关闭&lt;/p&gt;
+  &lt;/div&gt;
+)}
+</code></pre>
+<h2 id="---">在文稿生成对话中增加指令（<code>@模板</code> / <code>#资料</code> 双前缀自动补全）</h2>
+<p>我们在文稿生成时，当然可以直接用自然语言告诉LLM，调用哪个模板文件，哪些资料，但这就完全依赖LLM的理解力了，而且我们输入时也可能出错，这就不可靠了。如果我输入前缀 <code>@</code> ，它就能自动列出当前项目已有的模板，我只要选择其中一个即可。同样，输入前缀 <code>#</code>，它列出当前的资料。就能在保证确定性的情况下，显得很专业了。</p>
+<h3 id="1-backendappkbstorepy---suggest-materials">1. <code>backend/app/kb/store.py</code> — 新增 <code>suggest_materials()</code></h3>
+<p>轻量搜索函数，给输入框补全用。核心是 <strong>kind 过滤 + 标题/文件名/标签匹配</strong>：</p>
+<pre><code class="language-python">SuggestKind = Literal[&quot;template&quot;, &quot;material&quot;]  # @ → template; # → material
+_SUGGEST_DEFAULT_LIMIT = 8
+
+def suggest_materials(
+    project_id: str, *, kind: SuggestKind, query: str = &quot;&quot;, limit: int = 8
+) -&gt; list[Material]:
+    # 1. 按 kind 过滤候选池
+    #    kind=&quot;template&quot; → 只留 source_type=template
+    #    kind=&quot;material&quot; → 排除 template/image (图片二进制不可读成 prompt)
+    # 2. query 为空 → 截前 limit 条 (manifest 顺序 = 创建序)
+    # 3. query 非空 → 打分匹配:
+    #      标题前缀命中 (0) &lt; 标题包含 (1) &lt; 文件名前缀 (2)
+    #      &lt; 标签精确 (3) &lt; 标签前缀 (4) &lt; 文件名包含 (5)
+    #    按分数排序, 同分保原序 (Python sort 稳定)
+</code></pre>
+<h3 id="2-backendappapimaterialspy---get-materialssuggest">2. <code>backend/app/api/materials.py</code> — 新增 <code>GET /materials/suggest</code></h3>
+<pre><code class="language-python">@router.get(&quot;/materials/suggest&quot;, response_model=list[Material])
+def suggest_materials(
+    project_id: str = Query(..., min_length=1),
+    kind: Literal[&quot;template&quot;, &quot;material&quot;] = Query(...),
+    query: str = Query(default=&quot;&quot;),
+) -&gt; list[Material]:
+    _require_project(project_id)
+    return store.suggest_materials(project_id, kind=kind, query=query)
+</code></pre>
+<h3 id="3-backendappdraftgeneratorpy--">3. <code>backend/app/draft/generator.py</code> — 引用解析（核心）</h3>
+<p>三个新函数 + 两个已有函数扩展：</p>
+<pre><code class="language-python"># 引用 token 正则: [[kind:id]], kind 只允许 template/material
+_REF_TOKEN_RE = re.compile(r&quot;\[\[(template|material):([^\]]+)\]\]&quot;)
+
+class ReferenceError(ValueError):
+    &quot;&quot;&quot;引用了不存在的资料 / 类型不符。路由层转 422。&quot;&quot;&quot;
+
+def extract_references(instruction: str) -&gt; list[tuple[str, str]]:
+    &quot;&quot;&quot;扫描指令, 提取所有引用 token, 返回 [(kind, id), ...] (保序去重)。&quot;&quot;&quot;
+
+def resolve_references(project_id, instruction) -&gt; tuple[list, list]:
+    &quot;&quot;&quot;读出所有引用的正文。返回 (templates, materials)。
+    任一 id 不存在 / 类型不符 / 正文空 → 抛 ReferenceError。
+    类型校验防串: [[template:id]] 但 id 实际是 material → 报错 (不静默糊弄)。&quot;&quot;&quot;
+
+def build_draft_messages(instruction, project_id=None) -&gt; list[dict]:
+    &quot;&quot;&quot;构造 [system, user]。
+    project_id 非空且指令有引用 → 读正文拼进 user prompt:
+      - 模板 → &quot;请严格套用以下结构模板的分节结构&quot; 段
+      - 资料 → &quot;请基于以下参考素材的实际内容来写&quot; 段
+    无引用 → 维持老行为 (原样进 user, 不读资料库)。
+    project_id=None → 向后兼容 (不解析引用)。&quot;&quot;&quot;
+</code></pre>
+<p><strong>拼接出的 prompt 结构</strong>（有引用时）：</p>
+<pre><code>&lt;用户指令原文 (含 token)&gt;
+
+---
+请严格套用以下结构模板的分节结构来组织文稿 (可补充内容, 但分节顺序/层次要遵循):
+
+【结构模板: 综述框架】
+# 引言
+# 正面
+# 反面
+# 总结
+
+请基于以下参考素材的实际内容来写 (不要凭空编造素材里的事实; 可整合多条素材):
+
+【参考素材: LLM原理】
+大语言模型是...
+</code></pre>
+<p>system prompt 也加了第 6 条要求：&ldquo;如果指定了参考素材，请基于这些素材的实际内容来写，不要凭空编造事实；如果指定了结构模板，请严格套用该模板的分节结构。&quot;——把引用的存在明确告诉模型，引导它真去用。</p>
+<h3 id="4-backendappapidraftspy-----project-id">4. <code>backend/app/api/drafts.py</code> — 预校验 + 透传 project_id</h3>
+<pre><code class="language-python">@router.post(&quot;/projects/{project_id}/drafts/generate&quot;)
+async def generate_draft(project_id, req):
+    _require_project(project_id)
+    try:
+        resolve_references(project_id, req.instruction)  # ★ 预校验: 不存在 → 422
+    except ReferenceError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    return StreamingResponse(_stream_generate(project_id, req.instruction), ...)
+
+async def _stream_generate(project_id, instruction):
+    # project_id 透传给 stream_generate_draft, 让它解析引用拼 prompt
+    async for chunk in stream_generate_draft(instruction, project_id=project_id):
+        ...
+</code></pre>
+<h3 id="5-srcapiclientts--suggestmaterials--token-">5. 前端<code>src/api/client.ts</code> — <code>suggestMaterials()</code> + token 工具</h3>
+<pre><code class="language-typescript">export type SuggestKind = &quot;template&quot; | &quot;material&quot;;
+
+export async function suggestMaterials(
+  projectId: string, kind: SuggestKind, query: string
+): Promise&lt;Material[]&gt; {
+  // GET /materials/suggest?project_id=&amp;kind=&amp;query=
+}
+
+// 标准 token 构造 (前后端契约)
+export function makeRefToken(kind: SuggestKind, materialId: string): string {
+  return `[[${kind}:${materialId}]]`;
+}
+
+// token 正则 (和后端 _REF_TOKEN_RE 对齐)
+export const REF_TOKEN_RE = /\[\[(template|material):(mat_[A-Za-z0-9]+)\]\]/g;
+</code></pre>
+<p><code>makeRefToken</code> 和 <code>REF_TOKEN_RE</code> 是前后端 token 契约的前端镜像——选中补全项时用<code>makeRefToken</code> 生成 token 插入，渲染/解析时用 <code>REF_TOKEN_RE</code>。两端正则必须严格一致（id 格式 <code>mat_[A-Za-z0-9]+</code> 对齐 store 的 <code>_gen_material_id</code>）。</p>
+<h3 id="6-srccomponentsworkbenchchatpaneltsx--mentioninput-">6. <code>src/components/workbench/ChatPanel.tsx</code> — <code>MentionInput</code> 组件</h3>
+<p><code>contenteditable</code> div + chip 混排 + <code>@</code>/<code>#</code> 触发 + 下拉补全：</p>
+<pre><code class="language-typescript">function MentionInput({ projectId, value, onChange, onSend, disabled, placeholder }) {
+  // 触发逻辑: 从光标往左找最近的 @ 或 # (遇空白停止; @ 前必须是边界防 a@b 误判)
+  // → setMention({ kind, query, startPos }) → 防抖 150ms → suggestMaterials → 浮列表
+  
+  function selectCandidate(mat) {
+    // 把 value[startPos..cursor] 的 &quot;@query&quot; 替换成 token + 空格
+    const token = makeRefToken(mention.kind, mat.id);
+    const newValue = before + token + &quot; &quot; + after;
+    onChange(newValue);  // useEffect 把新 value 渲染成 DOM (chip 包 token)
+  }
+  
+  // DOM ↔ 纯文本双向转换:
+  // extractPlainText: chip 节点 (data-token 属性) → 还原成 token 原文
+  // renderValueToDom: value 字符串里的 token → 渲染成不可编辑的 chip span
+  
+  // 键盘: ↑↓ 选 / Enter 确认 / Esc 关 / 普通回车发送
+}
+</code></pre>
+<h2 id="heading-2">资料加载策略</h2>
+<p>为了清晰化生成文稿的逻辑，得定义好生成prompt的策略。</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>触发条件</th>
+<th>读什么</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 精确引用</td>
+<td>指令有 <code>[[material:id]]</code></td>
+<td>只读引用的资料</td>
+<td>最高</td>
+</tr>
+<tr>
+<td>② 全量加载</td>
+<td>无精确引用 + 指令含关键词</td>
+<td>全部资料（除 template/image）</td>
+<td>中</td>
+</tr>
+<tr>
+<td>③ 轻量模式</td>
+<td>都没有</td>
+<td>不读资料库</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-backendappllmpromptsdraftmd----init--py--prompt-">1. <code>backend/app/llm/prompts/draft.md</code> + <code>__init__.py</code> — prompt 模板</h3>
+<p>新建 <code>prompts/</code> 包。<code>draft.md</code> 是 system prompt 模板（带<code>{style_hint}</code> 占位符），<code>__init__.py</code> 的 <code>load_prompt(name)</code> 带缓存读 .md：</p>
+<pre><code class="language-python"># app/llm/prompts/__init__.py
+_cache: dict[str, str] = {}
+
+def load_prompt(name: str) -&gt; str:
+    if name in _cache:
+        return _cache[name]
+    content = (Path(__file__).parent / f&quot;{name}.md&quot;).read_text(encoding=&quot;utf-8&quot;)
+    _cache[name] = content
+    return content
+</code></pre>
+<p>generator.py 模块加载时 <code>_DRAFT_PROMPT_TEMPLATE = load_prompt(&quot;draft&quot;)</code>（只读一次）。</p>
+<h3 id="2-backendappdraftgeneratorpy----">2. <code>backend/app/draft/generator.py</code> — 资料驱动 + 风格（核心）</h3>
+<p>新增 4 个组件 + 扩展 <code>build_draft_messages</code>：</p>
+<pre><code class="language-python">class DraftStyle(BaseModel):
+    &quot;&quot;&quot;风格参数 (文风/字数/体裁), 全可选。word_count 有 ge=1/le=50000 校验。&quot;&quot;&quot;
+    tone: str | None = None
+    word_count: int | None = Field(default=None, ge=1, le=50000)
+    genre: str | None = None
+
+def build_system_prompt(style: DraftStyle | None = None) -&gt; str:
+    &quot;&quot;&quot;load_prompt('draft').format(style_hint=format_style_hint(style))。&quot;&quot;&quot;
+
+def has_full_load_keyword(instruction: str) -&gt; bool:
+    &quot;&quot;&quot;指令含&quot;根据资料&quot;等关键词 → True (策略② 触发器, 不调 LLM)。&quot;&quot;&quot;
+
+def load_all_materials(project_id: str) -&gt; list[tuple[str, str]]:
+    &quot;&quot;&quot;读全部资料正文 (排除 template/image), 返回 [(label, 正文)]。&quot;&quot;&quot;
+</code></pre>
+<p><code>build_draft_messages(instruction, project_id, style)</code> 的核心逻辑（策略分叉）：</p>
+<pre><code class="language-python">system_prompt = build_system_prompt(style)              # 风格进 system
+templates, ref_materials = resolve_references(...)       # ① 精确引用 (T-011)
+
+# ② 全量加载: 仅当无精确引用 + 有关键词
+full_materials = []
+if not ref_materials and has_full_load_keyword(instruction):
+    full_materials = load_all_materials(project_id)
+
+# ③ 无引用无全量 → 轻量模式 (不读资料库)
+if not templates and not ref_materials and not full_materials:
+    return [system, user(原文)]  # 维持老行为
+
+# 拼接: 模板进结构段; 资料进素材段 (精确引用优先, 互斥全量)
+materials = ref_materials if ref_materials else full_materials
+</code></pre>
+<p>素材段的 <code>source_hint</code> 会区分来源，让 LLM 知道这是&quot;用户 # 指定的素材&quot;还是&quot;资料库里的全部资料&rdquo;——影响生成时的整合策略。</p>
+<h3 id="3-backendappapidraftspy---style">3. <code>backend/app/api/drafts.py</code> — 请求体扩 style</h3>
+<pre><code class="language-python">class GenerateDraftRequest(BaseModel):
+    instruction: str = Field(..., min_length=1)
+    style: DraftStyle | None = Field(default=None, description=&quot;风格参数 (T-012)&quot;)  # 新增
+
+async def _stream_generate(project_id, instruction, style=None):
+    async for chunk in stream_generate_draft(instruction, project_id=project_id, style=style):
+        ...
+
+@router.post(&quot;/projects/{project_id}/drafts/generate&quot;)
+async def generate_draft(project_id, req: GenerateDraftRequest):
+    ...
+    return StreamingResponse(_stream_generate(project_id, req.instruction, req.style), ...)
+</code></pre>
+<p>style 字段可选（默认 None），不传 → 向后兼容（无风格约束）。<code>DraftStyle</code> 是 Pydantic 模型，FastAPI 自动校验（<code>word_count</code> 越界、类型错 → 422）。</p>
+<h3 id="4-backendappdraft--init--py--">4. <code>backend/app/draft/__init__.py</code> — 导出新符号</h3>
+<p>新增导出 <code>DraftStyle</code>、<code>build_system_prompt</code>、<code>has_full_load_keyword</code>、<code>load_all_materials</code>，供 API 层和测试用。</p>
+<h3 id="5-srcapiclientts--draftstyle---">5. 前端<code>src/api/client.ts</code> — DraftStyle 类型 + 透传</h3>
+<pre><code class="language-typescript">export interface DraftStyle {
+  tone?: string;
+  word_count?: number;
+  genre?: string;
+}
+
+export async function streamGenerateDraft(
+  projectId, instruction, onChunk, onDone, onDraftId?,
+  style?: DraftStyle,  // T-012 新增 (放最后, 向后兼容)
+): Promise&lt;void&gt; {
+  ...
+  body: JSON.stringify({ instruction, style: style ?? null }),
+}
+</code></pre>
+<h3 id="6-srccomponentsworkbenchchatpaneltsx--">6. <code>src/components/workbench/ChatPanel.tsx</code> — 风格参数折叠区</h3>
+<p>DraftChat 加三个 state（<code>tone</code>/<code>wordCount</code>/<code>genre</code>）+ 一个折叠开关（<code>styleOpen</code>）：</p>
+<pre><code class="language-jsx">// actionRow 里, 生成按钮上方:
+&lt;button onClick={() =&gt; setStyleOpen(v =&gt; !v)}&gt;{styleOpen ? &quot;▾&quot; : &quot;▸&quot;} ⚙ 风格&lt;/button&gt;
+{styleOpen &amp;&amp; (
+  &lt;div style={styles.stylePanel}&gt;
+    &lt;label&gt;文风 &lt;select value={tone} onChange={...}&gt;
+      &lt;option value=&quot;&quot;&gt;不限&lt;/option&gt;&lt;option&gt;口语化&lt;/option&gt;&lt;option&gt;学术&lt;/option&gt;...
+    &lt;/select&gt;&lt;/label&gt;
+    &lt;label&gt;字数 &lt;input type=&quot;number&quot; value={wordCount} placeholder=&quot;不限&quot; /&gt;&lt;/label&gt;
+    &lt;label&gt;体裁 &lt;select value={genre}&gt;...&lt;/select&gt;&lt;/label&gt;
+  &lt;/div&gt;
+)}
+&lt;button onClick={handleGenerateDraft}&gt;✨ 生成文稿&lt;/button&gt;
+</code></pre>
+<p><code>handleGenerateDraft</code> 收集非空字段拼成 <code>style</code>：</p>
+<pre><code class="language-typescript">const style: DraftStyle = {};
+if (tone.trim()) style.tone = tone.trim();
+const wc = parseInt(wordCount, 10);
+if (Number.isFinite(wc) &amp;&amp; wc &gt; 0) style.word_count = wc;
+if (genre.trim()) style.genre = genre.trim();
+// 只在有非空字段时传 style (否则 undefined → 后端不约束)
+await streamGenerateDraft(projectId, instruction, onChunk, onDone, undefined,
+                          Object.keys(style).length &gt; 0 ? style : undefined);
+</code></pre>
+<h2 id="heading-3">成果</h2>
+<p><img src="/post-images/1788702059177027100_0.png" alt="16deb5b756334abb0ee0e82f5223060e.png" /></p>
+<p>本来想录屏，但是录屏时，使用@前缀本应该弹出模板列表，然后选择一个，但就是选不中，所以只能截图。</p>
+<p>我这里，模板只是一样简单的markdown文件如下:</p>
+<pre><code># 标题
+
+## 介绍概念
+介绍主题的概念，然后就每个术语进行细化介绍
+
+## 介绍历史
+介绍发展史
+
+## 介绍使用
+介绍使用场景
+
+## 总结
+</code></pre>
+<p>选择生成文档后，得到的文稿基本上是按这个框架来的。</p>
+<p><img src="/post-images/1788702059181085600_0.png" alt="8955c99637552f91209f09be6675ecc0.png" /></p>
+<p>界面还是粗糙，以后再说。下一章，将上图的文稿编辑器修改成Tiptap，支持富文本编辑。</p>
+<p><img src="/post-images/JZQQCR_1788790612536895300.jpg" alt="" /></p>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-09-07</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            
+            <a class="prev" href="/post/zhi-shi-wen-gao-de-xiu-gai-he-bian-ji-nei-zhi-bian-ji-qi/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">从头开发AI Agent应用系列之十：文稿的后续处理</span></a>
+            
+            
+            <a class="next" href="/post/zhi-ba-diao-yong-agent-shi-xian-wan-zheng-shou-kong-react/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title"> 从头开发AI Agent应用系列之八：增加搜索Agent，优化界面</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1788790782" defer></script>
+
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>
