@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" width="880" height="450" font-family="-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif">
+  <style>
+    .f3-hi-top { opacity: 0; animation: f3top 12s linear infinite; }
+    .f3-hi-bot { opacity: 0; animation: f3bot 12s linear infinite; }
+    .f3-freezeR { animation: f3fr 12s linear infinite; }
+    .f3-freezeL { animation: f3fl 12s linear infinite; }
+    @keyframes f3top {
+      0% {opacity:.85} 13% {opacity:.85} 22% {opacity:0}
+      84% {opacity:0} 92% {opacity:.85} 100% {opacity:.85}
+    }
+    @keyframes f3bot {
+      0% {opacity:0} 38% {opacity:0} 46% {opacity:.85} 58% {opacity:.85} 66% {opacity:0} 100% {opacity:0}
+    }
+    @keyframes f3fr {
+      0%,15% {opacity:0} 21% {opacity:1} 32% {opacity:1} 40%,100% {opacity:0}
+    }
+    @keyframes f3fl {
+      0%,66% {opacity:0} 72% {opacity:1} 84% {opacity:1} 92%,100% {opacity:0}
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+      .f3-freezeR { opacity: 1; }
+      .f3-freezeL { opacity: 1; }
+    }
+  </style>
+
+  <rect x="0" y="0" width="880" height="450" fill="#FBFAF7"/>
+  <text x="60" y="40" font-size="17" font-weight="700" fill="#2A3440">WHALE 的一轮循环：一次一小步，交替进行</text>
+
+  <!-- 阶段①：权重更新 -->
+  <rect x="250" y="70" width="380" height="104" rx="12" fill="#E4F4E9" stroke="#2F9E44" stroke-width="1.5"/>
+  <text x="274" y="100" font-size="15.5" font-weight="700" fill="#1E6B38">① 权重更新阶段（harness 冻结）</text>
+  <text x="274" y="126" font-size="13" fill="#3D4A56">RSFT：用当前 harness 跑 rollout，</text>
+  <text x="274" y="146" font-size="13" fill="#3D4A56">只拿通过验证器的样本做梯度步</text>
+
+  <!-- 阶段②：Harness 搜索 -->
+  <rect x="250" y="306" width="380" height="104" rx="12" fill="#FDEBDD" stroke="#E8590C" stroke-width="1.5"/>
+  <text x="274" y="336" font-size="15.5" font-weight="700" fill="#B2451B">② Harness 搜索阶段（模型冻结）</text>
+  <text x="274" y="362" font-size="13" fill="#3D4A56">Meta-Harness：读所有候选的源码/分数/轨迹，</text>
+  <text x="274" y="382" font-size="13" fill="#3D4A56">提议 → 在固定训练样例上打分 → 只留历史最优</text>
+
+  <!-- 高亮层（动画，画在基础框之上） -->
+  <rect class="f3-hi-top" x="250" y="70" width="380" height="104" rx="12" fill="none" stroke="#1E6B38" stroke-width="3"/>
+  <rect class="f3-hi-bot" x="250" y="306" width="380" height="104" rx="12" fill="none" stroke="#B2451B" stroke-width="3"/>
+
+  <!-- 中央：预算与档案 -->
+  <rect x="330" y="196" width="220" height="34" rx="17" fill="#FFFFFF" stroke="#98A2AE" stroke-width="1.4"/>
+  <text x="440" y="218" font-size="13" fill="#3D4A56" text-anchor="middle">一份共享的 rollout 预算</text>
+  <rect x="312" y="242" width="256" height="44" rx="10" fill="#EBE3FA" stroke="#6741D9" stroke-width="1.4"/>
+  <text x="440" y="260" font-size="12.5" font-weight="700" fill="#5B3FBF" text-anchor="middle">档案：始终保留历史最优 harness</text>
+  <text x="440" y="277" font-size="11.5" fill="#8A75C9" text-anchor="middle">可能是几轮前的候选，甚至初始版本</text>
+
+  <!-- 侧弧箭头 -->
+  <path d="M 650,174 C 748,206 748,274 650,306" fill="none" stroke="#2A3440" stroke-width="2"/>
+  <polygon points="650,306 652,292 664,302" fill="#2A3440"/>
+  <path d="M 230,306 C 132,274 132,206 230,174" fill="none" stroke="#2A3440" stroke-width="2"/>
+  <polygon points="230,174 236,187 218,184" fill="#2A3440"/>
+
+  <!-- 冻结标注 -->
+  <g class="f3-freezeR">
+    <rect x="712" y="208" width="14" height="11" rx="2" fill="none" stroke="#5B6774" stroke-width="1.6"/>
+    <path d="M 715,208 v-3 a4,4 0 0 1 8,0 v3" fill="none" stroke="#5B6774" stroke-width="1.6"/>
+    <text x="760" y="248" font-size="13" font-weight="700" fill="#5B6774" text-anchor="middle">切换时</text>
+    <text x="760" y="268" font-size="13" font-weight="700" fill="#5B6774" text-anchor="middle">冻结模型</text>
+  </g>
+  <g class="f3-freezeL">
+    <rect x="154" y="208" width="14" height="11" rx="2" fill="none" stroke="#5B6774" stroke-width="1.6"/>
+    <path d="M 157,208 v-3 a4,4 0 0 1 8,0 v3" fill="none" stroke="#5B6774" stroke-width="1.6"/>
+    <text x="120" y="248" font-size="13" font-weight="700" fill="#5B6774" text-anchor="middle">切换时</text>
+    <text x="120" y="268" font-size="13" font-weight="700" fill="#5B6774" text-anchor="middle">冻结 harness</text>
+  </g>
+
+  <!-- 循环光点 -->
+  <g>
+    <circle r="13" fill="#6741D9" opacity="0.25"/>
+    <circle r="6.5" fill="#6741D9" stroke="#FFFFFF" stroke-width="2"/>
+    <animateMotion dur="12s" repeatCount="indefinite"
+      path="M 440,174 L 655,174 C 755,206 755,274 655,306 L 225,306 C 125,274 125,206 225,174 Z"/>
+  </g>
+</svg>
