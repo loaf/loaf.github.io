@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。
+">
+<meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
+<title>快200倍、便宜400倍：Jev是怎么做到的 | 亍云斋</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1791912674">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('plume:theme');
+    var dark = t ? t === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="/styles/main.css?v=1791912674">
+
+
+  
+  <meta name="keywords" content="人工智能,AI,算法,概率">
+  
+<meta name="description" content="AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。">
+<link rel="canonical" href="https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"快200倍、便宜400倍：Jev是怎么做到的","url":"https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/","description":"AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。","image":"/post-images/loce25_1791909906877739500.jpg","datePublished":"2026-10-14T00:24:33+08:00","dateModified":"2026-10-14T00:45:06+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/","name":"快200倍、便宜400倍：Jev是怎么做到的","position":2}]}</script>
+<meta property="og:title" content="快200倍、便宜400倍：Jev是怎么做到的">
+<meta property="og:description" content="AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。">
+<meta property="og:url" content="https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="亍云斋">
+<meta property="og:image" content="/post-images/loce25_1791909906877739500.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/">
+<meta name="twitter:title" content="快200倍、便宜400倍：Jev是怎么做到的">
+<meta name="twitter:description" content="AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。">
+<meta name="twitter:image" content="/post-images/loce25_1791909906877739500.jpg">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css" crossorigin="anonymous">
+</head>
+<body>
+  <a class="vp-skip-link sr-only" href="#main-content">跳至主要內容</a>
+  <div class="theme-container no-sidebar has-toc">
+    
+<header class="vp-navbar">
+  <div class="vp-navbar-start">
+    <button class="vp-toggle-navbar-button" id="nav-toggle" type="button" aria-label="切换导航菜单" aria-expanded="false">
+      <span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span>
+    </button>
+    <a class="vp-brand" href="/">
+      
+      <img class="vp-nav-logo" src="/images/theme/snail-new-small.png" alt="亍云斋">
+      
+      <span class="vp-site-name hide-in-pad">亍云斋</span>
+    </a>
+  </div>
+
+  <div class="vp-navbar-center">
+    
+    <nav class="vp-nav-links">
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/">首页</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/sui-bi">随笔</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/ji-shu">技术</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/category/qita">其它</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/tags">标签</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/archives">归档</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/links">友链</a>
+      </div>
+      
+      <div class="vp-nav-item">
+        <a class="auto-link" data-nav-link href="/post/about">关于</a>
+      </div>
+      
+    </nav>
+    
+  </div>
+
+  <div class="vp-navbar-end">
+    <button class="vp-color-mode-switch" id="theme-toggle" type="button" aria-label="切换深浅色">
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
+    </button>
+
+    <div class="nav-search" id="search-btn" role="button" tabindex="0" aria-label="搜索文章">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-search-text">搜索</span>
+      <span class="nav-search-kbd"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+    </div>
+  </div>
+
+  <div class="vp-nav-dropdown" id="nav-dropdown">
+    
+    <nav class="vp-nav-dropdown-links">
+      
+      <a data-nav-link href="/">首页</a>
+      
+      <a data-nav-link href="/category/sui-bi">随笔</a>
+      
+      <a data-nav-link href="/category/ji-shu">技术</a>
+      
+      <a data-nav-link href="/category/qita">其它</a>
+      
+      <a data-nav-link href="/tags">标签</a>
+      
+      <a data-nav-link href="/archives">归档</a>
+      
+      <a data-nav-link href="/links">友链</a>
+      
+      <a data-nav-link href="/post/about">关于</a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+
+    <main class="vp-page" id="main-content">
+      <div class="post-layout">
+        <div class="post-column">
+          <header class="vp-page-title">
+            <h1>快200倍、便宜400倍：Jev是怎么做到的</h1>
+            
+<div class="page-info">
+  <span class="page-author-info" title="作者🖊">
+    <svg class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"/></svg>
+    <span><span class="page-author-item">loaf</span></span>
+  </span>
+  
+  <span class="page-date-info" title="写作日期📅">
+    <svg class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.472 33.473-33.472h729.687c18.753 0 33.473 14.72 33.473 33.472a33.145 33.145 0 01-33.473 33.473z"/></svg>
+    <span>2026-10-14</span>
+  </span>
+  
+  
+  <span class="page-reading-time-info" title="阅读时长⏱">
+    <svg class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 80.463 61.433 145.504 136.906 145.504s136.906-65.041 136.906-145.504c0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.793 6.99 15.793 15.793 0 95.796-74.824 173.986-167.9 177.093z"/></svg>
+    <span>大约 25 分钟</span>
+  </span>
+  
+  
+  <span class="page-category-info" title="分类🌈">
+    
+    <a class="page-category-item clickable color1" href="/category/sui-bi/">随笔</a>
+    
+  </span>
+  
+  
+  <span class="page-tag-info" title="标签🏷">
+    
+    <a class="page-tag-item clickable color3" href="/tag/ren-gong-zhi-neng/">人工智能</a>
+    
+    <a class="page-tag-item clickable color0" href="/tag/ai/">AI</a>
+    
+    <a class="page-tag-item clickable color4" href="/tag/suan-fa/">算法</a>
+    
+    <a class="page-tag-item clickable color5" href="/tag/gai-lv/">概率</a>
+    
+  </span>
+  
+</div>
+
+            <hr>
+          </header>
+
+          <div class="vp-content">
+            <p>现在谈JEV好像已经有点过时了。但是它发布至今还不到1个月啊。AI热点的保质期是如此短吗？</p>
+<h2 id="jev">什么是Jev</h2>
+<p><strong>Jev是一个大模型，它只有一个功能，就是对你的问题打分。特点是快、便宜。</strong></p>
+<p>2026年9月15日，由 OpenAI 前研究员、InstructGPT 与 RLHF（基于人类反馈的强化学习）的联合发明者 Diogo Almeida 创立的 TypeSafe AI 公司，正式发布了名为 Jev 的基础模型<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>(<a href="https://www.sanity.io/glossary/jev-typesafe-ai-model)%5D">https://www.sanity.io/glossary/jev-typesafe-ai-model)]</a>。伴随着由 DCVC 领投的四千万美元种子轮融资，该模型的问世标志着一种被称为“System One 模型”（System One Models）的全新 AI 架构进入实用阶段<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>(<a href="https://en.wikipedia.org/wiki/Jev">https://en.wikipedia.org/wiki/Jev</a>_(AI_model))]。</p>
+<p>“System One”这一命名深刻映射了诺贝尔经济学奖得主丹尼尔·卡尼曼（Daniel Kahneman）在《思考，快与慢》中提出的双系统认知理论。在该框架下，System Two 代表缓慢、深思熟虑且消耗大量计算资源的推理过程，这正是现代生成式大语言模型所擅长的领域；而System One则代表快速、直觉式、高频次的瞬间判断。</p>
+<p>Jev 被明确设计为纯粹的判别式（Discriminative）决策引擎，它不具备任何文本生成能力，不提供思维链（Chain of Thought）解释，也不编写代码。相反，它能够在 70 至 500 毫秒的极低延迟内，针对任意输入的非结构化状态（State），直接返回带有严格概率校准的类型化决策（Typed Decisions）<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>(<a href="https://www.datacamp.com/blog/system-one-models-jev)%5D">https://www.datacamp.com/blog/system-one-models-jev)]</a>。</p>
+<p>Jev 这一产品名称源自十九世纪英国经济学家威廉·斯坦利·杰文斯（William Stanley Jevons）。著名的“杰文斯悖论”指出，当某项资源的使用效率大幅提高时，往往会导致对该资源的总需求爆炸性增长，而非减少。TypeSafe AI 用它来命名这个模型，说明它希望通过降低成本来引爆AI的需求。</p>
+<h2 id="jev-1">用一个例子说明Jev的功能</h2>
+<p>你发现咖啡店重复收费了，为了证明这一点，你直接拍一张咖啡店打给你的小票，上面明确显示同一杯拿铁扣了两次 ￥129.00。如果是真人服务员，看到你的证据，马上就可以给你退款。但是AI程序就要复杂一点了。</p>
+<p>它要用大语言模型（LLM）对描述这个事实的文字进行推理，然后输出一段文字描述，程序还得把这些文字解析回数据，然后再做出判断。</p>
+<p>Jev 的回答就简单了。不写字，直接出概率：退款 0.72、转人工 0.19、驳回 0.09。</p>
+<p>而且速度飞快，只要70-500毫秒就可以出结果，比前沿大模型要快40-200倍。而且价格也便宜40-400倍。</p>
+<p><video src="/post-images/1791909314777184800_0.mp4" controls playsinline preload="metadata" style="max-width:100%"></video></p>
+<h2 id="jev-2">Jev是怎么做到的</h2>
+<p>首先要说明的是TypeSafe AI并没有提供Jev算法的细节。下面的内容都是基于公开访谈、报道中零星的信息和部分网友的逆向数据。</p>
+<p>总结下来，有四个技术维度，分别是：</p>
+<ul>
+<li>非自回归架构的计算卸载</li>
+<li>动态读出几何结构的泛化机制</li>
+<li>校准决策强化学习（RLCD）的数学原理</li>
+<li>新型智能体控制平面的构建</li>
+</ul>
+<p><img src="/post-images/1791909341160062100_0.jpg" alt="" /></p>
+<p>下面让我们一项一项地分解说明。</p>
+<h2 id="heading"><strong>维度一：非自回归前向传播与注意力机制的重塑</strong></h2>
+<h3 id="heading-1">概念一：非自回归</h3>
+<p>先说自回归。</p>
+<p>自大语言模型（Large Language Models, LLM）崛起以来，人工智能系统的核心计算范式一直被自回归生成（Autoregressive Generation）所主导。</p>
+<p>“自回归”可以理解为“用过去的自己预测未来的自己”。在 LLM 里就是：</p>
+<blockquote>
+<p>给定前面的词/标记，预测下一个词/标记；然后把预测结果接到后面，测下一个，如此循环。</p>
+</blockquote>
+<p>例如：</p>
+<p>输入：<del>={red}今天天气=</del>，模型预测：<del>={green}很=</del></p>
+<p>然后输入变成：<del>={red}今天天气很=</del>，模型再预测：<del>={green}好=</del></p>
+<p>然后继续：<del>={red}今天天气很好=</del></p>
+<p>这就是自回归生成，像“文字接龙”或手机输入法不断联想下一个词。</p>
+<p>很明显，自回归输出很慢。Jev之所以能高速输出，是它选择了“非自回归架构”。</p>
+<h3 id="heading-2">概念二，前向传播</h3>
+<p>在神经网络里，<strong>前向传播（Forward Pass）</strong> 指的是：把输入数据送入神经网络，让它一层一层地计算，最终得到输出结果的过程。</p>
+<p>它不涉及训练，不计算梯度，也不更新权重。它只是“用当前权重做一次推理”。</p>
+<p>在大语言模型中，一次前向传播大致是：</p>
+<ol>
+<li>输入当前 token 序列或当前 token；</li>
+<li>经过词嵌入、位置编码；</li>
+<li>进入多层 Transformer：
+<ul>
+<li>自注意力计算；</li>
+<li>前馈网络；</li>
+<li>残差连接、LayerNorm 等；</li>
+</ul>
+</li>
+<li>最后一层输出隐藏状态；</li>
+<li>通过 LM Head 映射到整个词表；</li>
+<li>得到“下一个 token 的概率分布”；</li>
+<li>根据这个分布采样或选择下一个 token。</li>
+</ol>
+<p>所以，在解码阶段，“每生成一个 token 都要做一次完整的前向传播”意思是：每吐出一个字/词，模型都要从底层到顶层，把所有 Transformer 层重新走一遍，才能算出下一个 token 是什么。</p>
+<p>注意“完整”不是指把整个历史序列重新算一遍，而是指：</p>
+<blockquote>
+<p>所有网络层、所有模型参数都要参与一次计算。</p>
+</blockquote>
+<p>因为有了 KV Cache，历史 token 的 Key/Value 被缓存了，不需要重复计算；但每一层的权重仍然要被读取和计算。</p>
+<h3 id="heading-3">传统自回归模型的注意力机制</h3>
+<p>现代生成式大模型在推理环节被严格分割为预填充（Prefill）与解码（Decode）两个阶段。</p>
+<p>在自回归模型的预填充阶段，系统会一次性读取所有的输入提示词，执行注意力矩阵的计算，并生成键值缓存（KV Cache）。这一阶段高度依赖于图形处理器（GPU）的矩阵乘法单元，是计算密集型（Compute-bound）的，因此能够充分利用现代硬件的并行计算能力。</p>
+<p>然而，进入解码阶段后，模型必须逐个生成输出标记（Token）。每生成一个单独的 Token，模型都必须进行一次完整的前向传播（Forward Pass），并且需要在极短的时间内从显存中重新读取高达数百吉字节的模型权重以及不断膨胀的 KV Cache。</p>
+<p>这种逐字吐出的模式是内存带宽受限的（Memory-bandwidth bound）。</p>
+<p>为了优化这个问题，常用的解决方案有<strong>推测解码（Speculative Decoding）</strong> 和 <strong>连续批处理（Continuous Batching）</strong>。</p>
+<blockquote>
+<p>[!TIP]<br />
+<strong>推测解码</strong>：</p>
+<ul>
+<li>用一个小而快的草稿模型，先猜出多个可能的 token；</li>
+<li>再用大模型并行验证这些 token；</li>
+<li>如果猜对了，就一次接受多个 token，减少大模型的串行前向次数。</li>
+</ul>
+<p>它能加速，但不能根本消除逐 token 依赖和内存带宽瓶颈。</p>
+</blockquote>
+<blockquote>
+<p>[!TIP]<br />
+<strong>连续批处理</strong>：</p>
+<ul>
+<li>传统批处理要等一整批请求都生成完，才能换下一批；</li>
+<li>连续批处理在某个请求生成结束后，立刻把新请求插进来；</li>
+<li>这样 GPU 不会空闲，提高吞吐量。</li>
+</ul>
+</blockquote>
+<p>但它主要提升的是“吞吐”，不一定显著降低单个请求的“端到端延迟”。</p>
+<p>很明显，上述技术可以优化但无法达到Jev毫秒级的响应速度。</p>
+<h3 id="jev-3">Jev的注意力机制重塑</h3>
+<p>Jev 架构的革命性在于其彻底切断了解码阶段的自回归循环回路。</p>
+<p>分析表明，Jev 建立在 Transformer 架构或类似于 BERT 的双向编码器主干之上，但完全摒弃了自由形式字符串（Free-form string）的生成逻辑。在接收到输入负载时，<strong>Jev 仅执行单一的、高并行的前向传播计算</strong>。</p>
+<p><del>={pink}1）输入输出的格式重塑=</del></p>
+<p>先说输入。</p>
+<p>传统方式是把<strong>材料</strong>和<strong>问题</strong>拼成一个prompt，这个提示词本身是没有结构的。而Jev则不同，它会把输入划分成互相独立维度的两个部分：<strong>状态（State）</strong> 和 <strong>问题（Questions）</strong>。</p>
+<p>用上面那个多收钱的咖啡小票举例。</p>
+<p>传统的大模型会将上面的小票OCR成文本，然后加上一些材料：“你是一个顾客”、“你很不高兴”、“作为一个守法的商家，应该怎么做？”、……，然后拼成一段文字，发送给大模型。</p>
+<p>Jev则简单的多，将上面的内容划分成两部分：</p>
+<p>一部分是状态：包括小票OCR成的文本和简单的说明。</p>
+<p>一部分是问题：</p>
+<ol>
+<li>是否要退款</li>
+<li>是否转人工</li>
+<li>是否驳回</li>
+</ol>
+<p>一般来说，状态和问题，问题之间都是相互独立的，可以自由组合，改变其中一个，不会影响另一个的定义或者作用。在工程学上，我们可称之为<strong>正交划分</strong>。</p>
+<p>再说输出。</p>
+<p>传统的模型输出的是一篇文章，可能是长篇大论的一段建议。而Jev的输出非常简洁：退款 0.72、转人工 0.19、驳回 0.09。</p>
+<p>将上面的例子规范化，就是，Jev的输出不返回任何解释，仅支持三种极简的<strong>决策原语（Primitives）</strong>。</p>
+<table>
+<thead>
+<tr>
+<th align="left">决策原语 (Primitive)</th>
+<th align="left">定义与容量约束</th>
+<th align="left">输出结构与概率特征</th>
+<th align="left">典型应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>Choice (选择)</strong></td>
+<td align="left">从用户预定义的离散选项列表中挑选最优解，单次请求最高支持 255 个命名选项。</td>
+<td align="left">返回获胜选项的键值、全域选项的概率分布，以及一个独立的统计置信度 (Confidence) 分数。</td>
+<td align="left">客户工单自动路由、长文本意图识别、复杂条件分类网络。</td>
+</tr>
+<tr>
+<td align="left"><strong>Score (评分)</strong></td>
+<td align="left">将输入状态映射至一个有序的评价量表中，支持 2 至 10 个层级的细粒度等级划分。</td>
+<td align="left">返回一个连续的浮点数值（例如在4级量表上得分为3.1），附带底层概率直方图与置信度。</td>
+<td align="left">潜在客户质量打分、风险等级阈值评估、用户情绪强度测量。</td>
+</tr>
+<tr>
+<td align="left"><strong>Noul (布尔命题)</strong></td>
+<td align="left">针对某一明确的陈述进行二元事实或逻辑判定，评估其为真的可能性。</td>
+<td align="left">仅返回单一的概率浮点数（区间 0 到 1）。值得注意的是，该类型不包含独立的置信度字段。</td>
+<td align="left">代理工具执行前的安全护栏、恶意提示词注入检测、逻辑特征开关。</td>
+</tr>
+</tbody>
+</table>
+<p>深入探究这三种原语的内部数据特征，<strong>置信度的本质是对模型预测概率分布集中程度的统计学描述。</strong></p>
+<p>如果分布极度陡峭且偏向某一选项，置信度趋近于 1；如果分布极其平坦，接近于随机猜测，置信度则趋近于 0。</p>
+<p><del>={pink}2）解码的非自回归重塑=</del></p>
+<p>Jev输出时，不是自回归的，无需生成思维链或解释性文本，而直接输出决策。</p>
+<p>传统大模型的判断时，需要先生成一段自然语言（比如，有两个相同的收费项，可能是重复收费了），这段解释就是思维链。然后程序需要解析这段文本，才能提取出是否需要退款的结论。这个过程本质上是把一个判断任务，强行转换成了文本生成任务。</p>
+<p>Jev 的输入（状态 state）经过其深层网络编码后，会形成一个代表整体语义理解的<strong>全局语义向量表征（Semantic Vector Representation）</strong>。这个向量就像一个高度浓缩的“理解快照”。Jev 的独特之处在于，它<strong>不把这个向量再解码成文字</strong>，而是直接将它<strong>映射到预定义的答案空间</strong>。例如，对于“是否退款”这个问题，它直接把语义向量映射到一个0到1之间的概率值上。跳过了“生成解释”这一步，从根本上消除了相关的计算开销和解析成本。</p>
+<p>更高效的是，由于基础状态只需经过一次编码计算并驻留在激活空间中，Jev 可以在同一个前向传播周期内，并行且完全隔离地评估针对该状态的数十个不同问题。</p>
+<p>还是上面的例子，它在处理“是否转人工”这个问题时，不需要重新再操作一遍，直接在这个驻留的激活空间求值就可以了。</p>
+<p>Jev先解决了“<strong>如何判断</strong>”的问题：通过跳过文本生成，直接从语义向量映射到答案。然后又解决了“<strong>如何批量判断</strong>”的问题：通过共享一次编码结果，并行地评估多个独立问题。</p>
+<p>实现上述目标的技术底层架构就是上面提到的两种可能形态：</p>
+<ul>
+<li><strong>BERT 风格的双向编码器</strong>：输入的所有位置可以互相“看到”，适合做分类、评分、判断类任务；</li>
+<li><strong>被改造为直接预测的因果解码器</strong>：保留 Transformer 解码器结构，但在生成循环开始前就停止，直接用一个预测头输出决策。</li>
+</ul>
+<p>社区逆向分析倾向于认为它“更像一个双向编码器加并行标签头”。<br />
+<img src="/post-images/1791909453262628300_0.png" alt="" /><br />
+<img src="/post-images/1791909535275910700_0.png" alt="" /><br />
+<img src="/post-images/1791909554053504200_0.png" alt="" /></p>
+<h2 id="heading-4">维度二：动态读出几何结构的泛化机制</h2>
+<p>在传统的判别式机器学习模型中（例如基于 BERT 微调的情感分类器），模型能够快速判断的根本原因在于其网络末端连接了一个固定权重的线性分类头（Linear Classification Head）。这种架构虽然快，但存在一个致命缺陷：它只能识别训练时固定的类别集合，无法像生成式大模型那样处理“任意问题”或动态变化的选项空间。</p>
+<p>而Jev作为一个通用的分类器，事先你根本不知道它要对什么东西分类，所以，Jev 必须在保持判别式模型速度的同时，实现对未见问题和动态图谱的零样本（Zero-shot）泛化。</p>
+<p>深入研究开源社区对 TypeSafe AI 架构的逆向工程以及相关复现项目（如基于 DeBERTa-v3-large 的 Open-Jev 模型、Laya 等），可以发现这类类型化决策模型（Typed Decision Models, TDMs）采用了被称为“动态读出几何结构”（Dynamic Readout Geometries）的机制来解决泛化难题<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>(<a href="https://arxiv.org/pdf/2609.32160)%5D">https://arxiv.org/pdf/2609.32160)]</a>。</p>
+<p>动态读出几何结构 的完整含义是：</p>
+<p><strong>模型不依赖固定的分类层，而是根据运行时动态声明的问题及其选项，在共享的语义空间中，实时计算状态表示与选项表示之间的几何关系（如距离、方向），并据此动态地“读出”一个概率分布作为决策。</strong> 这使得模型能够处理任意定义的问题和选项，因为选项的表示可以在运行时动态构建，无需重新训练。</p>
+<p>“动态读出几何结构”的实现，核心在于将“理解”与“判断”解耦，让模型能够<strong>在运行时动态构建问题与选项的表示，并在共享的语义空间中计算它们与状态的关系</strong>。</p>
+<p>目前业界主要探索了三种不同的读出结构，以实现对未定类别空间的映射。</p>
+<h3 id="decoder-constrained-space">第一种机制是<strong>解码器受限空间（Decoder-constrained Space）</strong>。</h3>
+<p>用一个通俗的例子可以帮助我们理解这个机制：想象一位博学但习惯于长篇大论的学者（生成式语言模型）。当你向他出示一张图片并询问：“这是苹果还是香蕉？”他原本的直觉反应是开始滔滔不绝地生成长句：“根据我的观察，这似乎是一个红色的……”为了强迫他只回答“苹果”或“香蕉”，你在他开口之前，给了他一本包含十万个词汇的超大字典，然后用黑笔涂掉了除“苹”、“果”、“香”、“蕉”之外的所有词汇。这样一来，当他准备说出第一个字时，发现脑海中允许使用的词汇只剩下这四个，他只能被迫在这四个词中选择概率最高的一个。</p>
+<p>在神经网络中，这就是“解码器受限空间”的核心思想。它允许模型进行完整的前向计算，但在生成最终结论时，通过掩码（Mask）技术强制干预了词表分布。</p>
+<p>这种架构下，模型保留了生成式的语言模型结构，但在计算最后一个 Token 的 Softmax 分布时，通过对词表施加严格的 Logit 掩码（Logit Bias/Mask），强制要求注意力机制仅计算允许的选项 Token 之间的相对概率。然而，这种方式依然依赖于 Token 的字典映射，容易受制于多 Token 选项的对齐问题。</p>
+<p><img src="/post-images/1791909602335036800_0.png" alt="" /></p>
+<p>因为它保留了自回归生成结构，只对输出词表做 Logit 掩码。它依赖 token 字典映射，有多 token 选项对齐问题，且仍是自回归解码，与 Jev 的非自回归方向不符。社区一般认为它不是 Jev 的实际机制。</p>
+<h3 id="marker-token-scoring">第二种机制是标记器评分（Marker Token Scoring）。</h3>
+<p>我们可以将这种机制想象为一场情报分析行动。作为指挥官（分类头），你手里有一份冗长复杂的敌情报告（状态文本），同时有五套应对方案（选项）。为了快速评估每套方案的有效性，你在报告中每套方案说明的末尾，都安插了一名极具观察力的“特工”（虚拟标记）。</p>
+<p>这些特工的任务是：站在自己的位置上，目光扫视整篇报告（向上文看）以及其他方案（向下文看），并将所有与自己当前方案相关的利弊信息吸收进大脑。在一轮深度阅读后，指挥官不需要自己去通读报告，只需把这五名特工召集过来，直接提取他们大脑中的“活跃度信号”（激活值），活跃度最高的特工所代表的方案，就是最佳选择。</p>
+<p>系统为每个用户定义的选项或问题注入一个特殊的虚拟标记，并通过注意力机制强制该标记吸收相关的语义信息。随后，模型直接输出该虚拟标记处的激活值作为评分。<br />
+<img src="/post-images/1791909627126067700_0.png" alt="" /><br />
+以开源的Open-Jev为例，其关键在于<strong>将问题和选项“标记化”</strong>。</p>
+<ul>
+<li>
+<p><strong>输入拼接</strong>：输入被拼接成特定的序列格式：<code>[CLS] [STATE] state [Q] instructions [OPT] option_1 [OPT] option_2 … [SEP]</code>。这里 <code>[Q]</code> 和 <code>[OPT]</code> 是特殊的标记符，用于向模型声明“问题”和“选项”的边界。</p>
+</li>
+<li>
+<p><strong>几何关系计算</strong>：编码器处理整个序列后，对于每一个选项，读出头会计算一个分数。这个分数的计算方式是：<strong>取问题标记的均值向量、选项标记的均值向量，以及它们的乘积</strong>，然后通过一个小的评分网络得到最终分数。这本质上是在计算<strong>状态、问题和选项三者表示之间的几何关系（如相似度）</strong>。</p>
+</li>
+<li>
+<p><strong>概率化输出</strong>：对于同一个问题下的所有选项，对其分数进行 <strong>Softmax</strong> 归一化，就得到了该问题的概率分布。例如，<code>Choice</code> 问题会在选项组内做 Softmax；<code>Noul</code> 问题则直接输出“是”的概率。</p>
+</li>
+</ul>
+<p>标记器评分机制展现出了惊人的工程效率。</p>
+<p>然而，这种几何结构最大的弱点在于“近视眼”效应（Myopic Attention）。</p>
+<p>研究表明，由于标记通常在物理位置上紧挨着选项的“名称”，它在计算注意力权重时，容易过度关注这些距离极近的词汇。如果一个选项的名称带有强烈的语义倾向，而其后附带的详细定义却描述了截然相反的内容，标记往往会被名称的表面语义劫持，而忽略了长篇的底层定义。这一致命弱点直接导致了被称为“选项通道攻击”的安全隐患。</p>
+<h3 id="representation-pooling">第三种机制是表征池化（Representation Pooling）架构。</h3>
+<p>这是目前开源社区在复现 Jev 模型时认为最接近其真实内部黑盒机制的设计。</p>
+<p>想象警方正在排查一名嫌疑人。证人提供了一段详尽的体貌特征描述（状态文本）。与此同时，警方手里拿到了 255 份嫌疑人的详细文字档案（每个选项的名称加上长篇的定义）。<br />
+为了找出最匹配的人，负责分析的警官没有让一名特工去同时通读所有材料，而是采取了并行的特征提取策略：首先，提炼出证人描述的“核心特征画像”（状态向量）；随后，仔细阅读每一份嫌疑人档案，将每份档案中的所有细节综合起来，提炼出 255 份独立的“综合特征画像”（选项向量）。最后，在一个多维度的比对板上，将证人的画像与这 255 份嫌疑人画像进行一一比对。哪两张画像的重合度最高（余弦相似度最大），谁就是最符合证词的嫌疑人。</p>
+<p>在此机制中，分类标签和选项描述不再是硬编码的神经网络权重，而是作为输入特征的一部分参与计算。当应用程序向 Jev 提交一个分类选择题时，模型会利用其强大的双向注意力机制，不仅对核心“状态”进行编码，同时也对每个传入的“选项名称”和“选项定义”进行独立或交叉编码。</p>
+<p>通过将每个选项的语义池化（Pooling）为一个高维向量，模型进而在隐空间中计算这些选项向量与状态全局向量之间的相似度（例如余弦相似度或注意力乘积）。这种晚期融合（Late Fusion）或双塔/交叉网络设计，完美解释了 Jev 为何能够在不进行任何微调的前提下，针对每次 API 调用中随时变化的 255 个自定义选项进行精确的概率分配。<br />
+<img src="/post-images/1791909649382648400_0.png" alt="" /><br />
+这种方式更接近传统的注意力机制，体现了“问题动态查询状态”的思想。</p>
+<ul>
+<li>
+<p><strong>状态缓存</strong>：编码器处理完状态后，其输出作为 <strong>Key（K）和 Value（V）</strong>，形成一个可缓存的共享状态表示。</p>
+</li>
+<li>
+<p><strong>查询槽（Query Slots）</strong>：为每个问题及其选项创建<strong>可学习的查询槽（Learned Query Slots）</strong>。这些槽是动态的，因为它们的内容取决于运行时定义的问题和选项。</p>
+</li>
+<li>
+<p><strong>交叉注意力</strong>：这些查询槽作为 <strong>Query（Q）</strong>，通过<strong>交叉注意力机制</strong>去“读取”共享的状态缓存。这意味着，<strong>问题主动去状态中提取与自身相关的信息</strong>，而不是让状态被动地适应所有问题。</p>
+</li>
+<li>
+<p><strong>完全隔离</strong>：不同问题的查询槽之间<strong>互不干扰</strong>，它们只能关注状态，不能关注彼此。这确保了多个问题可以在同一个前向传播周期内并行且独立地求值。</p>
+</li>
+</ul>
+<h2 id="heading-5">维度三：校准决策强化学习的数学基础与训练范式</h2>
+<p>如果说非自回归架构赋予了 Jev 物理上的速度，那么校准决策强化学习（Reinforcement Learning for Calibrated Decisions, RLCD）则构成了其灵魂。</p>
+<p>在现代生成式模型的训练流水线中，通常采用基于人类反馈的强化学习（RLHF）或基于可验证奖励的强化学习（RLVR）。</p>
+<p>RLHF 旨在优化输出文本，使其更加符合人类偏好的阅读体验，这直接导致模型在面临知识盲区时，倾向于使用“自信的语调”来掩盖其无知，从而引发严重的过度自信偏差（Overconfidence Bias）。</p>
+<p>RLVR 虽然通过逻辑验证器提供了绝对的奖励信号，但在一般的马尔可夫决策过程中，模型猜对得 1 分，猜错得 0 分。这导致在长期的梯度上升过程中，策略网络为了追求最大期望收益，会无限制地推高其在 Softmax 层的 Logit 值，产生一种零惩罚的“虚张声势（Bluffing）”行为，即模型总是声称自己拥有 100% 的把握，但从未回过头去检查这种确定性是否与历史胜率相符。</p>
+<p>TypeSafe AI 的 RLCD 范式彻底重构了奖励模型的目标函数，将其从单纯追求“正确率最大化”转变为追求“严密评分规则（Proper Scoring Rules）优化”。在这种训练体系下，模型产出的不仅仅是答案本身，还必须包括它对其所下赌注的置信水平，并且系统的奖惩呈现出极端的非对称性。</p>
+<p>总结一下：</p>
+<table>
+<thead>
+<tr>
+<th>范式</th>
+<th>奖励来源</th>
+<th>优化目标</th>
+<th>副作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RLHF</td>
+<td>人类偏好</td>
+<td>输出更像人喜欢的文本</td>
+<td>过度自信，用自信语调掩盖无知</td>
+</tr>
+<tr>
+<td>RLVR</td>
+<td>可验证奖励（对/错）</td>
+<td>正确率最大化</td>
+<td>推高 Logit，虚张声势，声称 100% 把握</td>
+</tr>
+<tr>
+<td>RLCD</td>
+<td>严密评分规则</td>
+<td>概率校准 + 决策质量</td>
+<td>要求模型输出置信度，奖惩非对称</td>
+</tr>
+</tbody>
+</table>
+<h3 id="brier-"><strong>Brier 分数与严密评分规则</strong></h3>
+<p>Brier 分数是 RLCD 用来替代二元奖励的核心工具。它本质上是一种<strong>概率预测的评分规则</strong>，衡量模型输出的置信度与真实结果之间的差距。</p>
+<p>举例来说，对于二元结果，如果算出概率是0.7，因为最终输出是“对/错”二元，我们可能直接就输出1。这种情况下，0.99和0.51都输出1，这明显不合理。</p>
+<p><strong>报告的概率大小不影响期望奖励</strong>，只要它超过 0.5 就行。因此，二元奖励<strong>不惩罚过度自信</strong>。模型可以总是声称 100% 把握，但实际正确率只有 70%，而奖励没有任何区别。这就导致了 RLVR 中的“虚张声势”问题。</p>
+<p>从数学上，Brier分数是<strong>预测概率与二元实际结果之间的均方误差</strong>。</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi>B</mi><mi>r</mi><mi>i</mi><mi>e</mi><mi>r</mi></mrow><mo>=</mo><mo stretchy="false">(</mo><mi>p</mi><mo>−</mo><mi>y</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">{Brier} = (p - y)^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="mord mathnormal" style="margin-right:0.0278em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.0278em;">er</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span>：模型预测“正类”的概率，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">p∈[0,1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>；</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span>：真实结果，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>∈</mo><mrow><mn>0</mn><mo separator="true">,</mo><mn>1</mn></mrow></mrow><annotation encoding="application/x-tex">y∈{0,1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span></span></span></span></span>，其中 1 表示正类，0 表示负类。</p>
+</li>
+</ul>
+<p>很明显，如果模型说 p=1（100% 把握），而实际 y=0，则 Brier=1，惩罚最大。也就是说，预测的越准，Brier值越小，惩罚越小。</p>
+<p>扩展一下，对于多分类：假设有K个类别，模型输出概率向量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>p</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>p</mi><mn>2</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>p</mi><mi>K</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(p_1, p_2, ..., p_K)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">...</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0715em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，真实标签用 one-hot 向量<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><msub><mi>y</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>y</mi><mn>2</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>y</mi><mi>K</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(y_1,y_2,...,y_K)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">...</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0715em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 表示（只有一个为 1，其余为 0），则 Brier 分数为：</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Brier</mtext><mo>=</mo><mfrac><mn>1</mn><mi>K</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>K</mi></munderover><mo stretchy="false">(</mo><msub><mi>p</mi><mi>i</mi></msub><mo>−</mo><msub><mi>y</mi><mi>i</mi></msub><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\text{Brier} =\frac{1}{K} \sum_{i=1}^{K} (p_i - y_i)^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">Brier</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3.106em;vertical-align:-1.2777em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0715em;">K</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0715em;">K</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><p>RLCD 把 Brier 分数作为基础奖励信号，意味着：</p>
+<ol>
+<li>
+<p><strong>模型必须输出置信度</strong>：不能只给答案，还要给概率。</p>
+</li>
+<li>
+<p><strong>奖励与校准挂钩</strong>：概率越准，奖励越高。</p>
+</li>
+<li>
+<p><strong>过度自信被重罚</strong>：高置信度错误时，Brier 接近 1，奖励接近 0。</p>
+</li>
+<li>
+<p><strong>保守也被适度惩罚</strong>：总是输出 0.5 虽然不会大错，但 Brier 期望是 0.25，奖励上限只有 0.75，无法拿到高分。</p>
+</li>
+<li>
+<p><strong>极端非对称</strong>：说“100% 把握”但错了，惩罚极大；说“51% 把握”但对了，奖励也有限。这鼓励模型只在真正有把握时给出高置信度。</p>
+</li>
+</ol>
+<h3 id="murphy-brier-"><strong>Murphy 分解：Brier 分数的三组件拆解</strong></h3>
+<p>Brier 分数本身只是一个标量，告诉你预测“有多差”。但它没有告诉你<strong>为什么差</strong>。是模型系统性高估了？还是模型根本没有区分能力？还是问题本身太难、不确定性太高？</p>
+<p>Murphy（1973）提出，如果把预测概率按<strong>分箱（binning）</strong> 处理，Brier 分数可以精确分解为三个正交组件:</p>
+<p>Brier Score = Reliability − Resolution + Uncertainty</p>
+<p>其中：</p>
+<p><strong>Reliability（可靠性或校准度）：模型说 70% 时，真的对 70% 吗？</strong></p>
+<p>衡量的是预测概率偏离实际结果频率的程度，值是越低越好；</p>
+<p><strong>Resolution（分辨率）：模型有没有“区分能力”？</strong></p>
+<p>衡量模型将不同置信度的案例区分开的能力，越高越好；</p>
+<p><strong>Uncertainty（基线噪声，不确定性）：问题本身有多难？</strong></p>
+<p>只取决于数据本身，与模型无关。是数据集内生的不可约方差。</p>
+<p>三者的关系有一个直观的理解：</p>
+<p>可以把 Brier 分数想象成“预测的总误差”：</p>
+<ul>
+<li>
+<p><strong>UNC</strong> 是问题的固有难度（你无法改变）；</p>
+</li>
+<li>
+<p><strong>REL</strong> 是模型<strong>系统性偏差</strong>造成的额外误差（越校准，REL 越小）；</p>
+</li>
+<li>
+<p><strong>RES</strong> 是模型<strong>有效信息</strong>带来的误差减少（区分能力越强，RES 越大，Brier 越小）。</p>
+</li>
+</ul>
+<p>所以：</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>BS</mtext><mo>=</mo><munder><munder><mtext>REL</mtext><mo stretchy="true">⏟</mo></munder><mtext>校准误差</mtext></munder><mo>−</mo><munder><munder><mtext>RES</mtext><mo stretchy="true">⏟</mo></munder><mtext>信息增益</mtext></munder><mo>+</mo><munder><munder><mtext>UNC</mtext><mo stretchy="true">⏟</mo></munder><mtext>固有难度</mtext></munder></mrow><annotation encoding="application/x-tex">\text{BS} = \underbrace{\text{REL}}_{\text{校准误差}} - \underbrace{\text{RES}}_{\text{信息增益}} + \underbrace{\text{UNC}}_{\text{固有难度}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">BS</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0097em;vertical-align:-1.3263em;"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em;"><span style="top:-1.6737em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">校准误差</span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em;"><span class="svg-align" style="top:-2.352em;"><span class="pstrut" style="height:3em;"></span><span class="stretchy" style="height:0.548em;min-width:1.6em;"><span class="brace-left" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice"><path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z"/></svg></span><span class="brace-center" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMidYMin slice"><path d="M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z"/></svg></span><span class="brace-right" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMaxYMin slice"><path d="M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z"/></svg></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">REL</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.648em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.3263em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.0097em;vertical-align:-1.3263em;"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em;"><span style="top:-1.6737em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">信息增益</span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em;"><span class="svg-align" style="top:-2.352em;"><span class="pstrut" style="height:3em;"></span><span class="stretchy" style="height:0.548em;min-width:1.6em;"><span class="brace-left" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice"><path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z"/></svg></span><span class="brace-center" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMidYMin slice"><path d="M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z"/></svg></span><span class="brace-right" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMaxYMin slice"><path d="M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z"/></svg></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">RES</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.648em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.3263em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.0097em;vertical-align:-1.3263em;"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em;"><span style="top:-1.6737em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">固有难度</span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="minner munder"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6833em;"><span class="svg-align" style="top:-2.352em;"><span class="pstrut" style="height:3em;"></span><span class="stretchy" style="height:0.548em;min-width:1.6em;"><span class="brace-left" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMinYMin slice"><path d="M0 6l6-6h17c12.688 0 19.313.3 20 1 4 4 7.313 8.3 10 13
+ 35.313 51.3 80.813 93.8 136.5 127.5 55.688 33.7 117.188 55.8 184.5 66.5.688
+ 0 2 .3 4 1 18.688 2.7 76 4.3 172 5h399450v120H429l-6-1c-124.688-8-235-61.7
+-331-161C60.687 138.7 32.312 99.3 7 54L0 41V6z"/></svg></span><span class="brace-center" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMidYMin slice"><path d="M199572 214
+c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
+ 53.3-86.7 123.7-153 211-199 66.7-36 137.3-56.3 212-62h199568v120H200432c-178.3
+ 11.7-311.7 78.3-403 201-6 8-9.7 12-11 12-.7.7-6.7 1-18 1s-17.3-.3-18-1c-1.3 0
+-5-4-11-12-44.7-59.3-101.3-106.3-170-141s-145.3-54.3-229-60H0V214z"/></svg></span><span class="brace-right" style="height:0.548em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.548em" viewBox="0 0 400000 548" preserveAspectRatio="xMaxYMin slice"><path d="M399994 0l6 6v35l-6 11c-56 104-135.3 181.3-238 232-57.3
+ 28.7-117 45-179 50H-300V214h399897c43.3-7 81-15 113-26 100.7-33 179.7-91 237
+-174 2.7-5 6-9 10-13 .7-1 7.3-1 20-1h17z"/></svg></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">UNC</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.648em;"><span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.3263em;"><span></span></span></span></span></span></span></span></span></span><p>一个理想的模型应该是：<strong>REL ≈ 0，RES 尽可能大</strong>。</p>
+<p>回到RLCD语境，如果Jev的REL很高，说明它的置信度不可信。如果Jev的RES很低，尽管它的校准好，但根本没有区分能力，它只是学会了预测基准发生率，而不是真正理解了问题。</p>
+<h3 id="ece"><strong>批量期望校准误差（ECE）</strong></h3>
+<p>为了在强化学习训练中精准剥离REL，RLCD在策略梯度更新循环中引入了一个全局的批量期望校准误差（Batch ECE Penalty）监控器。</p>
+<p>ECE 直接量化<strong>模型置信度与实际准确率之间的平均差距</strong>。它的定义是：把所有预测按置信度分箱，计算每个箱内“平均置信度”与“实际准确率”之差的加权平均：</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>ECE</mtext><mo>=</mo><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover><mfrac><mrow><mi mathvariant="normal">∣</mi><msub><mi>B</mi><mi>m</mi></msub><mi mathvariant="normal">∣</mi></mrow><mi>N</mi></mfrac><mrow><mo fence="true">∣</mo><mtext>acc</mtext><mo stretchy="false">(</mo><msub><mi>B</mi><mi>m</mi></msub><mo stretchy="false">)</mo><mo>−</mo><mtext>conf</mtext><mo stretchy="false">(</mo><msub><mi>B</mi><mi>m</mi></msub><mo stretchy="false">)</mo><mo fence="true">∣</mo></mrow></mrow><annotation encoding="application/x-tex">\text{ECE} = \sum_{m=1}^{M} \frac{|B_m|}{N} \left| \text{acc}(B_m) - \text{conf}(B_m) \right|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">ECE</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3.0954em;vertical-align:-1.2671em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283em;"><span style="top:-1.8829em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.109em;">M</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2671em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord text"><span class="mord">acc</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">conf</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose delimcenter" style="top:0em;">∣</span></span></span></span></span></span><p>其中：</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">M</span></span></span></span> 是分箱数量；</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><msub><mi>B</mi><mi>m</mi></msub><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">|B_m|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span></span></span></span> 是第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 个箱内的样本数；</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.109em;">N</span></span></span></span> 是总样本数；</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>acc</mtext><mo stretchy="false">(</mo><msub><mi>B</mi><mi>m</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{acc}(B_m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">acc</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 是第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 个箱内的实际准确率；</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>conf</mtext><mo stretchy="false">(</mo><msub><mi>B</mi><mi>m</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{conf}(B_m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">conf</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0502em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 是第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 个箱内的平均置信度。</li>
+</ul>
+<p>从直观上可以理解为，ECE 回答的问题是：<strong>当模型说“我有 X% 把握”时，它在所有说了 X% 把握的样本中，实际对了多少？</strong></p>
+<p>ECE 和 Murphy 分解中的 REL 衡量的是<strong>同一个东西</strong>——校准质量——但方式不同：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Reliability (REL)</th>
+<th>ECE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>形式</td>
+<td>平方误差</td>
+<td>绝对误差</td>
+</tr>
+<tr>
+<td>分箱方式</td>
+<td>按预测概率分箱</td>
+<td>按预测概率分箱</td>
+</tr>
+<tr>
+<td>数学性质</td>
+<td>可分解为 Brier 的一部分</td>
+<td>独立度量</td>
+</tr>
+<tr>
+<td>惩罚</td>
+<td>对大的偏差惩罚更重（平方）</td>
+<td>线性惩罚</td>
+</tr>
+<tr>
+<td>与 Brier 的关系</td>
+<td>是 Brier 的精确组件</td>
+<td>不是 Brier 的组件，是独立指标</td>
+</tr>
+</tbody>
+</table>
+<p><strong>REL 是 Brier 分数的一部分，ECE 是一个独立的校准指标。</strong> 它们高度相关，但数值不一定相同，因为 REL 用平方惩罚，ECE 用绝对惩罚。</p>
+<p>在由学术界主导的开源复现项目 OpenJev-RLCD（arXiv:2609.38850）中，研究人员进一步揭示了对推理模型应用 RLCD 时的微观机制挑战。他们提出了一种两阶段控制配方：</p>
+<p>第一阶段锁定底层网络仅训练读出层，第二阶段在通过相对熵（KL divergence）锚定校准分布的前提下，再对全模型进行基于 Brier 奖励的强化学习更新。</p>
+<p>这一研究证实了，仅仅拥有良好的架构是不够的，严密的校准训练流水线是构筑高置信度决策护城河的关键。</p>
+<h2 id="heading-6">维度四：智能体控制台的重构</h2>
+<p>在了解了架构与性能特征后，我们需要将视角从单体模型转向更大规模的智能代理（Agent）系统。</p>
+<p>当前大多数代理架构（如早期的 AutoGPT 系列）存在一个严重的系统级设计缺陷：它们赋予了单一的、用于生成文本的 LLM 以环境观察、行动计划、控制流路由以及结果评估的全部权限。</p>
+<p>这就好比用一位善于撰写长篇小说的作家去充当交通警察，不仅反应迟缓，而且其不可预测的文字生成过程随时可能引发致命的逻辑链条断裂。</p>
+<p>Jev 的出现催生了下一代被称为“智能代理控制台”（Agentic Control Plane）的架构。</p>
+<p>在诸如 OpenKedge 以及相关学术研究（如 arXiv:2609.23986 提出的 Jev-Mem 记忆系统）中，我们看到了一种将生成能力与决策权限严格剥离的趋势。</p>
+<p>用通俗的话来说是：</p>
+<p><strong>当前 Agent 架构的根本缺陷，是把“生成文本”和“控制执行”混在了一起。Jev 催生的新范式，是把这两者严格剥离——生成归生成，决策归决策，控制权还给确定性代码。</strong></p>
+<p>这个架构对于我们写Agent其实是很有启发的。</p>
+<p>一开始，我们写Agent，技巧全在提示词上。后来发展到了控制，重点变成了Harness工程。但在实现上，要么是全让大模型来决策，要么硬编码来路由。</p>
+<p>而Jev给了我们一个新的思路，就是用异构的模型从事不同性质的工作。至少Jev就实现了<strong>把“慢而深的生成式推理”和“快而准的类型化判断”分层</strong>的目标。</p>
+<h2 id="heading-7">结语</h2>
+<p>回到开头的问题：AI 热点的保质期为什么这么短？因为大多数热点只是同一种能力的又一次外显，看个热闹也就够了。Jev 不一样：它不是更强的生成，而是把“判断”从“生成”里剥离出来，单独做成了一个模型。</p>
+<p>沿着全文的线索收拢一下这四个维度：</p>
+<p>它的<strong>快</strong>，来自非自回归架构，跳过文字接龙，一次前向传播直接出决策；</p>
+<p>它的<strong>通用</strong>，来自动态读出几何，问题和选项在运行时动态编码，不必为每个分类任务重新训练；</p>
+<p>它的<strong>可信</strong>，来自 RLCD，用 Brier 分数代替简单的对错奖励，逼着模型把“我有多大把握”说成真话；</p>
+<p>它的<strong>意义</strong>，则要到智能体控制平面那一级才完全显现——生成归生成，决策归决策，控制权交还给确定性的代码。</p>
+<p>虽然闭源让我们难以窥见算法的全貌，但 Open-Jev 等复现项目已经证明，这些思路是可以学得会的。</p>
+<p>热点会过时，范式不会。</p>
+<p>一个月后大家不再谈论 Jev，并不要紧；有意义的是，从今往后我们写 Agent 时，又多了一个新的思路。</p>
+<p><img src="/post-images/loce25_1791909906822672200.jpg" alt="" /></p>
+<div class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn:1">
+<p>What is Jev? TypeSafe AI&rsquo;s System One decision model | Sanity, [https://www.sanity.io/glossary/jev-typesafe-ai-model&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Jev (AI model) - Wikipedia, [https://en.wikipedia.org/wiki/Jev_(AI_model)&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Jev: TypeSafe&rsquo;s System One Model Explained - DataCamp, [https://www.datacamp.com/blog/system-one-models-jev&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Typed Decision Models: An Early Evidence Audit and Evaluation, [https://arxiv.org/pdf/2609.32160&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+          </div>
+
+          <footer class="vp-page-meta">
+            
+            <div class="vp-meta-item git-info">
+              <div class="update-time">
+                <span class="vp-meta-label">最近更新</span>
+                <time class="vp-meta-info">2026-10-14</time>
+              </div>
+            </div>
+            
+          </footer>
+
+          
+          <nav class="vp-page-nav">
+            <span class="prev placeholder"></span>
+            
+            <a class="next" href="/post/ai-chong-ji-xia-pu-tong-ren-de-sheng-cun-zhi-nan/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">AI冲击下普通人的生存指南</span></a>
+            
+          </nav>
+          
+
+          
+          <div id="comment" class="vp-comment">
+            
+            
+            <script>
+            (function () {
+              // 动态创建 giscus 脚本：初始主题读取页面当前 data-theme
+              // （head 中的暗色探测脚本已先行执行，值可靠），
+              // 避免暗色模式下评论区以亮色加载
+              var s = document.createElement('script');
+              s.src = 'https://giscus.app/client.js';
+              s.setAttribute('data-repo', 'loaf/loaf.github.io');
+              s.setAttribute('data-repo-id', 'MDEwOlJlcG9zaXRvcnkxMzE1MTQyMDg=');
+              s.setAttribute('data-category', 'Announcements');
+              s.setAttribute('data-category-id', 'DIC_kwDOB9a_YM4Cu-PA');
+              s.setAttribute('data-mapping', 'pathname');
+              s.setAttribute('data-strict', '0');
+              s.setAttribute('data-reactions-enabled', '1');
+              s.setAttribute('data-emit-metadata', '0');
+              s.setAttribute('data-input-position', 'top');
+              s.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+              s.setAttribute('data-lang', 'zh-CN');
+              s.setAttribute('data-loading', 'lazy');
+              s.crossOrigin = 'anonymous';
+              s.async = true;
+              (document.currentScript.parentNode || document.body).appendChild(s);
+            })();
+            </script>
+            
+          </div>
+          
+        </div>
+
+        <aside class="vp-toc" id="vp-toc" hidden aria-label="本页目录">
+          <div class="vp-toc-holder">
+            <div class="vp-toc-title">目录</div>
+            <nav class="vp-toc-wrapper">
+              <ol class="vp-toc-list" id="vp-toc-list"></ol>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="vp-footer-wrapper">
+  <div class="vp-footer">
+    <span>Powered by loaf</span><span class="vp-footer-sep">·</span>
+    <span>© 2026 亍云斋</span>
+  </div>
+</footer>
+
+  </div>
+
+  <div class="search-modal" id="search-modal" hidden>
+  <div class="sm-backdrop" data-sm-close></div>
+  <div class="sm-panel" role="dialog" aria-modal="true" aria-label="搜索文章">
+    <div class="sm-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="sm-input" type="text" placeholder="搜索文章标题、标签或正文…" autocomplete="off" spellcheck="false">
+      <span class="sm-esc">Esc</span>
+    </div>
+    <div class="sm-results" id="sm-results">
+      <div class="sm-hint">输入关键词开始搜索</div>
+    </div>
+    <div class="sm-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 切换</span>
+      <span><kbd>↵</kbd> 打开</span>
+      <span><kbd>Esc</kbd> 关闭</span>
+    </div>
+  </div>
+</div>
+
+  <script>
+window.PLUME = {
+  highlight: !!(site.customConfig && site.customConfig.highlightCode),
+  base: '/'
+};
+</script>
+<script src="/scripts/main.js?v=1791912674" defer></script>
+
+<style>
+.gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
+@keyframes gridea-viewer-fade{from{opacity:0}to{opacity:1}}
+.gridea-viewer-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+.gridea-viewer-img{max-width:none;max-height:none;user-select:none;-webkit-user-drag:none;cursor:grab;will-change:transform;box-shadow:0 12px 48px rgba(0,0,0,.55);border-radius:2px}
+.gridea-viewer-img.gridea-viewer-grabbing{cursor:grabbing}
+.gridea-viewer-bar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px 8px;border-radius:999px;background:rgba(28,28,32,.9);box-shadow:0 4px 18px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gridea-viewer-bar button{appearance:none;border:0;background:transparent;color:#e8e8ea;width:34px;height:34px;border-radius:50%;font:500 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;cursor:pointer;transition:background .15s;padding:0}
+.gridea-viewer-bar button:hover{background:rgba(255,255,255,.14)}
+.gridea-viewer-pct{min-width:46px;text-align:center;color:#c9c9ce;font:12px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;user-select:none}
+img.gridea-viewer-target{cursor:zoom-in}
+</style>
+<script>
+(function () {
+  'use strict';
+  if (window.__grideaImageViewer) return;
+  window.__grideaImageViewer = true;
+
+  var SVG_RE = /\.(svg|ico)([?#]|$)/i;
+
+  // 链接内图片（保持跳转）、显式 data-no-viewer、svg/ico 图标、加载后仍 ≤50px 的小图标不启用
+  function skip(img) {
+    if (img.closest('a')) return true;
+    if (img.closest('[data-no-viewer]')) return true;
+    var src = img.currentSrc || img.src || '';
+    if (SVG_RE.test(src)) return true;
+    if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 50 && img.naturalHeight <= 50) return true;
+    return false;
+  }
+
+  // 给可查看的图片加放大镜光标提示（点击走事件委托，后续动态插入的图片同样生效）
+  function markTargets() {
+    var imgs = document.images;
+    for (var i = 0; i < imgs.length; i++) {
+      if (!skip(imgs[i])) imgs[i].classList.add('gridea-viewer-target');
+    }
+  }
+  markTargets();
+  window.addEventListener('load', markTargets);
+
+  document.addEventListener('click', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.classList.contains('gridea-viewer-img')) return; // 查看器内的图片自身
+    if (skip(img)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    open(img.currentSrc || img.src);
+  }, false);
+
+  var overlay = null, view = null, pct = null, btnFit = null;
+  var s = 1, tx = 0, ty = 0, fitS = 1, prevOverflow = '';
+
+  function vw() { return overlay ? overlay.clientWidth : window.innerWidth; }
+  function vh() { return overlay ? overlay.clientHeight : window.innerHeight; }
+
+  function render() {
+    view.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')';
+    if (pct) pct.textContent = Math.round(s * 100) + '%';
+    if (btnFit) btnFit.textContent = (Math.abs(s - fitS) < 0.005) ? '1:1' : '适应';
+  }
+
+  function reset(mode) {
+    fitS = Math.min(1, vw() / (view.naturalWidth || 1), vh() / (view.naturalHeight || 1));
+    s = mode === 'fit' ? fitS : 1;
+    tx = ty = 0;
+    render();
+  }
+
+  // 以视口内 (px,py) 为锚点缩放到 ns：锚点下的图像内容保持不动
+  function zoomTo(ns, px, py) {
+    ns = Math.min(20, Math.max(0.05, ns));
+    if (ns === s) return;
+    var qx = px - vw() / 2, qy = py - vh() / 2;
+    tx = qx - (qx - tx) * (ns / s);
+    ty = qy - (qy - ty) * (ns / s);
+    s = ns;
+    render();
+  }
+
+  var src = '';
+
+  function open(url) {
+    if (!url || overlay) return;
+    src = url;
+    overlay = document.createElement('div');
+    overlay.className = 'gridea-viewer';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    var stage = document.createElement('div');
+    stage.className = 'gridea-viewer-stage';
+
+    view = document.createElement('img');
+    view.className = 'gridea-viewer-img';
+    view.alt = '';
+    view.draggable = false;
+    view.onload = function () { reset('fit'); };
+    view.onerror = function () { close(); window.open(src, '_blank'); };
+    view.src = src;
+    if (view.complete && view.naturalWidth) reset('fit');
+
+    var bar = document.createElement('div');
+    bar.className = 'gridea-viewer-bar';
+    bar.innerHTML =
+      '<button type="button" data-act="out" title="缩小" aria-label="缩小">−</button>' +
+      '<span class="gridea-viewer-pct">100%</span>' +
+      '<button type="button" data-act="in" title="放大" aria-label="放大">+</button>' +
+      '<button type="button" data-act="fit" title="原始大小 / 适应窗口" aria-label="原始大小或适应窗口" style="width:auto;padding:0 10px;font-size:13px">1:1</button>' +
+      '<button type="button" data-act="save" title="下载原图" aria-label="下载原图">⤓</button>' +
+      '<button type="button" data-act="close" title="关闭" aria-label="关闭">✕</button>';
+    pct = bar.querySelector('.gridea-viewer-pct');
+    btnFit = bar.querySelector('[data-act="fit"]');
+
+    overlay.appendChild(stage);
+    overlay.appendChild(bar);
+    stage.appendChild(view);
+    document.body.appendChild(overlay);
+
+    prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    document.addEventListener('keydown', onKey);
+
+    bindGestures();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+    else if (e.key === '-') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+  }
+
+  // ── 手势：单指/鼠标拖动平移，双指捏合缩放 ──
+  function bindGestures() {
+    var pointers = {};
+    var count = 0, moved = 0, pinch0 = 1, pinchS0 = 1, downEl = null;
+
+    overlay.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 && e.pointerType === 'mouse') return;
+      moved = 0;
+      downEl = e.target;
+      // 工具栏不进入拖拽/指针捕获：一旦捕获，click 会被重定向到遮罩，
+      // 按钮将收不到原生点击（表现为"点按钮即关闭"）。按钮点击必须走原生路径。
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
+      count++;
+      if (overlay.setPointerCapture) { try { overlay.setPointerCapture(e.pointerId); } catch (err) {} }
+      if (count === 2) {
+        var pts = values();
+        pinch0 = dist(pts[0], pts[1]) || 1;
+        pinchS0 = s;
+      }
+      view.classList.add('gridea-viewer-grabbing');
+    });
+
+    overlay.addEventListener('pointermove', function (e) {
+      var p = pointers[e.pointerId];
+      if (!p) return;
+      var dx = e.clientX - p.x, dy = e.clientY - p.y;
+      p.x = e.clientX; p.y = e.clientY;
+      moved += Math.abs(dx) + Math.abs(dy);
+      if (count === 1) {
+        tx += dx; ty += dy;
+        render();
+      } else if (count === 2) {
+        var pts = values();
+        var ns = pinchS0 * (dist(pts[0], pts[1]) || 1) / pinch0;
+        var mx = (pts[0].x + pts[1].x) / 2 - vw() / 2;
+        var my = (pts[0].y + pts[1].y) / 2 - vh() / 2;
+        var clamped = Math.min(20, Math.max(0.05, ns));
+        if (clamped !== s) {
+          tx = mx - (mx - tx) * (clamped / s);
+          ty = my - (my - ty) * (clamped / s);
+          s = clamped;
+          render();
+        }
+      }
+    });
+
+    function end(e) {
+      if (pointers[e.pointerId]) { delete pointers[e.pointerId]; count--; }
+      if (count <= 0) view.classList.remove('gridea-viewer-grabbing');
+    }
+    overlay.addEventListener('pointerup', end);
+    overlay.addEventListener('pointercancel', end);
+
+    function values() {
+      var arr = [];
+      for (var k in pointers) arr.push(pointers[k]);
+      return arr;
+    }
+    function dist(a, b) {
+      var dx = a.x - b.x, dy = a.y - b.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      zoomTo(s * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e.clientX, e.clientY);
+    }, { passive: false });
+
+    view.addEventListener('dblclick', function (e) {
+      zoomTo(Math.abs(s - fitS) < 0.005 ? 1 : fitS, e.clientX, e.clientY);
+    });
+
+    overlay.addEventListener('click', function (e) {
+      var btn = e.target.closest ? e.target.closest('[data-act]') : null;
+      if (btn) {
+        var act = btn.getAttribute('data-act');
+        if (act === 'in') zoomTo(s * 1.25, vw() / 2, vh() / 2);
+        else if (act === 'out') zoomTo(s * 0.8, vw() / 2, vh() / 2);
+        else if (act === 'fit') reset(Math.abs(s - fitS) < 0.005 ? 'actual' : 'fit');
+        else if (act === 'save') save();
+        else if (act === 'close') close();
+        return;
+      }
+      // 工具栏区域（含按钮间隙）不当作遮罩点击
+      if (e.target.closest && e.target.closest('.gridea-viewer-bar')) return;
+      // 图片上的按下不关闭：指针捕获会把 click 重定向到遮罩，须按"按下元素"判断
+      if (downEl && (downEl === view || (downEl.closest && downEl.closest('.gridea-viewer-bar')))) return;
+      if (e.target === view) return;
+      if (moved > 6) return; // 拖动结束落在遮罩上也不关闭
+      close();
+    });
+  }
+
+  function save() {
+    var name = '';
+    try { name = decodeURIComponent((src.split(/[?#]/)[0].split('/').pop() || '')) } catch (err) { name = src.split(/[?#]/)[0].split('/').pop() || ''; }
+    if (!name) name = 'image';
+    fetch(src, { mode: 'cors' }).then(function (r) {
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.blob();
+    }).then(function (b) {
+      if (!/\.[a-z0-9]{2,5}$/i.test(name)) {
+        var ext = (b.type.split('/')[1] || '').replace('jpeg', 'jpg').replace('svg+xml', 'svg');
+        if (ext) name += '.' + ext;
+      }
+      var url = URL.createObjectURL(b);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(function () {
+      // 跨域且未开 CORS 的图床：download 属性无效，退化为新标签页打开原图
+      window.open(src, '_blank');
+    });
+  }
+
+  function close() {
+    if (!overlay) return;
+    document.removeEventListener('keydown', onKey);
+    document.documentElement.style.overflow = prevOverflow;
+    overlay.remove();
+    overlay = null;
+  }
+})();
+</script>
+<script>console.log("\n%c ✦ Gridea loaf v1.0.0-loaf定制版 %c · Theme: plume v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>
