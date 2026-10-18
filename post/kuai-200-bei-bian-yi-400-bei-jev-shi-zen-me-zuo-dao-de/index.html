@@ -7,7 +7,7 @@
 ">
 <meta name="generator" content="Gridea loaf 1.0.0-loaf定制版">
 <title>快200倍、便宜400倍：Jev是怎么做到的 | 亍云斋</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1791912674">
+<link rel="shortcut icon" href="/favicon.ico?v=1792334010">
 <script>
 (function () {
   try {
@@ -17,7 +17,7 @@
   } catch (e) {}
 })();
 </script>
-<link rel="stylesheet" href="/styles/main.css?v=1791912674">
+<link rel="stylesheet" href="/styles/main.css?v=1792334010">
 
 
   
@@ -25,19 +25,19 @@
   
 <meta name="description" content="AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。">
 <link rel="canonical" href="https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"快200倍、便宜400倍：Jev是怎么做到的","url":"https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/","description":"AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。","image":"/post-images/loce25_1791909906877739500.jpg","datePublished":"2026-10-14T00:24:33+08:00","dateModified":"2026-10-14T00:45:06+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"快200倍、便宜400倍：Jev是怎么做到的","url":"https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/","description":"AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。","image":"/post-images/loce25_1792333667561178800.jpg","datePublished":"2026-10-14T00:24:33+08:00","dateModified":"2026-10-18T22:27:47+08:00","author":{"@type":"Person","name":"亍云斋"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/theme/snail-new-small.png"},"name":"亍云斋"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://loaf.github.io","name":"亍云斋","position":1},{"@type":"ListItem","item":"https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/","name":"快200倍、便宜400倍：Jev是怎么做到的","position":2}]}</script>
 <meta property="og:title" content="快200倍、便宜400倍：Jev是怎么做到的">
 <meta property="og:description" content="AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。">
 <meta property="og:url" content="https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="亍云斋">
-<meta property="og:image" content="/post-images/loce25_1791909906877739500.jpg">
+<meta property="og:image" content="/post-images/loce25_1792333667561178800.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://loaf.github.io/post/kuai-200-bei-bian-yi-400-bei-jev-shi-zen-me-zuo-dao-de/">
 <meta name="twitter:title" content="快200倍、便宜400倍：Jev是怎么做到的">
 <meta name="twitter:description" content="AI做判断，为什么非得先写一篇作文？Jev可以直接输出概率。">
-<meta name="twitter:image" content="/post-images/loce25_1791909906877739500.jpg">
+<meta name="twitter:image" content="/post-images/loce25_1792333667561178800.jpg">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css" crossorigin="anonymous">
 </head>
 <body>
@@ -218,9 +218,9 @@
 <p>给定前面的词/标记，预测下一个词/标记；然后把预测结果接到后面，测下一个，如此循环。</p>
 </blockquote>
 <p>例如：</p>
-<p>输入：<del>={red}今天天气=</del>，模型预测：<del>={green}很=</del></p>
-<p>然后输入变成：<del>={red}今天天气很=</del>，模型再预测：<del>={green}好=</del></p>
-<p>然后继续：<del>={red}今天天气很好=</del></p>
+<p>输入：<font color="red">今天天气</font>，模型预测：<font color="blue">很</font></p>
+<p>然后输入变成：<font color="red">今天天气很</font>，模型再预测：<font color="blue">好</font></p>
+<p>然后继续：<font color="red">今天天气很好</font></p>
 <p>这就是自回归生成，像“文字接龙”或手机输入法不断联想下一个词。</p>
 <p>很明显，自回归输出很慢。Jev之所以能高速输出，是它选择了“非自回归架构”。</p>
 <h3 id="heading-2">概念二，前向传播</h3>
@@ -255,8 +255,7 @@
 <p>这种逐字吐出的模式是内存带宽受限的（Memory-bandwidth bound）。</p>
 <p>为了优化这个问题，常用的解决方案有<strong>推测解码（Speculative Decoding）</strong> 和 <strong>连续批处理（Continuous Batching）</strong>。</p>
 <blockquote>
-<p>[!TIP]<br />
-<strong>推测解码</strong>：</p>
+<p><strong>推测解码</strong>：</p>
 <ul>
 <li>用一个小而快的草稿模型，先猜出多个可能的 token；</li>
 <li>再用大模型并行验证这些 token；</li>
@@ -265,8 +264,7 @@
 <p>它能加速，但不能根本消除逐 token 依赖和内存带宽瓶颈。</p>
 </blockquote>
 <blockquote>
-<p>[!TIP]<br />
-<strong>连续批处理</strong>：</p>
+<p><strong>连续批处理</strong>：</p>
 <ul>
 <li>传统批处理要等一整批请求都生成完，才能换下一批；</li>
 <li>连续批处理在某个请求生成结束后，立刻把新请求插进来；</li>
@@ -278,7 +276,7 @@
 <h3 id="jev-3">Jev的注意力机制重塑</h3>
 <p>Jev 架构的革命性在于其彻底切断了解码阶段的自回归循环回路。</p>
 <p>分析表明，Jev 建立在 Transformer 架构或类似于 BERT 的双向编码器主干之上，但完全摒弃了自由形式字符串（Free-form string）的生成逻辑。在接收到输入负载时，<strong>Jev 仅执行单一的、高并行的前向传播计算</strong>。</p>
-<p><del>={pink}1）输入输出的格式重塑=</del></p>
+<p><font color="pink">1）输入输出的格式重塑</font></p>
 <p>先说输入。</p>
 <p>传统方式是把<strong>材料</strong>和<strong>问题</strong>拼成一个prompt，这个提示词本身是没有结构的。而Jev则不同，它会把输入划分成互相独立维度的两个部分：<strong>状态（State）</strong> 和 <strong>问题（Questions）</strong>。</p>
 <p>用上面那个多收钱的咖啡小票举例。</p>
@@ -327,7 +325,7 @@
 </table>
 <p>深入探究这三种原语的内部数据特征，<strong>置信度的本质是对模型预测概率分布集中程度的统计学描述。</strong></p>
 <p>如果分布极度陡峭且偏向某一选项，置信度趋近于 1；如果分布极其平坦，接近于随机猜测，置信度则趋近于 0。</p>
-<p><del>={pink}2）解码的非自回归重塑=</del></p>
+<p><font color="pink">2）解码的非自回归重塑</font></p>
 <p>Jev输出时，不是自回归的，无需生成思维链或解释性文本，而直接输出决策。</p>
 <p>传统大模型的判断时，需要先生成一段自然语言（比如，有两个相同的收费项，可能是重复收费了），这段解释就是思维链。然后程序需要解析这段文本，才能提取出是否需要退款的结论。这个过程本质上是把一个判断任务，强行转换成了文本生成任务。</p>
 <p>Jev 的输入（状态 state）经过其深层网络编码后，会形成一个代表整体语义理解的<strong>全局语义向量表征（Semantic Vector Representation）</strong>。这个向量就像一个高度浓缩的“理解快照”。Jev 的独特之处在于，它<strong>不把这个向量再解码成文字</strong>，而是直接将它<strong>映射到预定义的答案空间</strong>。例如，对于“是否退款”这个问题，它直接把语义向量映射到一个0到1之间的概率值上。跳过了“生成解释”这一步，从根本上消除了相关的计算开销和解析成本。</p>
@@ -604,16 +602,16 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 <hr />
 <ol>
 <li id="fn:1">
-<p>What is Jev? TypeSafe AI&rsquo;s System One decision model | Sanity, [https://www.sanity.io/glossary/jev-typesafe-ai-model&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>What is Jev? TypeSafe AI&rsquo;s System One decision model | Sanity, [https://www.sanity.io/glossary/jev-typesafe-ai-model\&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:2">
-<p>Jev (AI model) - Wikipedia, [https://en.wikipedia.org/wiki/Jev_(AI_model)&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Jev (AI model) - Wikipedia, [https://en.wikipedia.org/wiki/Jev_(AI_model)\&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:3">
-<p>Jev: TypeSafe&rsquo;s System One Model Explained - DataCamp, [https://www.datacamp.com/blog/system-one-models-jev&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Jev: TypeSafe&rsquo;s System One Model Explained - DataCamp, [https://www.datacamp.com/blog/system-one-models-jev\&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 <li id="fn:4">
-<p>Typed Decision Models: An Early Evidence Audit and Evaluation, [https://arxiv.org/pdf/2609.32160&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Typed Decision Models: An Early Evidence Audit and Evaluation, [https://arxiv.org/pdf/2609.32160\&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>
@@ -625,7 +623,7 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
             <div class="vp-meta-item git-info">
               <div class="update-time">
                 <span class="vp-meta-label">最近更新</span>
-                <time class="vp-meta-info">2026-10-14</time>
+                <time class="vp-meta-info">2026-10-18</time>
               </div>
             </div>
             
@@ -633,7 +631,9 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
 
           
           <nav class="vp-page-nav">
-            <span class="prev placeholder"></span>
+            
+            <a class="prev" href="/post/deepseek-yan-zhong-de-yu-wang-zhi-cheng/"><span class="vp-page-nav-label">上一篇</span><span class="vp-page-nav-title">DeepSeek眼中的“欲望之城”</span></a>
+            
             
             <a class="next" href="/post/ai-chong-ji-xia-pu-tong-ren-de-sheng-cun-zhi-nan/"><span class="vp-page-nav-label">下一篇</span><span class="vp-page-nav-title">AI冲击下普通人的生存指南</span></a>
             
@@ -718,7 +718,7 @@ window.PLUME = {
   base: '/'
 };
 </script>
-<script src="/scripts/main.js?v=1791912674" defer></script>
+<script src="/scripts/main.js?v=1792334010" defer></script>
 
 <style>
 .gridea-viewer{position:fixed;inset:0;z-index:2147483000;background:rgba(17,17,20,.94);animation:gridea-viewer-fade .18s ease}
